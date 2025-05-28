@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Graphic Design - Instel Technologies</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		/>
+		<link rel="stylesheet" href="../styles.css" />
+	</head>
+	<body class="bg-gray-100 text-gray-800 antialiased">
+		<!-- Scroll Progress Indicator -->
+		<div class="scroll-progress"></div>
+
+		<!-- Navigation -->
+		<nav class="bg-white shadow-lg fixed w-full z-50 top-0">
+			<div class="max-w-6xl mx-auto px-4">
+				<div class="flex justify-between items-center py-3">
+					<div>
+						<a
+							href="../index.html#hero"
+							class="flex items-center space-x-2"
+						>
+							<img
+								src="../images/instel.svg"
+								alt="Instel Technologies Logo"
+								class="h-10 w-auto"
+							/>
+							<span class="text-2xl font-bold text-gray-800"
+								>Instel
+								<span class="text-gradient-blue"
+									>Technologies</span
+								></span
+							>
+						</a>
+					</div>
+					<div class="hidden md:flex items-center space-x-4">
+						<a
+							href="../index.html#hero"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>Home</a
+						>
+						<a
+							href="../index.html#services"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>Services</a
+						>
+						<a
+							href="../index.html#about"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>About</a
+						>
+						<a
+							href="../index.html#pricing"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>Pricing</a
+						>
+						<a
+							href="../index.html#contact"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>Contact</a
+						>
+						<a
+							href="../blogs.html"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>Blog</a
+						>
+						<a
+							href="../index.html#contact"
+							class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+							>Get a Quote</a
+						>
+					</div>
+					<!-- Mobile Menu Button -->
+					<div class="md:hidden flex items-center">
+						<button
+							id="mobile-menu-button"
+							class="text-gray-700 hover:text-orange-500 focus:outline-none focus:text-orange-500"
+						>
+							<i class="fas fa-bars text-2xl"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<!-- Mobile Menu -->
+			<div class="md:hidden hidden bg-white shadow-lg" id="mobile-menu">
+				<a
+					href="../index.html#hero"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>Home</a
+				>
+				<a
+					href="../index.html#services"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>Services</a
+				>
+				<a
+					href="../index.html#about"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>About</a
+				>
+				<a
+					href="../index.html#pricing"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>Pricing</a
+				>
+				<a
+					href="../index.html#contact"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>Contact</a
+				>
+				<a
+					href="../blogs.html"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>Blog</a
+				>
+				<a
+					href="../index.html#contact"
+					class="block bg-orange-500 hover:bg-orange-600 text-white text-center px-4 py-3 text-sm font-medium rounded-b-lg transition-colors duration-300"
+					>Get a Quote</a
+				>
+			</div>
+		</nav>
+
+		<!-- Hero Section -->
+		<header
+			id="service-hero"
+			class="text-white pt-32 pb-16 md:pt-40 md:pb-24 relative overflow-hidden min-h-[450px] flex items-center hero-section"
+		>
+			<div class="absolute inset-0 z-0">
+				<div
+					class="absolute inset-0 bg-[url('../images/instel.svg')] bg-center bg-repeat opacity-20"
+				></div>
+				<div class="absolute inset-0 bg-black opacity-60"></div>
+			</div>
+			<div class="max-w-6xl mx-auto px-4 text-center relative z-10">
+				<h1
+					class="text-4xl md:text-5xl font-extrabold mb-4 animate-fade-in-down"
+				>
+					Creative
+					<span class="text-gradient-orange">Graphic Design</span>
+					Services
+				</h1>
+				<p
+					class="text-lg md:text-xl text-blue-100 mb-8 animate-fade-in-up max-w-2xl mx-auto"
+				>
+					Crafting visually stunning designs that captivate your
+					audience and elevate your brand identity.
+				</p>
+				<a
+					href="../index.html#contact"
+					class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-full text-lg transition-transform duration-300 ease-in-out transform hover:scale-105 inline-block shadow-lg hover:shadow-xl"
+				>
+					Get Your Design Started
+				</a>
+			</div>
+		</header>
+
+		<!-- Main Content Area -->
+		<main class="py-16 bg-gray-50">
+			<div class="max-w-6xl mx-auto px-4">
+				<!-- What We Offer Section -->
+				<section id="design-services" class="mb-16">
+					<div class="text-center mb-12">
+						<h2
+							class="text-3xl md:text-4xl font-bold text-gray-800 mb-4"
+						>
+							Our Graphic Design
+							<span class="text-gradient-blue">Expertise</span>
+						</h2>
+						<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+							From logos to complete brand packages, we provide a
+							full spectrum of design services.
+						</p>
+					</div>
+					<div
+						class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+					>
+						<!-- Service Card 1: Logo Design -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345h5.518a.562.562 0 01.329.89l-4.203 3.055a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-3.445a.563.563 0 00-.652 0l-4.725 3.445a.562.562 0 01-.84-.61l1.285-5.385a.562.562 0 00-.182-.557l-4.203-3.055a.562.562 0 01.329-.89h5.518a.562.562 0 00.475-.345L11.48 3.5z"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Logo Design & Branding
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Creating memorable logos and comprehensive brand
+								identities that tell your story.
+							</p>
+						</div>
+						<!-- Service Card 2: Marketing Materials -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Marketing Materials
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Designing brochures, flyers, business cards, and
+								other print or digital marketing assets.
+							</p>
+						</div>
+						<!-- Service Card 3: Web & UI/UX Design -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5.05 14.5M9.75 3.104c-.251.037-.502.068-.75.099m.75-.099A2.25 2.25 0 009.75 1.5h-.75A2.25 2.25 0 006.75 3.75v1.5M9.75 3.104c.621.376 1.296.689 2.048.925M19.5 10.5c0 5.25-4.25 9.5-9.5 9.5S.5 15.75.5 10.5S4.75 1 10 1c.88 0 1.734.104 2.55.302M19.5 10.5c.356-.01.717-.021 1.084-.021 2.478 0 4.574 1.283 5.858 3.181"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Web & UI/UX Design
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Creating intuitive and engaging user interfaces
+								for websites and applications.
+							</p>
+						</div>
+						<!-- Service Card 4: Social Media Graphics -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-2.138c.195-.291.515-.475.865-.501 1.153-.086 2.294-.213 3.423-.379 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Social Media Graphics
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Designing eye-catching graphics for social media
+								platforms to boost engagement.
+							</p>
+						</div>
+						<!-- Service Card 5: Packaging Design -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10.5 11.25h3M12 17.25V11.25"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Packaging Design
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Creating attractive and functional packaging
+								designs that make your products stand out.
+							</p>
+						</div>
+						<!-- Service Card 6: Illustration -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Custom Illustrations
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Providing unique and custom illustrations for
+								various purposes, digital or print.
+							</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- Our Design Process Section -->
+				<section id="design-process" class="mb-16">
+					<div class="text-center mb-12">
+						<h2
+							class="text-3xl md:text-4xl font-bold text-gray-800 mb-4"
+						>
+							Our Creative
+							<span class="text-gradient-orange"
+								>Design Process</span
+							>
+						</h2>
+						<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+							A collaborative and iterative approach to ensure
+							your vision comes to life.
+						</p>
+					</div>
+					<div
+						class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center"
+					>
+						<!-- Step 1 -->
+						<div
+							class="bg-white p-6 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+						>
+							<div
+								class="bg-orange-100 text-orange-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold"
+							>
+								01
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-700 mb-2"
+							>
+								Discovery & Brief
+							</h3>
+							<p class="text-gray-500 text-sm">
+								Understanding your brand, audience, and design
+								goals.
+							</p>
+						</div>
+						<!-- Step 2 -->
+						<div
+							class="bg-white p-6 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+						>
+							<div
+								class="bg-orange-100 text-orange-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold"
+							>
+								02
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-700 mb-2"
+							>
+								Concept & Ideation
+							</h3>
+							<p class="text-gray-500 text-sm">
+								Brainstorming creative ideas and developing
+								initial concepts.
+							</p>
+						</div>
+						<!-- Step 3 -->
+						<div
+							class="bg-white p-6 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+						>
+							<div
+								class="bg-orange-100 text-orange-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold"
+							>
+								03
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-700 mb-2"
+							>
+								Design & Revision
+							</h3>
+							<p class="text-gray-500 text-sm">
+								Crafting the design and incorporating your
+								feedback through revisions.
+							</p>
+						</div>
+						<!-- Step 4 -->
+						<div
+							class="bg-white p-6 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+						>
+							<div
+								class="bg-orange-100 text-orange-500 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-2xl font-bold"
+							>
+								04
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-700 mb-2"
+							>
+								Final Delivery
+							</h3>
+							<p class="text-gray-500 text-sm">
+								Delivering high-quality final design files in
+								various formats.
+							</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- Tools We Use Section -->
+				<section id="design-tools" class="mb-16">
+					<div class="text-center mb-12">
+						<h2
+							class="text-3xl md:text-4xl font-bold text-gray-800 mb-4"
+						>
+							Design
+							<span class="text-gradient-blue">Tools</span> We
+							Master
+						</h2>
+						<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+							Utilizing industry-standard software to bring your
+							visions to life.
+						</p>
+					</div>
+					<div class="bg-white p-8 rounded-xl shadow-lg">
+						<div
+							class="flex flex-wrap justify-center items-center gap-8 md:gap-12"
+						>
+							<img
+								src="../assets/images/tech/photoshop.webp"
+								alt="Adobe Photoshop"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="Adobe Photoshop"
+							/>
+							<img
+								src="../assets/images/tech/illustrator.webp"
+								alt="Adobe Illustrator"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="Adobe Illustrator"
+							/>
+							<img
+								src="../assets/images/tech/figma.webp"
+								alt="Figma"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="Figma"
+							/>
+							<img
+								src="../assets/images/tech/sketch.webp"
+								alt="Sketch"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="Sketch"
+							/>
+							<img
+								src="../assets/images/tech/adobexd.webp"
+								alt="Adobe XD"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="Adobe XD"
+							/>
+							<img
+								src="../assets/images/tech/indesign.webp"
+								alt="Adobe InDesign"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="Adobe InDesign"
+							/>
+						</div>
+					</div>
+				</section>
+
+				<!-- Call to Action Section -->
+				<section
+					id="cta"
+					class="py-16 bg-blue-700 text-white rounded-xl shadow-xl"
+				>
+					<div class="max-w-3xl mx-auto px-4 text-center">
+						<h2 class="text-3xl font-bold mb-6">
+							Ready to Elevate Your Brand?
+							<span class="text-gradient-orange"
+								>Let's Create Stunning Designs!</span
+							>
+						</h2>
+						<p class="text-blue-100 mb-8 text-lg max-w-xl mx-auto">
+							Partner with Instel for creative graphic design
+							solutions that captivate your audience and build a
+							strong brand identity.
+						</p>
+						<a
+							href="../index.html#contact"
+							class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-10 rounded-full text-lg transition-transform duration-300 ease-in-out transform hover:scale-105 inline-block shadow-lg hover:shadow-xl"
+						>
+							Get a Design Quote
+						</a>
+					</div>
+				</section>
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="bg-gray-900 text-gray-300 py-12 mt-16">
+			<div class="max-w-6xl mx-auto px-4">
+				<div
+					class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8"
+				>
+					<!-- Company Info -->
+					<div>
+						<a
+							href="../index.html#hero"
+							class="flex items-center space-x-2 mb-4"
+						>
+							<img
+								src="../images/instel.svg"
+								alt="Instel Technologies Logo"
+								class="h-10 w-auto"
+							/>
+							<span class="text-xl font-bold text-white"
+								>Instel
+								<span class="text-gradient-blue"
+									>Technologies</span
+								></span
+							>
+						</a>
+						<p class="text-sm mb-4">
+							Innovative solutions for a digital world. We help
+							businesses thrive with cutting-edge technology and
+							expert services.
+						</p>
+						<div class="flex space-x-4">
+							<a
+								href="#"
+								class="social-icon text-gray-400 hover:text-orange-500 transition-colors duration-300 relative"
+								><i class="fab fa-facebook-f fa-lg"></i
+							></a>
+							<a
+								href="#"
+								class="social-icon text-gray-400 hover:text-orange-500 transition-colors duration-300 relative"
+								><i class="fab fa-twitter fa-lg"></i
+							></a>
+							<a
+								href="#"
+								class="social-icon text-gray-400 hover:text-orange-500 transition-colors duration-300 relative"
+								><i class="fab fa-linkedin-in fa-lg"></i
+							></a>
+							<a
+								href="#"
+								class="social-icon text-gray-400 hover:text-orange-500 transition-colors duration-300 relative"
+								><i class="fab fa-instagram fa-lg"></i
+							></a>
+						</div>
+					</div>
+
+					<!-- Quick Links -->
+					<div>
+						<h3 class="text-lg font-semibold text-white mb-4">
+							Quick Links
+						</h3>
+						<ul class="space-y-2">
+							<li>
+								<a
+									href="../index.html#hero"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Home</a
+								>
+							</li>
+							<li>
+								<a
+									href="../index.html#services"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Services</a
+								>
+							</li>
+							<li>
+								<a
+									href="../index.html#about"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>About Us</a
+								>
+							</li>
+							<li>
+								<a
+									href="../index.html#pricing"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Pricing</a
+								>
+							</li>
+							<li>
+								<a
+									href="../index.html#contact"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Contact</a
+								>
+							</li>
+							<li>
+								<a
+									href="../blogs.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Blog</a
+								>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Services Links -->
+					<div>
+						<h3 class="text-lg font-semibold text-white mb-4">
+							Our Services
+						</h3>
+						<ul class="space-y-2">
+							<li>
+								<a
+									href="./web-development.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Web Development</a
+								>
+							</li>
+							<li>
+								<a
+									href="./mobile-app.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Mobile App Development</a
+								>
+							</li>
+							<li>
+								<a
+									href="./ai-chatbots.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>AI Chatbots</a
+								>
+							</li>
+							<li>
+								<a
+									href="./database-design.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Database Design</a
+								>
+							</li>
+							<li>
+								<a
+									href="./graphic-design.html"
+									class="footer-link text-orange-400 font-semibold text-sm"
+									>Graphic Design</a
+								>
+							</li>
+							<li>
+								<a
+									href="./digital-marketing.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Digital Marketing</a
+								>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Contact Info -->
+					<div>
+						<h3 class="text-lg font-semibold text-white mb-4">
+							Contact Us
+						</h3>
+						<ul class="space-y-2 text-sm">
+							<li class="flex items-start">
+								<i
+									class="fas fa-map-marker-alt mt-1 mr-3 text-orange-400"
+								></i>
+								<span
+									>123 Tech Park, Silicon Valley, CA
+									94000</span
+								>
+							</li>
+							<li class="flex items-center">
+								<i
+									class="fas fa-phone-alt mr-3 text-orange-400"
+								></i>
+								<a
+									href="tel:+1234567890"
+									class="hover:text-orange-500 transition-colors duration-300"
+									>+1 (234) 567-890</a
+								>
+							</li>
+							<li class="flex items-center">
+								<i
+									class="fas fa-envelope mr-3 text-orange-400"
+								></i>
+								<a
+									href="mailto:info@instel.com"
+									class="hover:text-orange-500 transition-colors duration-300"
+									>info@instel.com</a
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Copyright -->
+				<div class="border-t border-gray-700 pt-8 text-center">
+					<p class="text-sm">
+						&copy; <span id="current-year"></span> Instel
+						Technologies. All rights reserved. Designed with
+						<span class="text-orange-400">&hearts;</span> by Instel.
+					</p>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Back to Top Button -->
+		<button
+			id="back-to-top"
+			class="fixed bottom-8 right-8 bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-full shadow-lg transition-opacity duration-300 opacity-0 transform hover:scale-110 z-50"
+		>
+			<svg
+				class="w-6 h-6"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M5 10l7-7m0 0l7 7m-7-7v18"
+				/>
+			</svg>
+		</button>
+
+		<script src="../assets/js/main.js"></script>
+		<script
+			src="https://kit.fontawesome.com/a076d05399.js"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>

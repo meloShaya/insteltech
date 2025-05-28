@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Database Design - Instel Technologies</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+		/>
+		<link rel="stylesheet" href="../styles.css" />
+	</head>
+	<body class="bg-gray-100 text-gray-800 antialiased">
+		<!-- Scroll Progress Indicator -->
+		<div class="scroll-progress"></div>
+
+		<!-- Navigation -->
+		<nav class="bg-white shadow-lg fixed w-full z-50 top-0">
+			<div class="max-w-6xl mx-auto px-4">
+				<div class="flex justify-between items-center py-3">
+					<div>
+						<a
+							href="../index.html#hero"
+							class="flex items-center space-x-2"
+						>
+							<img
+								src="../images/instel.svg"
+								alt="Instel Technologies Logo"
+								class="h-10 w-auto"
+							/>
+							<span class="text-2xl font-bold text-gray-800"
+								>Instel
+								<span class="text-gradient-blue"
+									>Technologies</span
+								></span
+							>
+						</a>
+					</div>
+					<div class="hidden md:flex items-center space-x-4">
+						<a
+							href="../index.html#hero"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>Home</a
+						>
+						<a
+							href="../index.html#services"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>Services</a
+						>
+						<a
+							href="../index.html#about"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>About</a
+						>
+						<a
+							href="../index.html#pricing"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>Pricing</a
+						>
+						<a
+							href="../index.html#contact"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>Contact</a
+						>
+						<a
+							href="../blogs.html"
+							class="nav-link text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 relative"
+							>Blog</a
+						>
+						<a
+							href="../index.html#contact"
+							class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
+							>Get a Quote</a
+						>
+					</div>
+					<!-- Mobile Menu Button -->
+					<div class="md:hidden flex items-center">
+						<button
+							id="mobile-menu-button"
+							class="text-gray-700 hover:text-orange-500 focus:outline-none focus:text-orange-500"
+						>
+							<i class="fas fa-bars text-2xl"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<!-- Mobile Menu -->
+			<div class="md:hidden hidden bg-white shadow-lg" id="mobile-menu">
+				<a
+					href="../index.html#hero"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>Home</a
+				>
+				<a
+					href="../index.html#services"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>Services</a
+				>
+				<a
+					href="../index.html#about"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>About</a
+				>
+				<a
+					href="../index.html#pricing"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>Pricing</a
+				>
+				<a
+					href="../index.html#contact"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>Contact</a
+				>
+				<a
+					href="../blogs.html"
+					class="block text-gray-700 hover:bg-gray-100 hover:text-orange-500 px-4 py-3 text-sm font-medium"
+					>Blog</a
+				>
+				<a
+					href="../index.html#contact"
+					class="block bg-orange-500 hover:bg-orange-600 text-white text-center px-4 py-3 text-sm font-medium rounded-b-lg transition-colors duration-300"
+					>Get a Quote</a
+				>
+			</div>
+		</nav>
+
+		<!-- Hero Section -->
+		<header
+			id="service-hero"
+			class="text-white pt-32 pb-16 md:pt-40 md:pb-24 relative overflow-hidden min-h-[450px] flex items-center hero-section"
+		>
+			<div class="absolute inset-0 z-0">
+				<div
+					class="absolute inset-0 bg-[url('../images/instel.svg')] bg-center bg-repeat opacity-20"
+				></div>
+				<div class="absolute inset-0 bg-black opacity-60"></div>
+			</div>
+			<div class="max-w-6xl mx-auto px-4 text-center relative z-10">
+				<h1
+					class="text-4xl md:text-5xl font-extrabold mb-4 animate-fade-in-down"
+				>
+					Expert
+					<span class="text-gradient-orange">Database Design</span>
+					Services
+				</h1>
+				<p
+					class="text-lg md:text-xl text-blue-100 mb-8 animate-fade-in-up max-w-2xl mx-auto"
+				>
+					Building robust, scalable, and efficient database solutions
+					to manage your data effectively and power your applications.
+				</p>
+				<a
+					href="../index.html#contact"
+					class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-8 rounded-full text-lg transition-transform duration-300 ease-in-out transform hover:scale-105 inline-block shadow-lg hover:shadow-xl"
+				>
+					Discuss Your Data Needs
+				</a>
+			</div>
+		</header>
+
+		<!-- Main Content Area -->
+		<main class="py-16 bg-gray-50">
+			<div class="max-w-6xl mx-auto px-4">
+				<!-- Our Database Services Section -->
+				<section id="database-services" class="mb-16">
+					<div class="text-center mb-12">
+						<h2
+							class="text-3xl md:text-4xl font-bold text-gray-800 mb-4"
+						>
+							Our Database Design &
+							<span class="text-gradient-blue"
+								>Development Services</span
+							>
+						</h2>
+						<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+							We offer comprehensive database solutions, from
+							initial design to ongoing management and
+							optimization.
+						</p>
+					</div>
+					<div
+						class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+					>
+						<!-- Service Card 1: Database Design & Modeling -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Database Design & Modeling
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Creating logical and physical database models
+								tailored to your specific business requirements
+								and data relationships.
+							</p>
+						</div>
+						<!-- Service Card 2: Database Development -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Database Development
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Building and implementing databases using
+								various technologies, including SQL and NoSQL
+								systems.
+							</p>
+						</div>
+						<!-- Service Card 3: Data Migration -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Data Migration
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Seamlessly migrating data from legacy systems to
+								new databases with minimal downtime and data
+								loss.
+							</p>
+						</div>
+						<!-- Service Card 4: Database Optimization -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M10.5 6a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM21 21l-5.197-5.197M10.5 14.25v-3.75"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Database Optimization
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Improving database performance, query speed, and
+								overall efficiency through expert tuning and
+								indexing.
+							</p>
+						</div>
+						<!-- Service Card 5: Database Security -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.016h-.008v-.016z"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Database Security
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Implementing robust security measures to protect
+								your valuable data from unauthorized access and
+								breaches.
+							</p>
+						</div>
+						<!-- Service Card 6: Backup & Recovery -->
+						<div
+							class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center"
+						>
+							<div class="bg-blue-100 p-4 rounded-full mb-6">
+								<svg
+									class="w-10 h-10 text-blue-600"
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+									/>
+								</svg>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-800 mb-3"
+							>
+								Backup & Recovery
+							</h3>
+							<p class="text-gray-600 text-sm">
+								Designing and implementing reliable backup and
+								disaster recovery plans to ensure data integrity
+								and availability.
+							</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- Database Technologies Section -->
+				<section id="database-technologies" class="mb-16">
+					<div class="text-center mb-12">
+						<h2
+							class="text-3xl md:text-4xl font-bold text-gray-800 mb-4"
+						>
+							Database
+							<span class="text-gradient-orange"
+								>Technologies</span
+							>
+							We Work With
+						</h2>
+						<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+							We are proficient in a wide range of relational and
+							NoSQL database technologies.
+						</p>
+					</div>
+					<div class="bg-white p-8 rounded-xl shadow-lg">
+						<div
+							class="flex flex-wrap justify-center items-center gap-8 md:gap-12"
+						>
+							<img
+								src="../assets/images/tech/mysql.webp"
+								alt="MySQL"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="MySQL"
+							/>
+							<img
+								src="../assets/images/tech/postgresql.webp"
+								alt="PostgreSQL"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="PostgreSQL"
+							/>
+							<img
+								src="../assets/images/tech/mongodb.webp"
+								alt="MongoDB"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="MongoDB"
+							/>
+							<img
+								src="../assets/images/tech/sqlserver.webp"
+								alt="Microsoft SQL Server"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="Microsoft SQL Server"
+							/>
+							<img
+								src="../assets/images/tech/oracle.webp"
+								alt="Oracle Database"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="Oracle Database"
+							/>
+							<img
+								src="../assets/images/tech/sqlite.webp"
+								alt="SQLite"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="SQLite"
+							/>
+							<img
+								src="../assets/images/tech/redis.webp"
+								alt="Redis"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="Redis"
+							/>
+							<img
+								src="../assets/images/tech/firebase.webp"
+								alt="Google Firebase"
+								class="h-12 md:h-16 opacity-75 hover:opacity-100 transition-opacity duration-300"
+								title="Google Firebase"
+							/>
+						</div>
+					</div>
+				</section>
+
+				<!-- Why Choose Us Section -->
+				<section id="why-choose-us" class="mb-16">
+					<div class="text-center mb-12">
+						<h2
+							class="text-3xl md:text-4xl font-bold text-gray-800 mb-4"
+						>
+							Why Partner with
+							<span class="text-gradient-blue">Instel</span> for
+							Database Solutions?
+						</h2>
+						<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+							Our expertise and commitment to quality make us the
+							ideal choice for your database needs.
+						</p>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+						<div
+							class="bg-white p-6 rounded-lg shadow-md text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+						>
+							<div class="text-orange-500 text-4xl mb-4">
+								<i class="fas fa-users-cog"></i>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-700 mb-2"
+							>
+								Experienced Team
+							</h3>
+							<p class="text-gray-500 text-sm">
+								Our certified database administrators and
+								developers have years of experience.
+							</p>
+						</div>
+						<div
+							class="bg-white p-6 rounded-lg shadow-md text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+						>
+							<div class="text-orange-500 text-4xl mb-4">
+								<i class="fas fa-lightbulb"></i>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-700 mb-2"
+							>
+								Customized Solutions
+							</h3>
+							<p class="text-gray-500 text-sm">
+								We tailor every database solution to meet your
+								unique business challenges and goals.
+							</p>
+						</div>
+						<div
+							class="bg-white p-6 rounded-lg shadow-md text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+						>
+							<div class="text-orange-500 text-4xl mb-4">
+								<i class="fas fa-chart-line"></i>
+							</div>
+							<h3
+								class="text-xl font-semibold text-gray-700 mb-2"
+							>
+								Focus on Performance
+							</h3>
+							<p class="text-gray-500 text-sm">
+								We prioritize performance and scalability to
+								ensure your database can grow with your
+								business.
+							</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- Call to Action Section -->
+				<section
+					id="cta"
+					class="py-16 bg-blue-700 text-white rounded-xl shadow-xl"
+				>
+					<div class="max-w-3xl mx-auto px-4 text-center">
+						<h2 class="text-3xl font-bold mb-6">
+							Ready to Optimize Your Data?
+							<span class="text-gradient-orange"
+								>Let's Design Your Database!</span
+							>
+						</h2>
+						<p class="text-blue-100 mb-8 text-lg max-w-xl mx-auto">
+							Our experts are ready to help you design a robust
+							and scalable database solution. Contact us today for
+							a free consultation.
+						</p>
+						<a
+							href="../index.html#contact"
+							class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-10 rounded-full text-lg transition-transform duration-300 ease-in-out transform hover:scale-105 inline-block shadow-lg hover:shadow-xl"
+						>
+							Discuss Your Project
+						</a>
+					</div>
+				</section>
+			</div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="bg-gray-900 text-gray-300 py-12 mt-16">
+			<div class="max-w-6xl mx-auto px-4">
+				<div
+					class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8"
+				>
+					<!-- Company Info -->
+					<div>
+						<a
+							href="../index.html#hero"
+							class="flex items-center space-x-2 mb-4"
+						>
+							<img
+								src="../images/instel.svg"
+								alt="Instel Technologies Logo"
+								class="h-10 w-auto"
+							/>
+							<span class="text-xl font-bold text-white"
+								>Instel
+								<span class="text-gradient-blue"
+									>Technologies</span
+								></span
+							>
+						</a>
+						<p class="text-sm mb-4">
+							Innovative solutions for a digital world. We help
+							businesses thrive with cutting-edge technology and
+							expert services.
+						</p>
+						<div class="flex space-x-4">
+							<a
+								href="#"
+								class="social-icon text-gray-400 hover:text-orange-500 transition-colors duration-300 relative"
+								><i class="fab fa-facebook-f fa-lg"></i
+							></a>
+							<a
+								href="#"
+								class="social-icon text-gray-400 hover:text-orange-500 transition-colors duration-300 relative"
+								><i class="fab fa-twitter fa-lg"></i
+							></a>
+							<a
+								href="#"
+								class="social-icon text-gray-400 hover:text-orange-500 transition-colors duration-300 relative"
+								><i class="fab fa-linkedin-in fa-lg"></i
+							></a>
+							<a
+								href="#"
+								class="social-icon text-gray-400 hover:text-orange-500 transition-colors duration-300 relative"
+								><i class="fab fa-instagram fa-lg"></i
+							></a>
+						</div>
+					</div>
+
+					<!-- Quick Links -->
+					<div>
+						<h3 class="text-lg font-semibold text-white mb-4">
+							Quick Links
+						</h3>
+						<ul class="space-y-2">
+							<li>
+								<a
+									href="../index.html#hero"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Home</a
+								>
+							</li>
+							<li>
+								<a
+									href="../index.html#services"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Services</a
+								>
+							</li>
+							<li>
+								<a
+									href="../index.html#about"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>About Us</a
+								>
+							</li>
+							<li>
+								<a
+									href="../index.html#pricing"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Pricing</a
+								>
+							</li>
+							<li>
+								<a
+									href="../index.html#contact"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Contact</a
+								>
+							</li>
+							<li>
+								<a
+									href="../blogs.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Blog</a
+								>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Services Links -->
+					<div>
+						<h3 class="text-lg font-semibold text-white mb-4">
+							Our Services
+						</h3>
+						<ul class="space-y-2">
+							<li>
+								<a
+									href="./web-development.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Web Development</a
+								>
+							</li>
+							<li>
+								<a
+									href="./mobile-app.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Mobile App Development</a
+								>
+							</li>
+							<li>
+								<a
+									href="./ai-chatbots.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>AI Chatbots</a
+								>
+							</li>
+							<li>
+								<a
+									href="./database-design.html"
+									class="footer-link text-orange-400 font-semibold text-sm"
+									>Database Design</a
+								>
+							</li>
+							<li>
+								<a
+									href="./graphic-design.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Graphic Design</a
+								>
+							</li>
+							<li>
+								<a
+									href="./digital-marketing.html"
+									class="footer-link hover:text-orange-500 transition-colors duration-300 text-sm"
+									>Digital Marketing</a
+								>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Contact Info -->
+					<div>
+						<h3 class="text-lg font-semibold text-white mb-4">
+							Contact Us
+						</h3>
+						<ul class="space-y-2 text-sm">
+							<li class="flex items-start">
+								<i
+									class="fas fa-map-marker-alt mt-1 mr-3 text-orange-400"
+								></i>
+								<span
+									>123 Tech Park, Silicon Valley, CA
+									94000</span
+								>
+							</li>
+							<li class="flex items-center">
+								<i
+									class="fas fa-phone-alt mr-3 text-orange-400"
+								></i>
+								<a
+									href="tel:+1234567890"
+									class="hover:text-orange-500 transition-colors duration-300"
+									>+1 (234) 567-890</a
+								>
+							</li>
+							<li class="flex items-center">
+								<i
+									class="fas fa-envelope mr-3 text-orange-400"
+								></i>
+								<a
+									href="mailto:info@instel.com"
+									class="hover:text-orange-500 transition-colors duration-300"
+									>info@instel.com</a
+								>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Copyright -->
+				<div class="border-t border-gray-700 pt-8 text-center">
+					<p class="text-sm">
+						&copy; <span id="current-year"></span> Instel
+						Technologies. All rights reserved. Designed with
+						<span class="text-orange-400">&hearts;</span> by Instel.
+					</p>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Back to Top Button -->
+		<button
+			id="back-to-top"
+			class="fixed bottom-8 right-8 bg-orange-500 hover:bg-orange-600 text-white p-3 rounded-full shadow-lg transition-opacity duration-300 opacity-0 transform hover:scale-110 z-50"
+		>
+			<svg
+				class="w-6 h-6"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M5 10l7-7m0 0l7 7m-7-7v18"
+				/>
+			</svg>
+		</button>
+
+		<script src="../assets/js/main.js"></script>
+		<script
+			src="https://kit.fontawesome.com/a076d05399.js"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>
