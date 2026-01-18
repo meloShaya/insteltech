@@ -20,6 +20,21 @@ async function submitLead(leadData) {
     return true;
 }
 
+async function sendLeadNotification(leadData) {
+    try {
+        await fetch(`${SUPABASE_URL}/functions/v1/notify-lead`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+            },
+            body: JSON.stringify(leadData)
+        });
+    } catch (error) {
+        console.error('Notification error:', error);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const currentYearEl = document.getElementById('current-year');
     if (currentYearEl) {
@@ -112,6 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             try {
                 await submitLead(leadData);
+                sendLeadNotification(leadData);
 
                 leadForm.classList.add('hidden');
                 formSuccess.classList.remove('hidden');
@@ -157,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             try {
                 await submitLead(leadData);
+                sendLeadNotification(leadData);
 
                 contactForm.classList.add('hidden');
                 contactSuccess.classList.remove('hidden');
