@@ -102,6 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 phone: formData.get('phone') || '',
                 business_name: formData.get('business_name') || '',
                 business_type: formData.get('business_type'),
+                employee_count: formData.get('employee_count'),
+                annual_revenue: formData.get('annual_revenue'),
+                ownership_type: formData.get('ownership_type'),
                 source: 'website',
                 lead_magnet: 'free-whatsapp-chatbot',
                 interest: 'AI WhatsApp Chatbot'
