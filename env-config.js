@@ -1,0 +1,2 @@
+window.VITE_SUPABASE_URL = 'https://dygnqbkkeziwaqwffszb.supabase.co';
+window.VITE_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5Z25xYmtrZXppd2Fxd2Zmc3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MjIyMTAsImV4cCI6MjA4NDI5ODIxMH0.taKn2OKOj_32HZRS7S_A3mxGr1ReGl9vysBN5J6YKS8';
