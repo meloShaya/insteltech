@@ -36,40 +36,28 @@ async function sendLeadNotification(leadData) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    var currentYearEl = document.getElementById('current-year');
+    const currentYearEl = document.getElementById('current-year');
     if (currentYearEl) {
         currentYearEl.textContent = new Date().getFullYear();
     }
 
-    var nav = document.getElementById('main-nav');
-    var mobileMenuButton = document.getElementById('mobile-menu-button');
-    var mobileMenu = document.getElementById('mobile-menu');
-
-    function updateNav() {
-        if (window.scrollY > 60) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
-        }
-    }
-
-    updateNav();
-    window.addEventListener('scroll', updateNav, { passive: true });
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
 
     if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener('click', function() {
             mobileMenu.classList.toggle('hidden');
-            var icon = mobileMenuButton.querySelector('i');
+            const icon = mobileMenuButton.querySelector('i');
             if (icon) {
                 icon.classList.toggle('fa-bars');
                 icon.classList.toggle('fa-times');
             }
         });
 
-        mobileMenu.querySelectorAll('a').forEach(function(link) {
+        mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', function() {
                 mobileMenu.classList.add('hidden');
-                var icon = mobileMenuButton.querySelector('i');
+                const icon = mobileMenuButton.querySelector('i');
                 if (icon) {
                     icon.classList.remove('fa-times');
                     icon.classList.add('fa-bars');
@@ -83,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
             !mobileMenu.contains(e.target) &&
             !mobileMenuButton.contains(e.target)) {
             mobileMenu.classList.add('hidden');
-            var icon = mobileMenuButton.querySelector('i');
+            const icon = mobileMenuButton.querySelector('i');
             if (icon) {
                 icon.classList.remove('fa-times');
                 icon.classList.add('fa-bars');
@@ -91,15 +79,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            var targetId = this.getAttribute('href');
-            var target = document.querySelector(targetId);
+            const targetId = this.getAttribute('href');
+            const target = document.querySelector(targetId);
 
             if (target) {
-                var navHeight = nav.offsetHeight;
-                var targetPosition = target.offsetTop - navHeight;
+                const navHeight = document.querySelector('nav').offsetHeight;
+                const targetPosition = target.offsetTop - navHeight;
 
                 window.scrollTo({
                     top: targetPosition,
@@ -109,21 +97,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    var leadForm = document.getElementById('lead-form');
-    var formSuccess = document.getElementById('form-success');
+    const leadForm = document.getElementById('lead-form');
+    const formSuccess = document.getElementById('form-success');
 
     if (leadForm) {
         leadForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            var submitBtn = leadForm.querySelector('button[type="submit"]');
-            var originalText = submitBtn.innerHTML;
+            const submitBtn = leadForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
 
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="loading-spinner"></span>Processing...';
 
-            var formData = new FormData(leadForm);
-            var leadData = {
+            const formData = new FormData(leadForm);
+            const leadData = {
                 name: formData.get('name'),
                 email: formData.get('email'),
                 phone: formData.get('phone') || '',
@@ -154,26 +142,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error submitting lead:', error);
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
+
                 alert('There was an error submitting your request. Please try again or contact us directly.');
             }
         });
     }
 
-    var contactForm = document.getElementById('contact-form');
-    var contactSuccess = document.getElementById('contact-success');
+    const contactForm = document.getElementById('contact-form');
+    const contactSuccess = document.getElementById('contact-success');
 
     if (contactForm) {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            var submitBtn = contactForm.querySelector('button[type="submit"]');
-            var originalText = submitBtn.innerHTML;
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
 
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="loading-spinner"></span>Sending...';
 
-            var formData = new FormData(contactForm);
-            var leadData = {
+            const formData = new FormData(contactForm);
+            const leadData = {
                 name: formData.get('name'),
                 email: formData.get('email'),
                 phone: formData.get('phone') || '',
@@ -192,12 +181,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error submitting contact:', error);
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
+
                 alert('There was an error sending your message. Please try again or contact us directly.');
             }
         });
     }
 
-    var backToTop = document.getElementById('back-to-top');
+    const backToTop = document.getElementById('back-to-top');
 
     if (backToTop) {
         window.addEventListener('scroll', function() {
@@ -206,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 backToTop.classList.remove('visible');
             }
-        }, { passive: true });
+        });
 
         backToTop.addEventListener('click', function() {
             window.scrollTo({
@@ -216,42 +206,51 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
-                var delay = entry.target.style.animationDelay;
-                if (delay) {
-                    var ms = parseFloat(delay) * 1000;
-                    setTimeout(function() {
-                        entry.target.classList.add('revealed');
-                    }, ms);
-                } else {
-                    entry.target.classList.add('revealed');
-                }
+                entry.target.classList.add('revealed');
                 observer.unobserve(entry.target);
             }
         });
-    }, {
-        root: null,
-        rootMargin: '0px 0px -60px 0px',
-        threshold: 0.1
-    });
+    }, observerOptions);
 
-    document.querySelectorAll('.reveal-up').forEach(function(el) {
+    document.querySelectorAll('.scroll-reveal').forEach(el => {
         observer.observe(el);
     });
 
-    var aiAgentCards = document.querySelectorAll('.ai-agent-card');
-    aiAgentCards.forEach(function(card) {
+    const aiAgentCards = document.querySelectorAll('.ai-agent-card');
+    aiAgentCards.forEach(card => {
         card.addEventListener('click', function() {
-            var leadMagnetSection = document.getElementById('lead-magnet');
+            const leadMagnetSection = document.getElementById('lead-magnet');
             if (leadMagnetSection) {
-                var navHeight = nav.offsetHeight;
+                const navHeight = document.querySelector('nav').offsetHeight;
                 window.scrollTo({
                     top: leadMagnetSection.offsetTop - navHeight,
                     behavior: 'smooth'
                 });
             }
         });
+    });
+
+    const nav = document.querySelector('nav');
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', function() {
+        const currentScroll = window.scrollY;
+
+        if (currentScroll > 100) {
+            nav.classList.add('shadow-md');
+        } else {
+            nav.classList.remove('shadow-md');
+        }
+
+        lastScroll = currentScroll;
     });
 });
