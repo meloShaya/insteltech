@@ -1,256 +1,264 @@
-const SUPABASE_URL = 'https://dygnqbkkeziwaqwffszb.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5Z25xYmtrZXppd2Fxd2Zmc3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MjIyMTAsImV4cCI6MjA4NDI5ODIxMH0.taKn2OKOj_32HZRS7S_A3mxGr1ReGl9vysBN5J6YKS8';
-
-async function submitLead(leadData) {
-    const response = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-            'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(leadData)
-    });
-
-    if (!response.ok) {
-        throw new Error('Failed to submit lead');
-    }
-
-    return true;
-}
-
-async function sendLeadNotification(leadData) {
-    try {
-        await fetch(`${SUPABASE_URL}/functions/v1/notify-lead`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-            },
-            body: JSON.stringify(leadData)
-        });
-    } catch (error) {
-        console.error('Notification error:', error);
-    }
-}
-
 document.addEventListener('DOMContentLoaded', function() {
-    const currentYearEl = document.getElementById('current-year');
-    if (currentYearEl) {
-        currentYearEl.textContent = new Date().getFullYear();
-    }
+    const SUPABASE_URL = window.VITE_SUPABASE_URL || '';
+    const SUPABASE_KEY = window.VITE_SUPABASE_ANON_KEY || '';
 
-    const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
+    var yearEl = document.getElementById('current-year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    if (mobileMenuButton && mobileMenu) {
-        mobileMenuButton.addEventListener('click', function() {
+    var mobileMenuBtn = document.getElementById('mobile-menu-button');
+    var mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function() {
             mobileMenu.classList.toggle('hidden');
-            const icon = mobileMenuButton.querySelector('i');
+            var icon = mobileMenuBtn.querySelector('i');
             if (icon) {
                 icon.classList.toggle('fa-bars');
                 icon.classList.toggle('fa-times');
             }
         });
-
-        mobileMenu.querySelectorAll('a').forEach(link => {
+        mobileMenu.querySelectorAll('a').forEach(function(link) {
             link.addEventListener('click', function() {
                 mobileMenu.classList.add('hidden');
-                const icon = mobileMenuButton.querySelector('i');
+                var icon = mobileMenuBtn.querySelector('i');
                 if (icon) {
                     icon.classList.remove('fa-times');
                     icon.classList.add('fa-bars');
                 }
             });
         });
+        document.addEventListener('click', function(e) {
+            if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                mobileMenu.classList.add('hidden');
+                var icon = mobileMenuBtn.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
     }
 
-    document.addEventListener('click', function(e) {
-        if (mobileMenu && mobileMenuButton &&
-            !mobileMenu.contains(e.target) &&
-            !mobileMenuButton.contains(e.target)) {
-            mobileMenu.classList.add('hidden');
-            const icon = mobileMenuButton.querySelector('i');
-            if (icon) {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        }
-    });
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
         anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const target = document.querySelector(targetId);
-
+            var href = anchor.getAttribute('href');
+            if (href === '#') return;
+            var target = document.querySelector(href);
             if (target) {
-                const navHeight = document.querySelector('nav').offsetHeight;
-                const targetPosition = target.offsetTop - navHeight;
-
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+                e.preventDefault();
+                var navHeight = 80;
+                var y = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                window.scrollTo({ top: y, behavior: 'smooth' });
             }
         });
     });
 
-    const leadForm = document.getElementById('lead-form');
-    const formSuccess = document.getElementById('form-success');
+    var categoryFilters = document.getElementById('category-filters');
+    var productsList = document.getElementById('products-list');
+    if (categoryFilters && productsList) {
+        var pills = categoryFilters.querySelectorAll('.category-pill');
+        var products = productsList.querySelectorAll('.product-card');
 
+        pills.forEach(function(pill) {
+            pill.addEventListener('click', function() {
+                pills.forEach(function(p) { p.classList.remove('active'); });
+                pill.classList.add('active');
+                var category = pill.dataset.category;
+
+                products.forEach(function(product) {
+                    if (category === 'all') {
+                        product.style.display = '';
+                        product.style.opacity = '0';
+                        product.style.transform = 'translateY(10px)';
+                        requestAnimationFrame(function() {
+                            product.style.transition = 'all 0.3s ease';
+                            product.style.opacity = '1';
+                            product.style.transform = 'translateY(0)';
+                        });
+                    } else {
+                        var cats = product.dataset.categories || '';
+                        if (cats.indexOf(category) !== -1) {
+                            product.style.display = '';
+                            product.style.opacity = '0';
+                            product.style.transform = 'translateY(10px)';
+                            requestAnimationFrame(function() {
+                                product.style.transition = 'all 0.3s ease';
+                                product.style.opacity = '1';
+                                product.style.transform = 'translateY(0)';
+                            });
+                        } else {
+                            product.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+    }
+
+    async function submitLead(formData) {
+        if (!SUPABASE_URL || !SUPABASE_KEY) return;
+        await fetch(SUPABASE_URL + '/rest/v1/leads', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_KEY,
+                'Authorization': 'Bearer ' + SUPABASE_KEY,
+                'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify(formData)
+        });
+    }
+
+    async function sendNotification(formData) {
+        if (!SUPABASE_URL || !SUPABASE_KEY) return;
+        try {
+            await fetch(SUPABASE_URL + '/functions/v1/notify-lead', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + SUPABASE_KEY
+                },
+                body: JSON.stringify(formData)
+            });
+        } catch (_) {}
+    }
+
+    var leadForm = document.getElementById('lead-form-el');
+    var formSuccess = document.getElementById('form-success');
     if (leadForm) {
         leadForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-
-            const submitBtn = leadForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-
+            var submitBtn = leadForm.querySelector('button[type="submit"]');
+            var originalText = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="loading-spinner"></span>Processing...';
+            submitBtn.innerHTML = '<span class="loading-spinner"></span> Submitting...';
 
-            const formData = new FormData(leadForm);
-            const leadData = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                phone: formData.get('phone') || '',
-                business_name: formData.get('business_name') || '',
-                business_type: formData.get('business_type'),
-                employee_count: formData.get('employee_count'),
-                annual_revenue: formData.get('annual_revenue'),
-                ownership_type: formData.get('ownership_type'),
-                source: 'website',
+            var fd = new FormData(leadForm);
+            var data = {
+                name: fd.get('name'),
+                email: fd.get('email'),
+                phone: fd.get('phone') || '',
+                business_name: fd.get('business_name') || '',
+                business_type: fd.get('business_type'),
+                employee_count: fd.get('employee_count'),
+                annual_revenue: fd.get('annual_revenue'),
+                ownership_type: fd.get('ownership_type'),
+                source: 'homepage-sidebar',
                 lead_magnet: 'free-whatsapp-chatbot',
                 interest: 'AI WhatsApp Chatbot'
             };
 
             try {
-                await submitLead(leadData);
-                sendLeadNotification(leadData);
-
+                await submitLead(data);
+                sendNotification(data);
                 leadForm.classList.add('hidden');
-                formSuccess.classList.remove('hidden');
-
+                if (formSuccess) formSuccess.classList.remove('hidden');
                 if (typeof gtag === 'function') {
                     gtag('event', 'lead_capture', {
                         'event_category': 'Lead',
                         'event_label': 'Free WhatsApp Chatbot'
                     });
                 }
-            } catch (error) {
-                console.error('Error submitting lead:', error);
+            } catch (_) {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
-
-                alert('There was an error submitting your request. Please try again or contact us directly.');
             }
         });
     }
 
-    const contactForm = document.getElementById('contact-form');
-    const contactSuccess = document.getElementById('contact-success');
-
+    var contactForm = document.getElementById('contact-form-el');
+    var contactSuccess = document.getElementById('contact-form-success');
     if (contactForm) {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-
+            var submitBtn = contactForm.querySelector('button[type="submit"]');
+            var originalText = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="loading-spinner"></span>Sending...';
+            submitBtn.innerHTML = '<span class="loading-spinner"></span> Sending...';
 
-            const formData = new FormData(contactForm);
-            const leadData = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                phone: formData.get('phone') || '',
-                interest: formData.get('interest'),
-                source: 'contact-form',
-                lead_magnet: formData.get('message') || ''
+            var fd = new FormData(contactForm);
+            var data = {
+                name: fd.get('name'),
+                email: fd.get('email'),
+                phone: fd.get('phone') || '',
+                business_name: fd.get('business_name') || '',
+                business_type: fd.get('business_type') || '',
+                employee_count: fd.get('employee_count') || '',
+                annual_revenue: fd.get('annual_revenue') || '',
+                ownership_type: fd.get('ownership_type') || '',
+                source: 'contact-page',
+                interest: fd.get('interest') || '',
+                lead_magnet: fd.get('message') || ''
             };
 
             try {
-                await submitLead(leadData);
-                sendLeadNotification(leadData);
-
+                await submitLead(data);
+                sendNotification(data);
                 contactForm.classList.add('hidden');
-                contactSuccess.classList.remove('hidden');
-            } catch (error) {
-                console.error('Error submitting contact:', error);
+                if (contactSuccess) contactSuccess.classList.remove('hidden');
+            } catch (_) {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
-
-                alert('There was an error sending your message. Please try again or contact us directly.');
             }
         });
     }
 
-    const backToTop = document.getElementById('back-to-top');
-
+    var backToTop = document.getElementById('back-to-top');
     if (backToTop) {
         window.addEventListener('scroll', function() {
-            if (window.scrollY > 500) {
+            if (window.scrollY > 400) {
                 backToTop.classList.add('visible');
             } else {
                 backToTop.classList.remove('visible');
             }
         });
-
         backToTop.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
+    var revealEls = document.querySelectorAll('.scroll-reveal');
+    if (revealEls.length > 0) {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        revealEls.forEach(function(el) { observer.observe(el); });
+    }
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('revealed');
-                observer.unobserve(entry.target);
+    document.querySelectorAll('.faq-item-toggle').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var answer = btn.nextElementSibling;
+            var icon = btn.querySelector('.faq-icon');
+            var isOpen = answer.classList.contains('open');
+
+            document.querySelectorAll('.faq-answer').forEach(function(a) { a.classList.remove('open'); });
+            document.querySelectorAll('.faq-icon').forEach(function(i) {
+                i.classList.remove('fa-chevron-up');
+                i.classList.add('fa-chevron-down');
+            });
+
+            if (!isOpen) {
+                answer.classList.add('open');
+                if (icon) {
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
             }
         });
-    }, observerOptions);
-
-    document.querySelectorAll('.scroll-reveal').forEach(el => {
-        observer.observe(el);
     });
 
-    const aiAgentCards = document.querySelectorAll('.ai-agent-card');
-    aiAgentCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const leadMagnetSection = document.getElementById('lead-magnet');
-            if (leadMagnetSection) {
-                const navHeight = document.querySelector('nav').offsetHeight;
-                window.scrollTo({
-                    top: leadMagnetSection.offsetTop - navHeight,
-                    behavior: 'smooth'
-                });
+    var nav = document.querySelector('nav');
+    if (nav) {
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 100) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
             }
         });
-    });
-
-    const nav = document.querySelector('nav');
-    let lastScroll = 0;
-
-    window.addEventListener('scroll', function() {
-        const currentScroll = window.scrollY;
-
-        if (currentScroll > 100) {
-            nav.classList.add('shadow-md');
-        } else {
-            nav.classList.remove('shadow-md');
-        }
-
-        lastScroll = currentScroll;
-    });
+    }
 });

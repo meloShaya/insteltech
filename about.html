@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Instel Technologies | AI Chatbots, Mobile Apps, Web Dev & n8n Automation Zimbabwe</title>
+    <meta name="description" content="Learn about Instel Technologies - Zimbabwe's leading AI chatbot, mobile app, web development and n8n automation company. We help businesses automate, grow faster, and sell more." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://insteltech.co.zw/about.html" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://insteltech.co.zw/about.html" />
+    <meta property="og:title" content="About Instel Technologies | AI & Automation Zimbabwe" />
+    <meta property="og:description" content="We help businesses capture more leads and close more sales with AI chatbots, mobile apps, web development, and workflow automation." />
+    <meta property="og:image" content="https://insteltech.co.zw/images/instel.svg" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <script src="env-config.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nerve: { 50:'#f0f5fa',100:'#dae4f0',200:'#b5c9e0',300:'#8badc9',400:'#6090b0',500:'#3d7097',600:'#2a5578',700:'#1e3a5f',800:'#162a42',900:'#0f1d2e',950:'#070e18' },
+                        primary: { DEFAULT:'#dc2626',dark:'#b91c1c',light:'#ef4444' },
+                    },
+                    fontFamily: { sans: ['Inter','system-ui','sans-serif'] },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white font-sans text-nerve-900">
+
+    <!-- NAV -->
+    <nav class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center gap-2">
+                    <img src="images/instel.svg" alt="Instel Technologies" class="h-8 w-auto" />
+                    <span class="text-xl font-bold text-nerve-900">Instel<span class="text-primary">Tech</span></span>
+                </a>
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="index.html" class="text-slate-500 font-medium text-sm hover:text-primary transition-colors">Home</a>
+                    <a href="about.html" class="text-nerve-900 font-semibold text-sm hover:text-primary transition-colors">About</a>
+                    <a href="contact.html" class="text-slate-500 font-medium text-sm hover:text-primary transition-colors">Contact</a>
+                    <a href="index.html#lead-form" class="btn-brutal btn-primary btn-md">GET FREE CHATBOT</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-nerve-900 p-2">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        <div class="md:hidden hidden bg-white border-t border-slate-100" id="mobile-menu">
+            <a href="index.html" class="block px-4 py-3 text-slate-600 hover:bg-slate-50">Home</a>
+            <a href="about.html" class="block px-4 py-3 text-nerve-900 font-semibold hover:bg-slate-50">About</a>
+            <a href="contact.html" class="block px-4 py-3 text-slate-600 hover:bg-slate-50">Contact</a>
+            <a href="index.html#lead-form" class="block px-4 py-3 bg-primary text-white font-bold text-center">GET FREE CHATBOT</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="pt-28 pb-20 bg-nerve-900 text-white relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-primary rounded-full mix-blend-screen filter blur-3xl opacity-10 -translate-y-1/2 -translate-x-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-screen filter blur-3xl opacity-5 translate-y-1/2 translate-x-1/2"></div>
+        <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 rounded-full text-xs font-bold uppercase tracking-wider text-slate-300 mb-6 border border-white/10">
+                <i class="fas fa-info-circle text-primary"></i> About InstelTech
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight leading-tight">
+                We Build AI Systems That<br class="hidden md:block" /> <span class="text-primary">Grow Your Business</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10">
+                From custom AI chatbots to mobile apps and full business automation, we help companies across Zimbabwe sell more, respond faster, and work smarter.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="index.html#lead-form" class="btn-brutal btn-primary btn-xl">
+                    <i class="fab fa-whatsapp text-lg"></i> Get Free AI Chatbot
+                </a>
+                <a href="contact.html" class="btn-brutal btn-secondary btn-xl">
+                    Talk to Our Team
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="stat-card text-center p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                    <p class="text-3xl md:text-4xl font-black text-primary mb-1">100+</p>
+                    <p class="text-sm text-slate-500 font-medium">AI Agents Built</p>
+                </div>
+                <div class="stat-card text-center p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                    <p class="text-3xl md:text-4xl font-black text-nerve-900 mb-1">24/7</p>
+                    <p class="text-sm text-slate-500 font-medium">Support Available</p>
+                </div>
+                <div class="stat-card text-center p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                    <p class="text-3xl md:text-4xl font-black text-nerve-900 mb-1">3s</p>
+                    <p class="text-sm text-slate-500 font-medium">Avg Response Time</p>
+                </div>
+                <div class="stat-card text-center p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                    <p class="text-3xl md:text-4xl font-black text-nerve-900 mb-1">40%</p>
+                    <p class="text-sm text-slate-500 font-medium">Avg Sales Increase</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROBLEM / SOLUTION -->
+    <section class="py-20 bg-slate-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16 scroll-reveal">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-red-50 text-primary border border-red-100 mb-6 uppercase tracking-wider">
+                    The Problem
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black text-nerve-900 mb-6 tracking-tight">
+                    Your Business Is Losing Money Right Now
+                </h2>
+                <p class="text-lg text-slate-500 max-w-2xl mx-auto">
+                    Every minute you're not available, a competitor is answering your customer's questions, taking their money, and building their loyalty.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <!-- Without InstelTech -->
+                <div class="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm scroll-reveal">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-times text-primary"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-nerve-900">Without InstelTech</h3>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-xmark text-red-400 mt-1 text-sm"></i><span class="text-slate-600 text-sm">Customers wait hours or days for a reply</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-xmark text-red-400 mt-1 text-sm"></i><span class="text-slate-600 text-sm">Leads go cold because you can't follow up fast enough</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-xmark text-red-400 mt-1 text-sm"></i><span class="text-slate-600 text-sm">You waste 20+ hours/week on repetitive tasks</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-xmark text-red-400 mt-1 text-sm"></i><span class="text-slate-600 text-sm">Competitors with AI are outperforming you</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-xmark text-red-400 mt-1 text-sm"></i><span class="text-slate-600 text-sm">No online presence or outdated website</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-xmark text-red-400 mt-1 text-sm"></i><span class="text-slate-600 text-sm">Manual data entry, no CRM integration</span></li>
+                    </ul>
+                </div>
+                <!-- With InstelTech -->
+                <div class="bg-nerve-900 rounded-2xl p-8 text-white relative overflow-hidden scroll-reveal">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-primary rounded-full mix-blend-overlay filter blur-2xl opacity-30 -translate-y-1/2 translate-x-1/2"></div>
+                    <div class="flex items-center gap-3 mb-6 relative z-10">
+                        <div class="w-10 h-10 bg-green-900/30 rounded-xl flex items-center justify-center">
+                            <i class="fas fa-check text-green-400"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">With InstelTech</h3>
+                    </div>
+                    <ul class="space-y-4 relative z-10">
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-check text-green-400 mt-1 text-sm"></i><span class="text-slate-300 text-sm">AI answers every customer in under 3 seconds</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-check text-green-400 mt-1 text-sm"></i><span class="text-slate-300 text-sm">Automated follow-ups capture every lead</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-check text-green-400 mt-1 text-sm"></i><span class="text-slate-300 text-sm">Save 20+ hours/week with workflow automation</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-check text-green-400 mt-1 text-sm"></i><span class="text-slate-300 text-sm">Professional website and mobile app presence</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-check text-green-400 mt-1 text-sm"></i><span class="text-slate-300 text-sm">Automated cold email campaigns fill your pipeline</span></li>
+                        <li class="flex items-start gap-3"><i class="fas fa-circle-check text-green-400 mt-1 text-sm"></i><span class="text-slate-300 text-sm">All your tools connected, data flows automatically</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ALL SOLUTIONS -->
+    <section id="solutions" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16 scroll-reveal">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-nerve-50 text-nerve-700 border border-nerve-100 mb-6 uppercase tracking-wider">
+                    Our Solutions
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black text-nerve-900 mb-6 tracking-tight">
+                    Everything You Need To Automate & Grow
+                </h2>
+                <p class="text-lg text-slate-500 max-w-2xl mx-auto">
+                    We don't just build software. We build revenue-generating systems that work for you around the clock.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- AI WhatsApp Chatbot -->
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all scroll-reveal group">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fab fa-whatsapp text-green-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-nerve-900 mb-2 text-lg">AI WhatsApp Chatbot</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">Custom-trained AI that knows your business inside out. Handles customer support, sales, bookings, and lead qualification on WhatsApp 24/7.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Trained on your products & services</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Handles voice notes & images</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Lead capture & qualification built-in</li>
+                    </ul>
+                    <a href="https://wa.me/263787938836?text=Hi!%20I'm%20interested%20in%20an%20AI%20WhatsApp%20Chatbot" target="_blank" rel="noopener" class="btn-brutal btn-primary btn-sm w-full">Get Started</a>
+                </div>
+
+                <!-- Mobile App Development -->
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all scroll-reveal group">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-mobile-alt text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-nerve-900 mb-2 text-lg">Mobile App Development</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">Custom iOS and Android apps built to your specifications. From e-commerce to service booking, we build apps that generate revenue.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> iOS & Android native apps</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Payment integration</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Push notifications & analytics</li>
+                    </ul>
+                    <a href="https://wa.me/263787938836?text=Hi!%20I'm%20interested%20in%20Mobile%20App%20Development" target="_blank" rel="noopener" class="btn-brutal btn-primary btn-sm w-full">Get Started</a>
+                </div>
+
+                <!-- Web Development -->
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all scroll-reveal group">
+                    <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-laptop-code text-primary text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-nerve-900 mb-2 text-lg">Web Development</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">High-converting websites designed to turn visitors into customers. Fast, mobile-responsive, SEO-optimized, and built to sell.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Conversion-focused design</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> SEO optimization included</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Lead capture forms & analytics</li>
+                    </ul>
+                    <a href="https://wa.me/263787938836?text=Hi!%20I'm%20interested%20in%20Web%20Development" target="_blank" rel="noopener" class="btn-brutal btn-primary btn-sm w-full">Get Started</a>
+                </div>
+
+                <!-- n8n Automation -->
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all scroll-reveal group">
+                    <div class="w-12 h-12 bg-nerve-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-bolt text-nerve-700 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-nerve-900 mb-2 text-lg">n8n Business Automation</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">Connect all your tools and automate repetitive workflows. From lead routing to invoice generation, we automate it all with n8n.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Custom workflow design</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> 500+ app integrations</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Data sync & reporting</li>
+                    </ul>
+                    <a href="https://wa.me/263787938836?text=Hi!%20I'm%20interested%20in%20n8n%20Business%20Automation" target="_blank" rel="noopener" class="btn-brutal btn-primary btn-sm w-full">Get Started</a>
+                </div>
+
+                <!-- Cold Email Engine -->
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all scroll-reveal group">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-envelope-open-text text-blue-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-nerve-900 mb-2 text-lg">Cold Email Outreach Engine</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">Automated cold email campaigns that find prospects, personalize messages, send follow-ups, and track every interaction.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> AI-powered personalization</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Multi-step follow-up sequences</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Real-time analytics dashboard</li>
+                    </ul>
+                    <a href="https://wa.me/263787938836?text=Hi!%20I'm%20interested%20in%20Cold%20Email%20Outreach" target="_blank" rel="noopener" class="btn-brutal btn-primary btn-sm w-full">Get Started</a>
+                </div>
+
+                <!-- Lead Gen Bot -->
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all scroll-reveal group">
+                    <div class="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-bullhorn text-rose-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-nerve-900 mb-2 text-lg">Lead Generation Bot</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">AI that captures, qualifies, and scores leads 24/7. Automatically routes hot prospects to your sales team when they're ready to buy.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Auto lead scoring</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> CRM integration</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Smart routing to sales reps</li>
+                    </ul>
+                    <a href="https://wa.me/263787938836?text=Hi!%20I'm%20interested%20in%20a%20Lead%20Generation%20Bot" target="_blank" rel="noopener" class="btn-brutal btn-primary btn-sm w-full">Get Started</a>
+                </div>
+
+                <!-- Auto Scheduling -->
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all scroll-reveal group">
+                    <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-calendar-check text-teal-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-nerve-900 mb-2 text-lg">Auto Booking & Scheduling</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">Customers book appointments directly through WhatsApp or your website. Calendar syncs, reminders go out, no-shows decrease.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Google Calendar sync</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Automated reminders</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Rescheduling & cancellation</li>
+                    </ul>
+                    <a href="https://wa.me/263787938836?text=Hi!%20I'm%20interested%20in%20Auto%20Booking%20%26%20Scheduling" target="_blank" rel="noopener" class="btn-brutal btn-primary btn-sm w-full">Get Started</a>
+                </div>
+
+                <!-- Web Scraper -->
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all scroll-reveal group">
+                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-spider text-orange-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-nerve-900 mb-2 text-lg">Web Scraper & Data Collector</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">Collect competitor pricing, market data, contact lists, and business intelligence automatically. Data delivered to your inbox or CRM.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Competitor monitoring</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Contact list building</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Scheduled data extraction</li>
+                    </ul>
+                    <a href="https://wa.me/263787938836?text=Hi!%20I'm%20interested%20in%20Web%20Scraping%20%26%20Data%20Collection" target="_blank" rel="noopener" class="btn-brutal btn-primary btn-sm w-full">Get Started</a>
+                </div>
+
+                <!-- Form to CRM -->
+                <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all scroll-reveal group">
+                    <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-link text-cyan-600 text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-nerve-900 mb-2 text-lg">Form to CRM Integration</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed mb-4">Website forms automatically create CRM records, send notifications, and trigger follow-up sequences. No more manual data entry.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Auto CRM record creation</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Email/SMS notifications</li>
+                        <li class="flex items-center gap-2 text-xs text-slate-600"><i class="fas fa-check text-green-500 text-[10px]"></i> Follow-up automation</li>
+                    </ul>
+                    <a href="https://wa.me/263787938836?text=Hi!%20I'm%20interested%20in%20Form%20to%20CRM%20Integration" target="_blank" rel="noopener" class="btn-brutal btn-primary btn-sm w-full">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="py-20 bg-slate-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16 scroll-reveal">
+                <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-nerve-50 text-nerve-700 border border-nerve-100 mb-6 uppercase tracking-wider">
+                    How It Works
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black text-nerve-900 mb-6 tracking-tight">
+                    From Zero to Automated in 3 Steps
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center scroll-reveal">
+                    <div class="w-16 h-16 bg-nerve-900 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl font-black shadow-lg">1</div>
+                    <h3 class="font-bold text-lg text-nerve-900 mb-3">Tell Us Your Goals</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Share your business challenges, what you want to automate, and your growth goals. We listen carefully and understand your unique needs.</p>
+                </div>
+                <div class="text-center scroll-reveal">
+                    <div class="w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl font-black shadow-lg">2</div>
+                    <h3 class="font-bold text-lg text-nerve-900 mb-3">We Build Your System</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Our team designs and builds your custom AI chatbot, automation workflow, website, or app. Trained on your specific business data.</p>
+                </div>
+                <div class="text-center scroll-reveal">
+                    <div class="w-16 h-16 bg-nerve-900 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl font-black shadow-lg">3</div>
+                    <h3 class="font-bold text-lg text-nerve-900 mb-3">Watch Your Business Grow</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed">Launch and see results immediately. More leads captured, faster responses, automated workflows, and increased sales around the clock.</p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="index.html#lead-form" class="btn-brutal btn-primary btn-xl">
+                    <i class="fab fa-whatsapp text-lg"></i> Start With Free AI Chatbot
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20 bg-white">
+        <div class="max-w-3xl mx-auto px-4">
+            <div class="text-center mb-12 scroll-reveal">
+                <h2 class="text-3xl md:text-4xl font-black text-nerve-900 tracking-tight">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="space-y-2">
+                <div class="border-b border-slate-100">
+                    <button class="faq-item-toggle w-full flex items-center justify-between py-5 text-left">
+                        <span class="font-semibold text-nerve-900">How long does it take to build an AI chatbot?</span>
+                        <i class="faq-icon fas fa-chevron-down text-slate-400 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-slate-500 text-sm leading-relaxed px-1">
+                        Typically 3-7 days depending on complexity. A basic WhatsApp chatbot trained on your business can be ready in as little as 48 hours. More complex solutions with multiple integrations may take 1-2 weeks.
+                    </div>
+                </div>
+                <div class="border-b border-slate-100">
+                    <button class="faq-item-toggle w-full flex items-center justify-between py-5 text-left">
+                        <span class="font-semibold text-nerve-900">Is the free AI chatbot really free?</span>
+                        <i class="faq-icon fas fa-chevron-down text-slate-400 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-slate-500 text-sm leading-relaxed px-1">
+                        Yes. We build a basic AI chatbot trained on your business absolutely free. This includes setup, training, and 30 days of support. There are no hidden fees. We offer this because we know that once you see the results, you'll want to upgrade to our premium features.
+                    </div>
+                </div>
+                <div class="border-b border-slate-100">
+                    <button class="faq-item-toggle w-full flex items-center justify-between py-5 text-left">
+                        <span class="font-semibold text-nerve-900">What industries do you work with?</span>
+                        <i class="faq-icon fas fa-chevron-down text-slate-400 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-slate-500 text-sm leading-relaxed px-1">
+                        We work with all industries including restaurants, salons, real estate, e-commerce, professional services, healthcare, education, manufacturing, and more. Our AI solutions are customized for each industry's unique needs.
+                    </div>
+                </div>
+                <div class="border-b border-slate-100">
+                    <button class="faq-item-toggle w-full flex items-center justify-between py-5 text-left">
+                        <span class="font-semibold text-nerve-900">Do I need technical knowledge to use your solutions?</span>
+                        <i class="faq-icon fas fa-chevron-down text-slate-400 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-slate-500 text-sm leading-relaxed px-1">
+                        Not at all. We handle all the technical setup. Our AI chatbots work directly on WhatsApp, which your customers already know. Our automation workflows run in the background. You just monitor results through simple dashboards.
+                    </div>
+                </div>
+                <div class="border-b border-slate-100">
+                    <button class="faq-item-toggle w-full flex items-center justify-between py-5 text-left">
+                        <span class="font-semibold text-nerve-900">Can the chatbot handle multiple languages?</span>
+                        <i class="faq-icon fas fa-chevron-down text-slate-400 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-slate-500 text-sm leading-relaxed px-1">
+                        Yes. Our AI chatbots support multiple languages including English, Shona, Ndebele, and many others. The AI detects the customer's language and responds accordingly.
+                    </div>
+                </div>
+                <div class="border-b border-slate-100">
+                    <button class="faq-item-toggle w-full flex items-center justify-between py-5 text-left">
+                        <span class="font-semibold text-nerve-900">What happens after the 30-day free support period?</span>
+                        <i class="faq-icon fas fa-chevron-down text-slate-400 text-sm"></i>
+                    </button>
+                    <div class="faq-answer text-slate-500 text-sm leading-relaxed px-1">
+                        After 30 days, you can choose to continue with a maintenance plan or manage the chatbot yourself. We provide full documentation and training. Most clients choose our monthly maintenance plan because of the ongoing optimization and support.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="px-4 pb-16">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-nerve-900 rounded-3xl p-12 md:p-16 text-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-[url('https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?auto=compress&cs=tinysrgb&w=2000')] opacity-5 bg-cover bg-center"></div>
+                <div class="absolute top-0 left-1/2 w-96 h-96 bg-primary rounded-full mix-blend-screen filter blur-3xl opacity-10 -translate-y-1/2 -translate-x-1/2"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
+                        Ready to 10x Your Response Time?
+                    </h2>
+                    <p class="text-lg text-slate-400 mb-10 max-w-xl mx-auto">
+                        Join hundreds of businesses across Zimbabwe already using AI to capture more leads and close more sales.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <a href="index.html#lead-form" class="btn-brutal btn-primary btn-xl">
+                            <i class="fab fa-whatsapp text-lg"></i> Get My Free AI Chatbot
+                        </a>
+                        <a href="contact.html" class="btn-brutal btn-secondary btn-xl">
+                            Talk to Our Team
+                        </a>
+                    </div>
+                    <p class="text-slate-500 text-xs mt-6">No credit card required. No obligations. Just results.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-nerve-900 text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-2 mb-4">
+                        <img src="images/instel.svg" alt="Instel Technologies" class="h-8 w-auto" />
+                        <span class="text-xl font-bold">Instel<span class="text-primary">Tech</span></span>
+                    </div>
+                    <p class="text-slate-400 mb-6 max-w-md text-sm leading-relaxed">
+                        We help businesses capture more leads and close more sales with custom AI solutions, high-converting websites, mobile apps, and workflow automation.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="https://wa.me/263787938836" target="_blank" rel="noopener" class="w-10 h-10 rounded-lg bg-nerve-800 hover:bg-primary flex items-center justify-center transition-colors"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-nerve-800 hover:bg-primary flex items-center justify-center transition-colors"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-nerve-800 hover:bg-primary flex items-center justify-center transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-lg bg-nerve-800 hover:bg-primary flex items-center justify-center transition-colors"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4 text-sm">Solutions</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="index.html#lead-form" class="hover:text-primary transition-colors">AI Chatbots</a></li>
+                        <li><a href="#solutions" class="hover:text-primary transition-colors">n8n Automation</a></li>
+                        <li><a href="#solutions" class="hover:text-primary transition-colors">Web Development</a></li>
+                        <li><a href="#solutions" class="hover:text-primary transition-colors">Mobile Apps</a></li>
+                        <li><a href="#solutions" class="hover:text-primary transition-colors">AI Agents</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-white mb-4 text-sm">Company</h4>
+                    <ul class="space-y-2 text-slate-400 text-sm">
+                        <li><a href="about.html" class="hover:text-primary transition-colors">About</a></li>
+                        <li><a href="contact.html" class="hover:text-primary transition-colors">Contact</a></li>
+                        <li class="flex items-center gap-2"><i class="fab fa-whatsapp text-green-500 text-xs"></i> +263 787 938 836</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-envelope text-primary text-xs"></i> info@insteltech.co.zw</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-primary text-xs"></i> Masvingo, Zimbabwe</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-nerve-800 pt-8 text-center text-slate-500 text-xs">
+                <p>&copy; <span id="current-year"></span> Instel Technologies. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING -->
+    <button id="back-to-top" class="fixed bottom-24 right-6 bg-nerve-900 hover:bg-primary text-white p-3 rounded-full shadow-lg z-50 border-2 border-nerve-700 hover:border-primary transition-all">
+        <i class="fas fa-arrow-up text-sm"></i>
+    </button>
+    <a href="https://wa.me/263787938836?text=Hi!%20I'd%20like%20to%20learn%20more%20about%20your%20AI%20solutions." target="_blank" rel="noopener noreferrer"
+       class="fixed bottom-8 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-xl z-50 flex items-center justify-center group transition-all hover:scale-110">
+        <i class="fab fa-whatsapp text-2xl"></i>
+        <span class="absolute right-full mr-3 bg-white text-nerve-900 px-4 py-2 rounded-lg shadow-lg text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Chat with us!</span>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>
