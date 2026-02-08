@@ -54,9 +54,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var categoryFilters = document.getElementById('category-filters');
     var productsList = document.getElementById('products-list');
+    var extraProductsList = document.getElementById('extra-products-list');
     if (categoryFilters && productsList) {
         var pills = categoryFilters.querySelectorAll('.category-pill');
-        var products = productsList.querySelectorAll('.product-card');
+        var allProductCards = Array.prototype.slice.call(productsList.querySelectorAll('.product-card'));
+        if (extraProductsList) {
+            allProductCards = allProductCards.concat(Array.prototype.slice.call(extraProductsList.querySelectorAll('.product-card')));
+        }
 
         pills.forEach(function(pill) {
             pill.addEventListener('click', function() {
@@ -64,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 pill.classList.add('active');
                 var category = pill.dataset.category;
 
-                products.forEach(function(product) {
+                allProductCards.forEach(function(product) {
                     if (category === 'all') {
                         product.style.display = '';
                         product.style.opacity = '0';
@@ -250,6 +254,32 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    var viewAllToggle = document.getElementById('view-all-toggle');
+    var extraProducts = document.getElementById('extra-products-list');
+    var viewAllIcon = document.getElementById('view-all-icon');
+    if (viewAllToggle && extraProducts) {
+        var isExpanded = false;
+        viewAllToggle.addEventListener('click', function() {
+            isExpanded = !isExpanded;
+            if (isExpanded) {
+                extraProducts.classList.remove('hidden');
+                extraProducts.querySelectorAll('.product-card').forEach(function(card, i) {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(10px)';
+                    setTimeout(function() {
+                        card.style.transition = 'all 0.3s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, i * 50);
+                });
+                viewAllToggle.innerHTML = '<i class="fas fa-chevron-up text-sm"></i> Show Less';
+            } else {
+                extraProducts.classList.add('hidden');
+                viewAllToggle.innerHTML = '<i class="fas fa-chevron-down text-sm"></i> View All Solutions';
+            }
+        });
+    }
 
     var nav = document.querySelector('nav');
     if (nav) {

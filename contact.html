@@ -64,15 +64,14 @@
         </div>
     </nav>
 
-    <!-- HERO -->
-    <section class="pt-28 pb-16 bg-nerve-900 text-white relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full mix-blend-screen filter blur-3xl opacity-10 -translate-y-1/2 translate-x-1/2"></div>
-        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 rounded-full text-xs font-bold uppercase tracking-wider text-slate-300 mb-6 border border-white/10">
-                <i class="fas fa-headset text-primary"></i> Get In Touch
+    <!-- HEADER -->
+    <section class="pt-28 pb-12 bg-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-red-50 rounded-full text-xs font-bold uppercase tracking-wider text-primary mb-6 border border-red-100">
+                <i class="fas fa-headset"></i> Get In Touch
             </span>
-            <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight">Let's Build Something Great Together</h1>
-            <p class="text-lg text-slate-400 max-w-xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-black text-nerve-900 mb-4 tracking-tight">Let's Build Something Great Together</h1>
+            <p class="text-lg text-slate-500 max-w-xl mx-auto">
                 Whether you need an AI chatbot, a mobile app, a website, or workflow automation, we're here to help.
             </p>
         </div>
@@ -136,15 +135,15 @@
 
                         <form id="contact-form-el" class="space-y-4 relative z-10">
                             <div class="grid md:grid-cols-2 gap-4">
-                                <input type="text" name="name" placeholder="Your Full Name *" required class="form-input" />
-                                <input type="email" name="email" placeholder="Your Email *" required class="form-input" />
+                                <input type="text" name="name" placeholder="Your Full Name *" required class="form-input-sidebar" />
+                                <input type="email" name="email" placeholder="Your Email *" required class="form-input-sidebar" />
                             </div>
                             <div class="grid md:grid-cols-2 gap-4">
-                                <input type="tel" name="phone" placeholder="WhatsApp Number" class="form-input" />
-                                <input type="text" name="business_name" placeholder="Business Name" class="form-input" />
+                                <input type="tel" name="phone" placeholder="WhatsApp Number" class="form-input-sidebar" />
+                                <input type="text" name="business_name" placeholder="Business Name" class="form-input-sidebar" />
                             </div>
                             <div class="grid md:grid-cols-2 gap-4">
-                                <select name="business_type" class="form-input">
+                                <select name="business_type" class="form-input-sidebar">
                                     <option value="">Business Type</option>
                                     <option value="ecommerce">E-commerce</option>
                                     <option value="services">Professional Services</option>
@@ -157,7 +156,7 @@
                                     <option value="tech">Technology / IT</option>
                                     <option value="other">Other</option>
                                 </select>
-                                <select name="interest" class="form-input">
+                                <select name="interest" class="form-input-sidebar">
                                     <option value="">What do you need? *</option>
                                     <option value="ai-chatbot">AI WhatsApp Chatbot</option>
                                     <option value="mobile-app">Mobile App Development</option>
@@ -171,14 +170,14 @@
                                 </select>
                             </div>
                             <div class="grid md:grid-cols-2 gap-4">
-                                <select name="employee_count" class="form-input">
+                                <select name="employee_count" class="form-input-sidebar">
                                     <option value=""># of Employees</option>
                                     <option value="solo">Just me</option>
                                     <option value="2-9">2 to 9</option>
                                     <option value="10-49">10 to 49</option>
                                     <option value="50-plus">50+</option>
                                 </select>
-                                <select name="annual_revenue" class="form-input">
+                                <select name="annual_revenue" class="form-input-sidebar">
                                     <option value="">Annual Revenue</option>
                                     <option value="under-100k">Under $100k</option>
                                     <option value="100k-500k">$100k - $500k</option>
@@ -186,7 +185,7 @@
                                     <option value="1m-plus">$1M+</option>
                                 </select>
                             </div>
-                            <textarea name="message" rows="4" placeholder="Tell us about your project or what you're looking for..." class="form-input resize-none"></textarea>
+                            <textarea name="message" rows="4" placeholder="Tell us about your project or what you're looking for..." class="form-input-sidebar resize-none"></textarea>
                             <button type="submit" class="btn-brutal btn-primary btn-lg w-full">
                                 <i class="fas fa-paper-plane"></i> Send Message
                             </button>
