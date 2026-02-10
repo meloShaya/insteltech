@@ -3,530 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaderboard - Ultimate AI Business Assistant Giveaway</title>
+    <title>Leaderboard - InstelTech Giveaway</title>
     <meta name="robots" content="noindex, nofollow" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="giveaway-styles.css">
     <script src="env-config.js"></script>
-    <style>
-        .leaderboard-container {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            padding: 40px 20px;
-        }
-
-        .leaderboard-header {
-            text-align: center;
-            color: white;
-            margin-bottom: 50px;
-        }
-
-        .leaderboard-header h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 900;
-            margin-bottom: 15px;
-        }
-
-        .leaderboard-header .highlight {
-            background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .leaderboard-header p {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .countdown-banner {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .countdown-banner h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-
-        .countdown-mini {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            font-size: 1.5rem;
-            font-weight: 900;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: 0 auto 50px;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .stat-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-        }
-
-        .stat-icon i {
-            font-size: 35px;
-            color: white;
-        }
-
-        .stat-value {
-            font-size: 3rem;
-            font-weight: 900;
-            color: #1e293b;
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 1.1rem;
-            color: #64748b;
-            font-weight: 600;
-        }
-
-        .leaderboard-section {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            color: white;
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 40px;
-        }
-
-        .leaderboard-table {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .table-header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-            color: white;
-            padding: 25px 30px;
-            display: grid;
-            grid-template-columns: 80px 1fr 150px 150px;
-            gap: 20px;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .leaderboard-row {
-            padding: 25px 30px;
-            display: grid;
-            grid-template-columns: 80px 1fr 150px 150px;
-            gap: 20px;
-            align-items: center;
-            border-bottom: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
-        }
-
-        .leaderboard-row:hover {
-            background: #f8fafc;
-        }
-
-        .leaderboard-row:last-child {
-            border-bottom: none;
-        }
-
-        .rank {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: #64748b;
-            text-align: center;
-        }
-
-        .rank.top3 {
-            background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 2rem;
-        }
-
-        .rank-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.8rem;
-        }
-
-        .rank-badge.gold {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
-        }
-
-        .rank-badge.silver {
-            background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%);
-            box-shadow: 0 5px 20px rgba(192, 192, 192, 0.5);
-        }
-
-        .rank-badge.bronze {
-            background: linear-gradient(135deg, #CD7F32 0%, #B87333 100%);
-            box-shadow: 0 5px 20px rgba(205, 127, 50, 0.5);
-        }
-
-        .participant-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .participant-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 900;
-            font-size: 1.3rem;
-        }
-
-        .participant-details h4 {
-            font-size: 1.1rem;
-            color: #1e293b;
-            margin-bottom: 3px;
-            font-weight: 700;
-        }
-
-        .participant-details p {
-            font-size: 0.9rem;
-            color: #64748b;
-        }
-
-        .score-badge {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 900;
-            font-size: 1.2rem;
-            text-align: center;
-        }
-
-        .referrals-count {
-            color: #1e293b;
-            font-weight: 700;
-            font-size: 1.2rem;
-            text-align: center;
-        }
-
-        .referrals-count i {
-            color: #FFA500;
-            margin-right: 8px;
-        }
-
-        .loading-spinner {
-            text-align: center;
-            padding: 60px 20px;
-            color: white;
-        }
-
-        .loading-spinner i {
-            font-size: 48px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #64748b;
-        }
-
-        .empty-state i {
-            font-size: 80px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        .cta-section {
-            text-align: center;
-            margin-top: 60px;
-            padding: 50px 20px;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            border-radius: 20px;
-            color: white;
-        }
-
-        .cta-section h3 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-
-        .cta-section p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-
-        .btn-enter {
-            background: white;
-            color: #10b981;
-            padding: 20px 40px;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 900;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-enter:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
-        }
-
-        @media (max-width: 768px) {
-            .table-header,
-            .leaderboard-row {
-                grid-template-columns: 60px 1fr 100px;
-                gap: 15px;
-                padding: 20px 15px;
-            }
-
-            .table-header :nth-child(4),
-            .leaderboard-row :nth-child(4) {
-                display: none;
-            }
-
-            .participant-info {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        nerve: {
+                            50: '#f0f5fa', 100: '#dae4f0', 200: '#b5c9e0', 300: '#8badc9',
+                            400: '#6090b0', 500: '#3d7097', 600: '#2a5578', 700: '#1e3a5f',
+                            800: '#162a42', 900: '#0f1d2e', 950: '#070e18',
+                        },
+                        primary: { DEFAULT: '#dc2626', dark: '#b91c1c', light: '#ef4444' },
+                    },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                }
             }
         }
-    </style>
+    </script>
 </head>
-<body>
-    <div class="leaderboard-container">
-        <div class="leaderboard-header">
-            <h1>
-                Giveaway <span class="highlight">Leaderboard</span>
-            </h1>
-            <p>Top referrers competing for the Ultimate AI Business Assistant</p>
+<body class="bg-nerve-900 font-sans text-nerve-900 min-h-screen">
+    <div class="max-w-3xl mx-auto px-4 py-8">
+
+        <div class="text-center text-white mb-8">
+            <h1 class="text-3xl font-black mb-2">Giveaway <span class="text-primary">Leaderboard</span></h1>
+            <p class="text-sm text-slate-400">Top referrers competing for the AI WhatsApp Business Assistant</p>
         </div>
 
-        <div class="countdown-banner">
-            <h3>Time Remaining:</h3>
-            <div class="countdown-mini" id="countdownMini">
-                <span><span id="daysLeft">7</span>d</span>
-                <span><span id="hoursLeft">00</span>h</span>
-                <span><span id="minutesLeft">00</span>m</span>
-            </div>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="stat-value" id="totalEntries">0</div>
-                <div class="stat-label">Total Entries</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-user-check"></i>
-                </div>
-                <div class="stat-value" id="qualifiedEntries">0</div>
-                <div class="stat-label">Qualified Entries</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-share-alt"></i>
-                </div>
-                <div class="stat-value" id="totalReferrals">0</div>
-                <div class="stat-label">Total Referrals</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <div class="stat-value">$2,500</div>
-                <div class="stat-label">Prize Value</div>
+        <div class="bg-primary rounded-xl p-4 text-center text-white mb-6 max-w-md mx-auto">
+            <p class="text-xs font-semibold mb-2 uppercase tracking-wider opacity-80">Time Remaining</p>
+            <div class="flex justify-center gap-4 text-xl font-black">
+                <span><span id="daysLeft">--</span>d</span>
+                <span><span id="hoursLeft">--</span>h</span>
+                <span><span id="minutesLeft">--</span>m</span>
             </div>
         </div>
 
-        <div class="leaderboard-section">
-            <h2 class="section-title">Top Referrers</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+            <div class="bg-white rounded-xl p-4 text-center">
+                <p id="totalEntries" class="text-2xl font-black text-nerve-900">0</p>
+                <p class="text-[10px] text-slate-500 font-semibold uppercase">Entries</p>
+            </div>
+            <div class="bg-white rounded-xl p-4 text-center">
+                <p id="qualifiedEntries" class="text-2xl font-black text-nerve-900">0</p>
+                <p class="text-[10px] text-slate-500 font-semibold uppercase">Qualified</p>
+            </div>
+            <div class="bg-white rounded-xl p-4 text-center">
+                <p id="totalReferrals" class="text-2xl font-black text-nerve-900">0</p>
+                <p class="text-[10px] text-slate-500 font-semibold uppercase">Referrals</p>
+            </div>
+            <div class="bg-white rounded-xl p-4 text-center">
+                <p class="text-2xl font-black text-primary">$2,500</p>
+                <p class="text-[10px] text-slate-500 font-semibold uppercase">Prize</p>
+            </div>
+        </div>
 
+        <div class="mb-8">
+            <h2 class="text-white text-lg font-bold text-center mb-4">Top Referrers</h2>
             <div id="leaderboardContent">
-                <div class="loading-spinner">
-                    <i class="fas fa-spinner"></i>
-                    <p style="margin-top: 20px; font-size: 1.2rem;">Loading leaderboard...</p>
+                <div class="text-center py-12 text-slate-400">
+                    <i class="fas fa-spinner fa-spin text-3xl mb-3 block"></i>
+                    <p class="text-sm">Loading leaderboard...</p>
                 </div>
             </div>
         </div>
 
-        <div class="cta-section">
-            <h3>Haven't Entered Yet?</h3>
-            <p>Join the competition and get your chance to win the $2,500 AI Business Assistant!</p>
-            <a href="giveaway.html" class="btn-enter">
-                <i class="fas fa-rocket"></i>
-                Enter Now - It's Free!
+        <div class="bg-emerald-600 rounded-xl p-6 text-center text-white">
+            <h3 class="text-lg font-bold mb-2">Haven't Entered Yet?</h3>
+            <p class="text-sm text-emerald-100 mb-4">Join the competition for a chance to win the $2,500 AI Business Assistant!</p>
+            <a href="giveaway.html" class="inline-flex items-center gap-2 bg-white text-emerald-700 px-5 py-2.5 rounded-lg font-bold text-sm hover:-translate-y-0.5 transition-all">
+                <i class="fas fa-rocket"></i> Enter Now - Free
             </a>
         </div>
     </div>
 
     <script>
-        const SUPABASE_URL = window.VITE_SUPABASE_URL || 'https://dygnqbkkeziwaqwffszb.supabase.co';
-        const SUPABASE_KEY = window.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5Z25xYmtrZXppd2Fxd2Zmc3piIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg3MjIyMTAsImV4cCI6MjA4NDI5ODIxMH0.taKn2OKOj_32HZRS7S_A3mxGr1ReGl9vysBN5J6YKS8';
-        const GIVEAWAY_END_DATE = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+        var SUPABASE_URL = window.VITE_SUPABASE_URL || '';
+        var SUPABASE_KEY = window.VITE_SUPABASE_ANON_KEY || '';
+        var GIVEAWAY_END_DATE = null;
 
-        async function loadLeaderboard() {
-            try {
-                const response = await fetch(
-                    `${SUPABASE_URL}/rest/v1/giveaway_entries?select=name,email,entry_score,created_at&order=entry_score.desc,created_at.asc&limit=50`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Authorization': `Bearer ${SUPABASE_KEY}`
-                        }
-                    }
-                );
-
-                if (!response.ok) throw new Error('Failed to load leaderboard');
-
-                const entries = await response.json();
-
-                const referralsResponse = await fetch(
-                    `${SUPABASE_URL}/rest/v1/giveaway_referrals?select=referrer_email`,
-                    {
-                        headers: {
-                            'apikey': SUPABASE_KEY,
-                            'Authorization': `Bearer ${SUPABASE_KEY}`
-                        }
-                    }
-                );
-
-                let referralCounts = {};
-                if (referralsResponse.ok) {
-                    const referrals = await referralsResponse.json();
-                    referralCounts = referrals.reduce((acc, ref) => {
-                        acc[ref.referrer_email] = (acc[ref.referrer_email] || 0) + 1;
-                        return acc;
-                    }, {});
-                }
-
-                displayLeaderboard(entries, referralCounts);
-                loadStats(entries, referralCounts);
-            } catch (error) {
-                console.error('Error loading leaderboard:', error);
-                document.getElementById('leaderboardContent').innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <h3 style="color: white; margin-bottom: 10px;">Unable to Load Leaderboard</h3>
-                        <p style="color: rgba(255,255,255,0.7);">Please try again later.</p>
-                    </div>
-                `;
+        function fetchEndDate() {
+            if (!SUPABASE_URL || !SUPABASE_KEY) {
+                GIVEAWAY_END_DATE = new Date('2026-02-17T00:00:00Z');
+                startCountdown();
+                return;
             }
+            fetch(SUPABASE_URL + '/rest/v1/giveaway_config?select=end_date&id=eq.1', {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                GIVEAWAY_END_DATE = (data && data.length > 0 && data[0].end_date) ? new Date(data[0].end_date) : new Date('2026-02-17T00:00:00Z');
+                startCountdown();
+            })
+            .catch(function() {
+                GIVEAWAY_END_DATE = new Date('2026-02-17T00:00:00Z');
+                startCountdown();
+            });
+        }
+
+        function startCountdown() {
+            function update() {
+                if (!GIVEAWAY_END_DATE) return;
+                var distance = GIVEAWAY_END_DATE.getTime() - Date.now();
+                if (distance < 0) {
+                    document.getElementById('daysLeft').textContent = '0';
+                    document.getElementById('hoursLeft').textContent = '00';
+                    document.getElementById('minutesLeft').textContent = '00';
+                    return;
+                }
+                document.getElementById('daysLeft').textContent = Math.floor(distance / (1000 * 60 * 60 * 24));
+                document.getElementById('hoursLeft').textContent = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                document.getElementById('minutesLeft').textContent = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            }
+            update();
+            setInterval(update, 60000);
+        }
+
+        function loadLeaderboard() {
+            if (!SUPABASE_URL || !SUPABASE_KEY) return;
+
+            fetch(SUPABASE_URL + '/rest/v1/giveaway_entries?select=name,email,entry_score,created_at&order=entry_score.desc,created_at.asc&limit=50', {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(entries) {
+                return fetch(SUPABASE_URL + '/rest/v1/giveaway_referrals?select=referrer_email', {
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY }
+                })
+                .then(function(res) { return res.json(); })
+                .then(function(referrals) {
+                    var referralCounts = {};
+                    if (Array.isArray(referrals)) {
+                        referrals.forEach(function(ref) {
+                            referralCounts[ref.referrer_email] = (referralCounts[ref.referrer_email] || 0) + 1;
+                        });
+                    }
+                    displayLeaderboard(entries, referralCounts);
+                    loadStats(entries, referralCounts);
+                });
+            })
+            .catch(function() {
+                document.getElementById('leaderboardContent').innerHTML = '<div class="text-center py-12 text-slate-400"><i class="fas fa-exclamation-triangle text-2xl mb-3 block"></i><p class="text-sm">Unable to load. Try again later.</p></div>';
+            });
         }
 
         function displayLeaderboard(entries, referralCounts) {
-            const content = document.getElementById('leaderboardContent');
-
-            if (entries.length === 0) {
-                content.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-users"></i>
-                        <h3 style="color: white; margin-bottom: 10px;">No Entries Yet</h3>
-                        <p style="color: rgba(255,255,255,0.7);">Be the first to enter the giveaway!</p>
-                    </div>
-                `;
+            var content = document.getElementById('leaderboardContent');
+            if (!entries || entries.length === 0) {
+                content.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="fas fa-users text-2xl mb-3 block"></i><p class="text-sm">No entries yet. Be the first!</p></div>';
                 return;
             }
 
-            let html = '<div class="leaderboard-table">';
-            html += `
-                <div class="table-header">
-                    <div>Rank</div>
-                    <div>Participant</div>
-                    <div>Score</div>
-                    <div>Referrals</div>
-                </div>
-            `;
+            var html = '<div class="bg-white rounded-xl overflow-hidden">';
+            html += '<div class="grid grid-cols-[50px_1fr_80px_60px] gap-2 bg-nerve-800 text-white text-xs font-bold px-4 py-3"><div>#</div><div>Name</div><div class="text-center">Score</div><div class="text-center">Refs</div></div>';
 
-            entries.forEach((entry, index) => {
-                const rank = index + 1;
-                const firstName = entry.name.split(' ')[0];
-                const initial = entry.name.charAt(0).toUpperCase();
-                const referrals = referralCounts[entry.email] || 0;
+            entries.forEach(function(entry, i) {
+                var rank = i + 1;
+                var initial = entry.name.charAt(0).toUpperCase();
+                var refs = referralCounts[entry.email] || 0;
+                var rankLabel = rank <= 3 ? (rank === 1 ? '1st' : rank === 2 ? '2nd' : '3rd') : rank;
+                var rankClass = rank <= 3 ? 'text-primary font-black' : 'text-slate-500';
 
-                let rankDisplay;
-                if (rank === 1) {
-                    rankDisplay = '<div class="rank-badge gold">🥇</div>';
-                } else if (rank === 2) {
-                    rankDisplay = '<div class="rank-badge silver">🥈</div>';
-                } else if (rank === 3) {
-                    rankDisplay = '<div class="rank-badge bronze">🥉</div>';
-                } else {
-                    rankDisplay = `<div class="rank">${rank}</div>`;
-                }
-
-                html += `
-                    <div class="leaderboard-row">
-                        <div>${rankDisplay}</div>
-                        <div class="participant-info">
-                            <div class="participant-avatar">${initial}</div>
-                            <div class="participant-details">
-                                <h4>${firstName}</h4>
-                                <p>Entered ${formatDate(entry.created_at)}</p>
-                            </div>
-                        </div>
-                        <div class="score-badge">${entry.entry_score} pts</div>
-                        <div class="referrals-count">
-                            <i class="fas fa-users"></i> ${referrals}
-                        </div>
-                    </div>
-                `;
+                html += '<div class="grid grid-cols-[50px_1fr_80px_60px] gap-2 items-center px-4 py-3 border-b border-slate-100 text-sm">';
+                html += '<div class="' + rankClass + '">' + rankLabel + '</div>';
+                html += '<div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-nerve-100 flex items-center justify-center text-xs font-bold text-nerve-700">' + initial + '</div><span class="font-semibold text-nerve-900 truncate">' + entry.name.split(' ')[0] + '</span></div>';
+                html += '<div class="text-center"><span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 py-1 rounded-full">' + entry.entry_score + '</span></div>';
+                html += '<div class="text-center text-slate-500 text-xs font-semibold">' + refs + '</div>';
+                html += '</div>';
             });
 
             html += '</div>';
@@ -535,54 +186,14 @@
 
         function loadStats(entries, referralCounts) {
             document.getElementById('totalEntries').textContent = entries.length;
-
-            const qualified = entries.filter(e => e.entry_score >= 15).length;
-            document.getElementById('qualifiedEntries').textContent = qualified;
-
-            const totalRefs = Object.values(referralCounts).reduce((sum, count) => sum + count, 0);
+            document.getElementById('qualifiedEntries').textContent = entries.filter(function(e) { return e.entry_score >= 10; }).length;
+            var totalRefs = 0;
+            Object.keys(referralCounts).forEach(function(key) { totalRefs += referralCounts[key]; });
             document.getElementById('totalReferrals').textContent = totalRefs;
         }
 
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            const now = new Date();
-            const diffMs = now - date;
-            const diffMins = Math.floor(diffMs / 60000);
-            const diffHours = Math.floor(diffMs / 3600000);
-            const diffDays = Math.floor(diffMs / 86400000);
-
-            if (diffMins < 60) return `${diffMins}m ago`;
-            if (diffHours < 24) return `${diffHours}h ago`;
-            if (diffDays < 7) return `${diffDays}d ago`;
-
-            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-        }
-
-        function startCountdown() {
-            function update() {
-                const now = new Date().getTime();
-                const distance = GIVEAWAY_END_DATE - now;
-
-                if (distance < 0) {
-                    document.getElementById('countdownMini').innerHTML = 'ENDED';
-                    return;
-                }
-
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-                document.getElementById('daysLeft').textContent = days;
-                document.getElementById('hoursLeft').textContent = String(hours).padStart(2, '0');
-                document.getElementById('minutesLeft').textContent = String(minutes).padStart(2, '0');
-            }
-
-            update();
-            setInterval(update, 60000);
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            startCountdown();
+        window.addEventListener('DOMContentLoaded', function() {
+            fetchEndDate();
             loadLeaderboard();
             setInterval(loadLeaderboard, 30000);
         });

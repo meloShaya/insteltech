@@ -66,7 +66,7 @@ Deno.serve(async (req: Request) => {
       }
     }
 
-    const isQualified = entryData.joined_whatsapp_channel && entryData.entry_score >= 15;
+    const isQualified = entryData.joined_whatsapp_channel && entryData.entry_score >= 10;
 
     const { data: insertedEntry, error: insertError } = await supabase
       .from("giveaway_entries")
