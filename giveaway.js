@@ -180,7 +180,7 @@ function validateStep(stepElement) {
 }
 
 function joinWhatsApp() {
-    window.open('https://whatsapp.com/channel/0029VbCFBFT9WtBzFDMACY26', '_blank');
+    window.open('https://www.whatsapp.com/channel/0029VbCFBFT9WtBzFDMACY26', '_blank');
     whatsappJoined = true;
     entryScore += 10;
 
