@@ -29,7 +29,20 @@ Deno.serve(async (req: Request) => {
     return new Response("Missing webhook headers", { status: 400 });
   }
 
-  let event: { type: string; data: { email_id: string } };
+  type ReceivedEmailEvent = {
+    type: "email.received";
+    data: {
+      email_id: string;
+      created_at?: string;
+      from?: string;
+      to?: string[];
+      cc?: string[];
+      bcc?: string[];
+      subject?: string;
+    };
+  };
+
+  let event: ReceivedEmailEvent | { type: string; data: { email_id: string } };
   try {
     event = resend.webhooks.verify({
       payload,
@@ -46,10 +59,39 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
+    const safeJoin = (items?: string[]) =>
+      items && items.length > 0 ? items.join(", ") : "None";
+
+    const forwardedText = [
+      "Forwarded message",
+      `From: ${event.data.from ?? "Unknown sender"}`,
+      `To: ${safeJoin(event.data.to)}`,
+      `Cc: ${safeJoin(event.data.cc)}`,
+      `Bcc: ${safeJoin(event.data.bcc)}`,
+      `Date: ${event.data.created_at ?? "Unknown date"}`,
+      `Subject: ${event.data.subject ?? "(no subject)"}`,
+      "",
+    ].join("\n");
+
+    const forwardedHtml = `
+      <div style="font-family: Arial, sans-serif; font-size: 14px; color: #111;">
+        <p style="margin: 0 0 8px;"><strong>Forwarded message</strong></p>
+        <p style="margin: 0;"><strong>From:</strong> ${event.data.from ?? "Unknown sender"}</p>
+        <p style="margin: 0;"><strong>To:</strong> ${safeJoin(event.data.to)}</p>
+        <p style="margin: 0;"><strong>Cc:</strong> ${safeJoin(event.data.cc)}</p>
+        <p style="margin: 0;"><strong>Bcc:</strong> ${safeJoin(event.data.bcc)}</p>
+        <p style="margin: 0;"><strong>Date:</strong> ${event.data.created_at ?? "Unknown date"}</p>
+        <p style="margin: 0 0 12px;"><strong>Subject:</strong> ${event.data.subject ?? "(no subject)"}</p>
+      </div>
+    `;
+
     const { data, error } = await resend.emails.receiving.forward({
       emailId: event.data.email_id,
       to: FORWARD_TO_EMAIL,
       from: FORWARD_FROM_EMAIL,
+      passthrough: false,
+      text: forwardedText,
+      html: forwardedHtml,
     });
 
     if (error) {
