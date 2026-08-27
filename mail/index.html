@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#08111f" />
+    <title>InstelTech Mail</title>
+    <link rel="icon" href="../images/instel.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./mail.css" />
+    <script src="../env-config.js"></script>
+  </head>
+  <body>
+    <main class="app-frame">
+      <section
+        id="auth-screen"
+        class="auth-screen"
+        aria-labelledby="auth-title"
+      >
+        <div class="brand-mark" aria-hidden="true">IT</div>
+        <p class="eyebrow">PRIVATE TEAM MAIL</p>
+        <h1 id="auth-title">InstelTech Mail</h1>
+        <p class="auth-copy">
+          Sign in to read, reply, and send from the shared marketing inbox.
+        </p>
+
+        <form id="login-form" class="stack-form">
+          <label for="login-email">Email address</label>
+          <input
+            id="login-email"
+            name="email"
+            type="email"
+            autocomplete="username"
+            required
+          />
+
+          <label for="login-password">Password</label>
+          <input
+            id="login-password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+          />
+
+          <button class="primary-button" type="submit">Sign in</button>
+          <p
+            id="login-status"
+            class="form-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </form>
+
+        <form id="mfa-form" class="stack-form" hidden>
+          <p class="auth-copy">
+            Enter the six-digit code from your authenticator app to continue.
+          </p>
+          <label for="mfa-code">Verification code</label>
+          <input
+            id="mfa-code"
+            name="code"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            pattern="[0-9]{6}"
+            maxlength="6"
+            required
+          />
+          <button class="primary-button" type="submit">Verify code</button>
+          <p
+            id="mfa-status"
+            class="form-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </form>
+      </section>
+
+      <section id="app-screen" class="app-screen" hidden>
+        <header class="app-header">
+          <div class="brand-lockup">
+            <div class="brand-mark small" aria-hidden="true">IT</div>
+            <div>
+              <p class="eyebrow">INSTELTECH</p>
+              <h1>Mail</h1>
+            </div>
+          </div>
+          <div class="account-actions">
+            <span id="current-user" class="current-user"></span>
+            <button id="sign-out" class="ghost-button" type="button">
+              Sign out
+            </button>
+          </div>
+        </header>
+
+        <div class="mail-layout">
+          <aside class="thread-panel" aria-label="Mailbox threads">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">SHARED INBOX</p>
+                <h2>Conversations</h2>
+              </div>
+              <button
+                id="compose-button"
+                class="primary-button compact"
+                type="button"
+              >
+                New email
+              </button>
+            </div>
+
+            <div class="thread-tools">
+              <label class="sr-only" for="thread-search"
+                >Search conversations</label
+              >
+              <input
+                id="thread-search"
+                type="search"
+                placeholder="Search subject..."
+              />
+              <button
+                id="refresh-button"
+                class="icon-button"
+                type="button"
+                title="Refresh inbox"
+                aria-label="Refresh inbox"
+              >
+                ↻
+              </button>
+            </div>
+
+            <div id="thread-list" class="thread-list" aria-live="polite"></div>
+            <p id="thread-empty" class="empty-state" hidden>
+              No conversations found.
+            </p>
+          </aside>
+
+          <section class="message-panel" aria-live="polite">
+            <div id="message-placeholder" class="message-placeholder">
+              <div class="placeholder-icon" aria-hidden="true">✉</div>
+              <h2>Select a conversation</h2>
+              <p>Choose a thread from the inbox or start a new email.</p>
+            </div>
+            <div id="message-content" hidden>
+              <div class="message-heading">
+                <div>
+                  <p class="eyebrow">CONVERSATION</p>
+                  <h2 id="active-subject"></h2>
+                </div>
+                <button
+                  id="active-reply"
+                  class="secondary-button"
+                  type="button"
+                >
+                  Reply
+                </button>
+              </div>
+              <div id="message-list" class="message-list"></div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <dialog
+        id="compose-dialog"
+        class="compose-dialog"
+        aria-labelledby="compose-title"
+      >
+        <form id="compose-form" class="compose-form">
+          <div class="dialog-heading">
+            <div>
+              <p class="eyebrow">FROM INSTELTECH</p>
+              <h2 id="compose-title">New email</h2>
+              <p class="from-line">
+                InstelTech Marketing &lt;marketing@insteltech.co.zw&gt;
+              </p>
+            </div>
+            <button
+              id="close-compose"
+              class="close-button"
+              type="button"
+              aria-label="Close composer"
+            >
+              ×
+            </button>
+          </div>
+
+          <label for="compose-to">To</label>
+          <input
+            id="compose-to"
+            name="to"
+            type="text"
+            placeholder="client@example.com"
+            autocomplete="email"
+            required
+          />
+          <p class="field-help">Separate multiple recipients with commas.</p>
+
+          <label for="compose-subject">Subject</label>
+          <input
+            id="compose-subject"
+            name="subject"
+            type="text"
+            maxlength="200"
+            required
+          />
+
+          <label for="compose-body">Message</label>
+          <textarea
+            id="compose-body"
+            name="body"
+            rows="9"
+            placeholder="Write your message..."
+            required
+          ></textarea>
+
+          <label for="compose-attachments">PDF attachment</label>
+          <input
+            id="compose-attachments"
+            name="attachments"
+            type="file"
+            accept="application/pdf,.pdf"
+            multiple
+          />
+          <p class="field-help">PDF files only, up to 25 MB total.</p>
+
+          <div class="compose-footer">
+            <p
+              id="compose-status"
+              class="form-status"
+              role="status"
+              aria-live="polite"
+            ></p>
+            <button id="send-button" class="primary-button" type="submit">
+              Send email
+            </button>
+          </div>
+        </form>
+      </dialog>
+
+      <div
+        id="toast"
+        class="toast"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></div>
+    </main>
+
+    <script type="module" src="./mail.js"></script>
+  </body>
+</html>

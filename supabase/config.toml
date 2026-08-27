@@ -1,2 +1,5 @@
 [functions.forward-inbound]
 verify_jwt = false
+
+[functions.mail-send]
+verify_jwt = true
