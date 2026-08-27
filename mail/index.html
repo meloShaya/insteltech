@@ -283,8 +283,10 @@
             <div id="thread-list" class="thread-list" aria-live="polite"></div>
             <p id="thread-empty" class="empty-state" hidden>
               <span class="empty-state-mark" aria-hidden="true">—</span>
-              <strong>No conversations found</strong>
-              <span>Try another search or refresh the inbox.</span>
+              <strong id="thread-empty-title">No conversations found</strong>
+              <span id="thread-empty-copy"
+                >Try another search or refresh the inbox.</span
+              >
             </p>
           </aside>
 
@@ -326,6 +328,17 @@
                 </div>
                 <div class="message-heading-actions">
                   <span class="message-count-label">THREAD</span>
+                  <button
+                    id="active-delete"
+                    class="danger-button"
+                    type="button"
+                    disabled
+                  >
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="M4 6h12m-9 0v10h6V6M8 6V4h4v2m-5 3v5m3-5v5" />
+                    </svg>
+                    <span>Delete</span>
+                  </button>
                   <button
                     id="active-reply"
                     class="secondary-button"
@@ -466,13 +479,45 @@
         </form>
       </dialog>
 
-      <div
-        id="toast"
-        class="toast"
-        role="status"
-        aria-live="polite"
-        hidden
-      ></div>
+      <dialog
+        id="delete-dialog"
+        class="confirm-dialog"
+        aria-labelledby="delete-title"
+      >
+        <form id="delete-form" class="confirm-form">
+          <div class="confirm-icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20">
+              <path d="M4 6h12m-9 0v10h6V6M8 6V4h4v2m-5 3v5m3-5v5" />
+            </svg>
+          </div>
+          <div class="confirm-copy">
+            <p class="dialog-kicker">INBOX ACTION</p>
+            <h2 id="delete-title">Delete this conversation?</h2>
+            <p>
+              It will disappear from this inbox on this device. The stored mail
+              record and its messages will not be deleted.
+            </p>
+          </div>
+          <div class="confirm-actions">
+            <button id="cancel-delete" class="secondary-button" type="button">
+              Keep conversation
+            </button>
+            <button id="confirm-delete" class="danger-button" type="submit">
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M4 6h12m-9 0v10h6V6M8 6V4h4v2m-5 3v5m3-5v5" />
+              </svg>
+              <span>Delete conversation</span>
+            </button>
+          </div>
+        </form>
+      </dialog>
+
+      <div id="toast" class="toast" role="status" aria-live="polite" hidden>
+        <span id="toast-message"></span>
+        <button id="toast-action" class="toast-action" type="button" hidden>
+          Undo
+        </button>
+      </div>
     </main>
 
     <script type="module" src="./mail.js"></script>

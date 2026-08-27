@@ -463,6 +463,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .primary-button,
 .secondary-button,
+.danger-button,
 .ghost-button,
 .icon-button,
 .close-button {
@@ -493,6 +494,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .primary-button svg,
 .secondary-button svg,
+.danger-button svg,
 .ghost-button svg {
   width: 18px;
   height: 18px;
@@ -506,6 +508,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .primary-button:active,
 .secondary-button:active,
+.danger-button:active,
 .icon-button:active,
 .ghost-button:active,
 .close-button:active {
@@ -535,6 +538,24 @@ input[type="search"]::-webkit-search-cancel-button {
   background: var(--navy);
   transform: translate(-1px, -1px);
   box-shadow: 4px 4px 0 var(--red);
+}
+
+.danger-button {
+  min-height: 40px;
+  padding: 10px 13px;
+  color: var(--red-dark);
+  font-size: 0.72rem;
+  background: #ffffff;
+  border-color: #fecaca;
+  box-shadow: 3px 3px 0 #f5c2c2;
+}
+
+.danger-button:hover {
+  color: #ffffff;
+  background: var(--red);
+  border-color: var(--navy);
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--navy);
 }
 
 .ghost-button {
@@ -1017,13 +1038,17 @@ input[type="search"]::-webkit-search-cancel-button {
   scrollbar-width: thin;
 }
 
+.thread-item {
+  position: relative;
+}
+
 .thread-row {
   position: relative;
   display: grid;
   grid-template-columns: 39px minmax(0, 1fr);
   gap: 11px;
   width: 100%;
-  padding: 13px 9px;
+  padding: 13px 43px 13px 9px;
   color: var(--ink);
   text-align: left;
   background: transparent;
@@ -1078,6 +1103,44 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .thread-row.active .thread-avatar {
   background: var(--red);
+}
+
+.thread-delete {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  padding: 0;
+  color: var(--subtle);
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition:
+    opacity 160ms ease,
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.thread-delete svg {
+  width: 15px;
+  height: 15px;
+}
+
+.thread-item:hover .thread-delete,
+.thread-item:focus-within .thread-delete {
+  opacity: 1;
+}
+
+.thread-delete:hover {
+  color: var(--red);
+  background: var(--red-pale);
+  border-color: #fecaca;
 }
 
 .thread-row-copy {
@@ -1681,13 +1744,81 @@ input[type="search"]::-webkit-search-cancel-button {
   margin: 0;
 }
 
+.confirm-dialog {
+  width: min(470px, calc(100% - 28px));
+  margin: auto;
+  padding: 0;
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--navy);
+  border-radius: 16px;
+  box-shadow: 8px 8px 0 var(--navy);
+}
+
+.confirm-dialog::backdrop {
+  background: rgba(15, 29, 46, 0.7);
+  backdrop-filter: blur(3px);
+}
+
+.confirm-form {
+  display: grid;
+  gap: 17px;
+  padding: 25px;
+}
+
+.confirm-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  color: var(--red);
+  background: var(--red-pale);
+  border: 1px solid #fecaca;
+  border-radius: 11px;
+}
+
+.confirm-icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.confirm-copy .dialog-kicker {
+  margin-bottom: 9px;
+}
+
+.confirm-copy h2 {
+  margin: 0 0 9px;
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1.08;
+}
+
+.confirm-copy p:last-child {
+  max-width: 380px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 5px;
+}
+
 .toast {
   position: fixed;
   right: clamp(12px, 2.5vw, 34px);
   bottom: clamp(12px, 2.5vw, 34px);
   z-index: 10;
   width: min(380px, calc(100% - 24px));
-  padding: 13px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 12px 11px 15px;
   color: #ffffff;
   font-size: 0.72rem;
   font-weight: 800;
@@ -1697,6 +1828,22 @@ input[type="search"]::-webkit-search-cancel-button {
   border-left: 6px solid var(--red);
   border-radius: 9px;
   box-shadow: 5px 5px 0 var(--red);
+}
+
+.toast-action {
+  flex: 0 0 auto;
+  padding: 6px 7px;
+  color: var(--orange);
+  font-size: 0.68rem;
+  font-weight: 900;
+  background: transparent;
+  border: 0;
+}
+
+.toast-action:hover {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .sr-only {
@@ -1854,6 +2001,10 @@ input[type="search"]::-webkit-search-cancel-button {
     padding: 2px 7px 13px;
   }
 
+  .thread-delete {
+    opacity: 1;
+  }
+
   .message-panel {
     min-height: calc(100dvh - 155px);
   }
@@ -1872,11 +2023,14 @@ input[type="search"]::-webkit-search-cancel-button {
   }
 
   .message-heading {
+    position: relative;
     gap: 12px;
     padding: 17px 14px 15px;
   }
 
   .message-heading-main {
+    width: 100%;
+    padding-right: 85px;
     gap: 10px;
   }
 
@@ -1885,7 +2039,14 @@ input[type="search"]::-webkit-search-cancel-button {
   }
 
   .message-heading-actions {
+    position: absolute;
+    top: 15px;
+    right: 14px;
     padding-top: 7px;
+  }
+
+  .message-heading-actions {
+    gap: 7px;
   }
 
   .message-count-label {
@@ -1942,6 +2103,25 @@ input[type="search"]::-webkit-search-cancel-button {
   .compose-footer .primary-button {
     width: 100%;
   }
+
+  .confirm-dialog {
+    width: calc(100% - 16px);
+    border-radius: 15px;
+    box-shadow: 6px 6px 0 var(--navy);
+  }
+
+  .confirm-form {
+    padding: 21px 17px 17px;
+  }
+
+  .confirm-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .confirm-actions button {
+    width: 100%;
+  }
 }
 
 @media (max-width: 460px) {
@@ -1973,6 +2153,14 @@ input[type="search"]::-webkit-search-cancel-button {
     padding: 0;
   }
 
+  .message-heading-actions .danger-button,
+  .message-heading-actions .secondary-button {
+    width: 38px;
+    min-height: 38px;
+    padding: 0;
+  }
+
+  .message-heading-actions .danger-button span,
   .message-heading-actions .secondary-button span {
     display: none;
   }

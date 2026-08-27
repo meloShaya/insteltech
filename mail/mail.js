@@ -25,6 +25,7 @@ const ATTACHMENT_CONTENT_TYPES = Object.freeze({
   ".jpeg": "image/jpeg",
   ".png": "image/png",
 });
+const HIDDEN_THREADS_STORAGE_PREFIX = "insteltech-mail-hidden-threads:";
 
 const elements = {
   authScreen: document.getElementById("auth-screen"),
@@ -54,14 +55,23 @@ const elements = {
   threadFilterCount: document.getElementById("thread-filter-count"),
   threadList: document.getElementById("thread-list"),
   threadEmpty: document.getElementById("thread-empty"),
+  threadEmptyTitle: document.getElementById("thread-empty-title"),
+  threadEmptyCopy: document.getElementById("thread-empty-copy"),
   messagePlaceholder: document.getElementById("message-placeholder"),
   messageContent: document.getElementById("message-content"),
   activeSubject: document.getElementById("active-subject"),
   activeReply: document.getElementById("active-reply"),
+  activeDelete: document.getElementById("active-delete"),
   mobileThreadBack: document.getElementById("mobile-thread-back"),
   messageList: document.getElementById("message-list"),
   attachmentSummary: document.getElementById("attachment-summary"),
+  deleteDialog: document.getElementById("delete-dialog"),
+  deleteForm: document.getElementById("delete-form"),
+  cancelDelete: document.getElementById("cancel-delete"),
+  confirmDelete: document.getElementById("confirm-delete"),
   toast: document.getElementById("toast"),
+  toastMessage: document.getElementById("toast-message"),
+  toastAction: document.getElementById("toast-action"),
 };
 
 const supabase =
@@ -79,15 +89,30 @@ let replyTarget = null;
 let toastTimer = null;
 let mfaFactorId = null;
 let mfaChallengeId = null;
+let hiddenThreadIds = new Set();
+let pendingDeleteThreadId = null;
 
 function setStatus(element, message, kind = "error") {
   element.textContent = message || "";
   element.classList.toggle("success", kind === "success");
 }
 
-function showToast(message) {
+function hideToast() {
   window.clearTimeout(toastTimer);
-  elements.toast.textContent = message;
+  elements.toast.hidden = true;
+}
+
+function showToast(message, action = null) {
+  window.clearTimeout(toastTimer);
+  elements.toastMessage.textContent = message;
+  elements.toastAction.hidden = !action;
+  elements.toastAction.textContent = action?.label || "Undo";
+  elements.toastAction.onclick = action
+    ? () => {
+        hideToast();
+        action.onClick();
+      }
+    : null;
   elements.toast.hidden = false;
   toastTimer = window.setTimeout(() => {
     elements.toast.hidden = true;
@@ -169,6 +194,39 @@ function updateAttachmentSummary() {
       ? `${Math.round(totalBytes / 1024)} KB`
       : `${totalMb.toFixed(1)} MB`;
   elements.attachmentSummary.textContent = `${files.length} ${files.length === 1 ? "file" : "files"} selected · ${size} total`;
+}
+
+function hiddenThreadsStorageKey() {
+  return currentUser?.id
+    ? `${HIDDEN_THREADS_STORAGE_PREFIX}${currentUser.id}`
+    : null;
+}
+
+function loadHiddenThreadIds() {
+  const key = hiddenThreadsStorageKey();
+  if (!key) return new Set();
+
+  try {
+    const value = JSON.parse(window.localStorage.getItem(key) || "[]");
+    return new Set(
+      Array.isArray(value)
+        ? value.filter((threadId) => typeof threadId === "string")
+        : [],
+    );
+  } catch {
+    return new Set();
+  }
+}
+
+function saveHiddenThreadIds() {
+  const key = hiddenThreadsStorageKey();
+  if (!key) return;
+
+  try {
+    window.localStorage.setItem(key, JSON.stringify([...hiddenThreadIds]));
+  } catch {
+    // The inbox still works for this session when storage is unavailable.
+  }
 }
 
 function safeFilename(filename) {
@@ -264,6 +322,8 @@ async function applySession(nextSession) {
     activeThreadId = null;
     activeThread = null;
     activeMessages = [];
+    hiddenThreadIds = new Set();
+    elements.activeDelete.disabled = true;
     updateMobileThreadState();
     return;
   }
@@ -278,6 +338,7 @@ async function applySession(nextSession) {
   elements.currentUser.textContent =
     currentUser.email || "Signed-in team member";
   elements.userAvatar.textContent = initials(currentUser.email);
+  hiddenThreadIds = loadHiddenThreadIds();
   await loadThreads();
 }
 
@@ -293,7 +354,7 @@ async function loadThreads() {
       .limit(100);
     if (error) throw error;
 
-    threads = data || [];
+    threads = (data || []).filter((thread) => !hiddenThreadIds.has(thread.id));
     renderThreads();
     if (
       activeThreadId &&
@@ -320,8 +381,21 @@ function renderThreads() {
   elements.threadCount.textContent = `${threads.length} ${threads.length === 1 ? "conversation" : "conversations"}`;
   elements.threadFilterCount.textContent = String(filtered.length);
   elements.navInboxCount.textContent = String(threads.length);
+  elements.threadEmptyTitle.textContent = search
+    ? "No conversations found"
+    : threads.length === 0
+      ? "Your inbox is clear"
+      : "No conversations found";
+  elements.threadEmptyCopy.textContent = search
+    ? "Try another search or refresh the inbox."
+    : threads.length === 0
+      ? "New messages will appear here when they arrive."
+      : "Try another search or refresh the inbox.";
 
   for (const thread of filtered) {
+    const item = document.createElement("div");
+    item.className = "thread-item";
+
     const button = document.createElement("button");
     button.type = "button";
     button.className = `thread-row${thread.id === activeThreadId ? " active" : ""}`;
@@ -356,14 +430,92 @@ function renderThreads() {
     top.append(subject, date);
     copy.append(top, preview);
     button.append(avatar, copy);
-    elements.threadList.append(button);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "thread-delete";
+    deleteButton.title = "Delete conversation";
+    deleteButton.setAttribute(
+      "aria-label",
+      `Delete ${thread.subject || "conversation"}`,
+    );
+    deleteButton.innerHTML =
+      '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12m-9 0v10h6V6M8 6V4h4v2m-5 3v5m3-5v5" /></svg>';
+    deleteButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      requestDeleteThread(thread.id);
+    });
+
+    item.append(button, deleteButton);
+    elements.threadList.append(item);
   }
+}
+
+function closeDeleteDialog() {
+  if (typeof elements.deleteDialog.close === "function") {
+    elements.deleteDialog.close();
+  } else {
+    elements.deleteDialog.removeAttribute("open");
+  }
+  pendingDeleteThreadId = null;
+}
+
+function requestDeleteThread(threadId) {
+  if (!threads.some((thread) => thread.id === threadId)) return;
+  pendingDeleteThreadId = threadId;
+
+  if (typeof elements.deleteDialog.showModal === "function") {
+    elements.deleteDialog.showModal();
+  } else {
+    elements.deleteDialog.setAttribute("open", "");
+  }
+  elements.confirmDelete.focus();
+}
+
+function restoreThread(thread, originalIndex) {
+  hiddenThreadIds.delete(thread.id);
+  saveHiddenThreadIds();
+
+  if (!threads.some((item) => item.id === thread.id)) {
+    threads.splice(Math.min(originalIndex, threads.length), 0, thread);
+  }
+  renderThreads();
+  showToast("Conversation restored to your inbox.");
+}
+
+function deleteThread(threadId) {
+  const originalIndex = threads.findIndex((thread) => thread.id === threadId);
+  if (originalIndex < 0) return;
+
+  const thread = threads[originalIndex];
+  hiddenThreadIds.add(threadId);
+  saveHiddenThreadIds();
+  threads.splice(originalIndex, 1);
+
+  if (activeThreadId === threadId) {
+    clearActiveThread();
+  } else {
+    renderThreads();
+  }
+
+  showToast("Conversation deleted from this device.", {
+    label: "Undo",
+    onClick: () => restoreThread(thread, originalIndex),
+  });
+}
+
+function handleDeleteSubmit(event) {
+  event.preventDefault();
+  const threadId = pendingDeleteThreadId;
+  closeDeleteDialog();
+  if (threadId) deleteThread(threadId);
 }
 
 function clearActiveThread() {
   activeThreadId = null;
   activeThread = null;
   activeMessages = [];
+  elements.activeDelete.disabled = true;
   elements.messagePlaceholder.hidden = false;
   elements.messageContent.hidden = true;
   elements.messageList.replaceChildren();
@@ -378,6 +530,7 @@ async function openThread(threadId) {
 
   activeThreadId = threadId;
   activeThread = thread;
+  elements.activeDelete.disabled = false;
   updateMobileThreadState();
   renderThreads();
   elements.messagePlaceholder.hidden = true;
@@ -750,6 +903,14 @@ async function init() {
   });
   elements.composeButton.addEventListener("click", () => openCompose());
   elements.closeCompose.addEventListener("click", closeCompose);
+  elements.activeDelete.addEventListener("click", () => {
+    if (activeThreadId) requestDeleteThread(activeThreadId);
+  });
+  elements.deleteForm.addEventListener("submit", handleDeleteSubmit);
+  elements.cancelDelete.addEventListener("click", closeDeleteDialog);
+  elements.deleteDialog.addEventListener("close", () => {
+    pendingDeleteThreadId = null;
+  });
   elements.composeAttachments.addEventListener(
     "change",
     updateAttachmentSummary,
