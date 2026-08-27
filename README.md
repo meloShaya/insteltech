@@ -10,7 +10,7 @@ This repository contains the InstelTech marketing website, giveaway pages, Supab
 | Contact/giveaway processing | Deployed Supabase Edge Functions                | Supabase function secrets                                                |
 | Mobile inbox and composer   | `https://insteltech.co.zw/mail/` in the browser | Supabase Auth session; no Resend key                                     |
 | Mail sending/receiving      | Supabase Edge Functions → Resend                | `RESEND_API_KEY` in Supabase                                             |
-| Manual PDF sender           | This PC’s Node.js terminal                      | `RESEND_API_KEY` in that terminal                                        |
+| Manual mail sender          | This PC’s Node.js terminal                      | `RESEND_API_KEY` in that terminal                                        |
 
 The new portal is the recommended way to send from a phone. Log in at:
 
@@ -41,7 +41,7 @@ The portal is not a local script. The browser calls authenticated Supabase funct
 │   ├── mail.js                        Auth, inbox, compose, and reply behavior
 │   └── mail.css                       Portal styles
 ├── scripts/
-│   ├── send-client-email.mjs          Manual local PDF sender
+│   ├── send-client-email.mjs          Manual local mail sender
 │   └── README.md                      Manual sender notes
 └── supabase/
     ├── config.toml                    Function configuration
@@ -145,7 +145,7 @@ Publish the repository’s static files using the existing hosting process. The 
 2. Sign in with an invited team account.
 3. Select a conversation or choose **New email**.
 4. Enter the client address, subject, and message.
-5. Attach one or more PDFs and choose **Send email**.
+5. Optionally attach files and choose **Send email**.
 6. Confirm the sent message and delivery status in the thread.
 
 Every message is sent as:
@@ -154,11 +154,11 @@ Every message is sent as:
 InstelTech Marketing <marketing@insteltech.co.zw>
 ```
 
-The first portal release intentionally focuses on core mail: inbox threads, message reading, attachment downloads, compose, reply, subject search, and sent/error status. Drafts, folders, spam controls, bulk actions, and advanced Gmail-style search are not included.
+The portal supports PDF, Word, Excel, CSV, text, RTF, PowerPoint, OpenDocument, JPG, JPEG, and PNG attachments. Attachments are optional, with up to 10 files and 25 MB combined. The first portal release intentionally focuses on core mail: inbox threads, message reading, attachment downloads, compose, reply, subject search, and sent/error status. Drafts, folders, spam controls, bulk actions, and advanced Gmail-style search are not included.
 
-## Manual PDF sender — this PC only
+## Manual mail sender — this PC only
 
-Use [scripts/send-client-email.mjs](scripts/send-client-email.mjs) when you are working from a trusted computer. It reads a local PDF and sends it directly to Resend; it is not deployed to Supabase.
+Use [scripts/send-client-email.mjs](scripts/send-client-email.mjs) when you are working from a trusted computer. It sends directly to Resend; it is not deployed to Supabase. Attachments are optional. Use `--attachment` for any supported file and repeat it for multiple files; the older `--pdf` option remains accepted as an alias.
 
 ```bash
 read -r -s RESEND_API_KEY
@@ -166,12 +166,12 @@ export RESEND_API_KEY
 
 node scripts/send-client-email.mjs \
   --to client@example.com \
-  --pdf "/absolute/path/to/document.pdf" \
+  --attachment "/absolute/path/to/document.pdf" \
   --subject "Your InstelTech document" \
   --message $'Dear Team,\n\nPlease find your document attached.\n\nKind regards,\n\nInstel Technologies'
 ```
 
-Run `--dry-run` first. The script validates the PDF and prints the recipient, fixed sender, subject, filename, and size without contacting Resend. See [scripts/README.md](scripts/README.md) for the full manual-sending notes.
+Run `--dry-run` first. The script validates the message and attachments and prints the recipient, fixed sender, subject, filenames, and sizes without contacting Resend. To send without an attachment, omit `--attachment` and `--pdf`. See [scripts/README.md](scripts/README.md) for the full manual-sending notes.
 
 ## Existing email flows
 
@@ -201,7 +201,7 @@ Open <http://localhost:8080>. The local portal can be previewed at <http://local
 | Portal shows configuration missing          | `env-config.js` is present and contains the public Supabase values.                         | Do not add the Resend key to that file.                     |
 | Login succeeds but inbox is empty/forbidden | The Auth user exists in `mail_members` and `active` is true.                                | Add or correct membership in Supabase SQL Editor.           |
 | Sending fails with 401/403                  | The session is valid, membership is active, and `RESEND_API_KEY` is configured in Supabase. | Do not paste the key into the browser.                      |
-| PDF upload fails                            | The file is a PDF and the total upload is below 25 MB.                                      | Do not retry with an unknown or stale file.                 |
+| Attachment upload fails                     | The format is supported and the total upload is below 25 MB.                                | Do not retry with an unknown or stale file.                 |
 | Inbound mail is missing                     | Resend webhook URL/signing secret, MX records, and `forward-inbound` logs.                  | Keep the personal forwarding backup enabled during rollout. |
 | A send times out                            | Check Resend delivery/message status before retrying.                                       | Do not blindly resend; this can duplicate the email.        |
 | From address is rejected                    | The sending domain is verified and `marketing@insteltech.co.zw` is allowed.                 | Do not change the sender to an unverified domain.           |
@@ -215,7 +215,7 @@ node --check scripts/send-client-email.mjs
 node scripts/send-client-email.mjs --help
 ```
 
-For a live acceptance test, use a non-sensitive PDF and a test mailbox. Confirm login, upload, sender identity, attachment delivery, inbound storage, backup forwarding, reply threading, and the duplicate-send guard before inviting the wider team.
+For a live acceptance test, use a test mailbox and non-sensitive messages with no attachment, a PDF, and an office/CSV file. Confirm login, sender identity, delivery, attachment delivery, inbound storage, backup forwarding, reply threading, and the duplicate-send guard before inviting the wider team.
 
 ## Security and retention
 

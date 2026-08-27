@@ -1,7 +1,31 @@
 export const MAIL_FROM = "InstelTech Marketing <marketing@insteltech.co.zw>";
 export const MAIL_FROM_ADDRESS = "marketing@insteltech.co.zw";
 export const MAIL_ATTACHMENTS_BUCKET = "mail-attachments";
+export const MAX_ATTACHMENTS = 10;
 export const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
+
+export const MAIL_ATTACHMENT_CONTENT_TYPES: Readonly<Record<string, string>> =
+  Object.freeze({
+    ".pdf": "application/pdf",
+    ".doc": "application/msword",
+    ".docx":
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ".xls": "application/vnd.ms-excel",
+    ".xlsx":
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ".csv": "text/csv",
+    ".txt": "text/plain",
+    ".rtf": "application/rtf",
+    ".ppt": "application/vnd.ms-powerpoint",
+    ".pptx":
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    ".odt": "application/vnd.oasis.opendocument.text",
+    ".ods": "application/vnd.oasis.opendocument.spreadsheet",
+    ".odp": "application/vnd.oasis.opendocument.presentation",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
+  });
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -13,6 +37,62 @@ export type MailAttachmentInput = {
   content_type?: string;
   byte_size?: number;
 };
+
+export type ResendAttachment = {
+  filename: string;
+  content: string;
+  content_type?: string;
+};
+
+export type ResendPayloadInput = {
+  to: string[];
+  subject: string;
+  text: string;
+  html?: string;
+  cc?: string[];
+  bcc?: string[];
+  inReplyTo?: string | null;
+  references?: string | null;
+  attachments?: ResendAttachment[];
+};
+
+export type ResendPayload = {
+  from: string;
+  to: string[];
+  subject: string;
+  text: string;
+  html?: string;
+  cc?: string[];
+  bcc?: string[];
+  headers?: Record<string, string>;
+  attachments?: ResendAttachment[];
+};
+
+export function buildResendPayload(input: ResendPayloadInput): ResendPayload {
+  const attachments = input.attachments ?? [];
+  const headers = {
+    ...(input.inReplyTo ? { "In-Reply-To": input.inReplyTo } : {}),
+    ...(input.references ? { References: input.references } : {}),
+  };
+
+  return {
+    from: MAIL_FROM,
+    to: input.to,
+    subject: input.subject,
+    text: input.text,
+    ...(input.html ? { html: input.html } : {}),
+    ...(input.cc && input.cc.length > 0 ? { cc: input.cc } : {}),
+    ...(input.bcc && input.bcc.length > 0 ? { bcc: input.bcc } : {}),
+    ...(attachments.length > 0 ? { attachments } : {}),
+    ...(Object.keys(headers).length > 0 ? { headers } : {}),
+  };
+}
+
+export function attachmentContentType(filename: string): string | null {
+  const dot = filename.lastIndexOf(".");
+  const extension = dot >= 0 ? filename.slice(dot).toLowerCase() : "";
+  return MAIL_ATTACHMENT_CONTENT_TYPES[extension] ?? null;
+}
 
 export function asAddressList(value: AddressInput): string[] {
   const values = Array.isArray(value) ? value : value ? [value] : [];

@@ -5,33 +5,95 @@ import { basename, resolve } from "node:path";
 
 const RESEND_API_URL = "https://api.resend.com/emails";
 const FROM = "InstelTech Marketing <marketing@insteltech.co.zw>";
+const MAX_ATTACHMENTS = 10;
+const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
+const ATTACHMENT_CONTENT_TYPES = Object.freeze({
+  ".pdf": "application/pdf",
+  ".doc": "application/msword",
+  ".docx":
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ".xls": "application/vnd.ms-excel",
+  ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  ".csv": "text/csv",
+  ".txt": "text/plain",
+  ".rtf": "application/rtf",
+  ".ppt": "application/vnd.ms-powerpoint",
+  ".pptx":
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  ".odt": "application/vnd.oasis.opendocument.text",
+  ".ods": "application/vnd.oasis.opendocument.spreadsheet",
+  ".odp": "application/vnd.oasis.opendocument.presentation",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".png": "image/png",
+});
 
 const USAGE = `Usage:
-  RESEND_API_KEY=... node scripts/send-client-email.mjs \\
-    --to client@example.com \\
-    --pdf ./path/to/document.pdf \\
-    --subject "Your InstelTech document" \\
-    --message "Please find your document attached."
+  RESEND_API_KEY=... node scripts/send-client-email.mjs \
+    --to client@example.com \
+    --subject "Your InstelTech document" \
+    --message $'Dear Team,\n\nPlease find your document attached.' \
+    --attachment ./path/to/document.pdf
 
 Options:
-  --to       Recipient email address. Comma-separated addresses are supported.
-  --pdf      Path to the PDF file to attach.
-  --subject  Email subject.
-  --message  Plain-text email body.
-  --reply-to Optional reply-to email address.
-  --dry-run  Validate the inputs without sending an email.
-  --help     Show this help text.
+  --to         Recipient email address. Comma-separated addresses are supported.
+  --attachment Path to a file to attach. Repeat for multiple files.
+  --pdf        Backward-compatible alias for --attachment.
+  --subject    Email subject.
+  --message    Plain-text email body.
+  --reply-to   Optional reply-to email address.
+  --dry-run    Validate the inputs without sending an email.
+  --help       Show this help text.
+
+Attachments may be PDF, Word, Excel, CSV, text, RTF, PowerPoint, OpenDocument,
+JPG, JPEG, or PNG files. The combined attachment limit is 25 MB.
 `;
 
 function fail(message) {
   throw new Error(`${message}\n\n${USAGE}`);
 }
 
+function attachmentContentType(filename) {
+  const dot = filename.lastIndexOf(".");
+  const extension = dot >= 0 ? filename.slice(dot).toLowerCase() : "";
+  return ATTACHMENT_CONTENT_TYPES[extension] || null;
+}
+
+function startsWithBytes(bytes, prefix) {
+  return prefix.every((byte, index) => bytes[index] === byte);
+}
+
+function validateAttachmentBytes(filename, bytes) {
+  const extension = filename.slice(filename.lastIndexOf(".")).toLowerCase();
+
+  if (
+    extension === ".pdf" &&
+    bytes.subarray(0, 5).toString("ascii") !== "%PDF-"
+  ) {
+    fail(`${filename} is not a valid PDF`);
+  }
+
+  if (
+    [".doc", ".xls", ".ppt"].includes(extension) &&
+    !startsWithBytes(bytes, [0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1])
+  ) {
+    fail(`${filename} is not a valid legacy Office document`);
+  }
+
+  if (
+    [".docx", ".xlsx", ".pptx", ".odt", ".ods", ".odp"].includes(extension) &&
+    !startsWithBytes(bytes, [0x50, 0x4b, 0x03, 0x04])
+  ) {
+    fail(`${filename} is not a valid Office document`);
+  }
+}
+
 function parseArgs(args) {
-  const options = { dryRun: false };
+  const options = { dryRun: false, attachments: [] };
   const optionNames = new Map([
     ["to", "to"],
-    ["pdf", "pdf"],
+    ["attachment", "attachment"],
+    ["pdf", "attachment"],
     ["subject", "subject"],
     ["message", "message"],
     ["reply-to", "replyTo"],
@@ -71,10 +133,14 @@ function parseArgs(args) {
       fail(`Missing value for --${option}`);
     }
 
-    options[key] = value;
+    if (key === "attachment") {
+      options.attachments.push(value);
+    } else {
+      options[key] = value;
+    }
   }
 
-  for (const required of ["to", "pdf", "subject", "message"]) {
+  for (const required of ["to", "subject", "message"]) {
     if (!options[required]) {
       fail(`Missing required option: --${required}`);
     }
@@ -111,6 +177,40 @@ function validateEmailAddress(value, optionName) {
   }
 }
 
+async function loadAttachments(paths) {
+  if (paths.length > MAX_ATTACHMENTS) {
+    fail(`At most ${MAX_ATTACHMENTS} attachments are allowed`);
+  }
+
+  let totalBytes = 0;
+  const attachments = [];
+
+  for (const pathValue of paths) {
+    const filePath = resolve(pathValue);
+    const filename = basename(filePath);
+    const contentType = attachmentContentType(filename);
+    if (!contentType) {
+      fail(`Unsupported attachment format: ${filename}`);
+    }
+
+    const bytes = await readFile(filePath);
+    validateAttachmentBytes(filename, bytes);
+    totalBytes += bytes.length;
+    if (totalBytes > MAX_ATTACHMENT_BYTES) {
+      fail("Combined attachments exceed the 25 MB limit");
+    }
+
+    attachments.push({
+      filename,
+      content: bytes.toString("base64"),
+      content_type: contentType,
+      byte_size: bytes.length,
+    });
+  }
+
+  return attachments;
+}
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
   const recipients = parseRecipients(options.to);
@@ -119,28 +219,25 @@ async function main() {
     validateEmailAddress(options.replyTo, "--reply-to");
   }
 
-  const pdfPath = resolve(options.pdf);
-  const pdf = await readFile(pdfPath);
-
-  if (pdf.length < 5 || pdf.subarray(0, 5).toString("ascii") !== "%PDF-") {
-    fail(`The attachment does not look like a PDF: ${pdfPath}`);
-  }
-
+  const attachments = await loadAttachments(options.attachments);
   const payload = {
     from: FROM,
     to: recipients,
     subject: options.subject,
     text: options.message,
-    attachments: [
-      {
-        filename: basename(pdfPath),
-        content: pdf.toString("base64"),
-      },
-    ],
   };
 
   if (options.replyTo) {
     payload.reply_to = options.replyTo;
+  }
+  if (attachments.length > 0) {
+    payload.attachments = attachments.map(
+      ({ filename, content, content_type }) => ({
+        filename,
+        content,
+        content_type,
+      }),
+    );
   }
 
   if (options.dryRun) {
@@ -150,10 +247,10 @@ async function main() {
           from: payload.from,
           to: payload.to,
           subject: payload.subject,
-          attachment: {
-            filename: payload.attachments[0].filename,
-            bytes: pdf.length,
-          },
+          attachments: attachments.map(({ filename, byte_size }) => ({
+            filename,
+            bytes: byte_size,
+          })),
         },
         null,
         2,
@@ -186,9 +283,7 @@ async function main() {
 
   if (!response.ok) {
     const details = responseBody?.message || responseBody?.name || responseText;
-    throw new Error(
-      `Resend rejected the email (${response.status}): ${details}`,
-    );
+    throw new Error(`Resend rejected email (${response.status}): ${details}`);
   }
 
   console.log(

@@ -213,15 +213,18 @@
             required
           ></textarea>
 
-          <label for="compose-attachments">PDF attachment</label>
+          <label for="compose-attachments">Attachments</label>
           <input
             id="compose-attachments"
             name="attachments"
             type="file"
-            accept="application/pdf,.pdf"
+            accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.rtf,.ppt,.pptx,.odt,.ods,.odp,.jpg,.jpeg,.png"
             multiple
           />
-          <p class="field-help">PDF files only, up to 25 MB total.</p>
+          <p class="field-help">
+            PDF, Word, Excel, CSV, text, presentation, OpenDocument, or image
+            files; up to 25 MB total.
+          </p>
 
           <div class="compose-footer">
             <p

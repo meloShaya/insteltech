@@ -4,7 +4,27 @@ const SUPABASE_URL = window.VITE_SUPABASE_URL || "";
 const SUPABASE_ANON_KEY = window.VITE_SUPABASE_ANON_KEY || "";
 const ATTACHMENTS_BUCKET = "mail-attachments";
 const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
-const MAX_ATTACHMENTS = 5;
+const MAX_ATTACHMENTS = 10;
+const ATTACHMENT_CONTENT_TYPES = Object.freeze({
+  ".pdf": "application/pdf",
+  ".doc": "application/msword",
+  ".docx":
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ".xls": "application/vnd.ms-excel",
+  ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  ".csv": "text/csv",
+  ".txt": "text/plain",
+  ".rtf": "application/rtf",
+  ".ppt": "application/vnd.ms-powerpoint",
+  ".pptx":
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  ".odt": "application/vnd.oasis.opendocument.text",
+  ".ods": "application/vnd.oasis.opendocument.spreadsheet",
+  ".odp": "application/vnd.oasis.opendocument.presentation",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".png": "image/png",
+});
 
 const elements = {
   authScreen: document.getElementById("auth-screen"),
@@ -95,6 +115,12 @@ function formatDate(value) {
 function safeFilename(filename) {
   const value = filename.trim().replace(/[^a-zA-Z0-9._-]/g, "_");
   return value || "attachment.pdf";
+}
+
+function attachmentContentType(filename) {
+  const dot = filename.lastIndexOf(".");
+  const extension = dot >= 0 ? filename.slice(dot).toLowerCase() : "";
+  return ATTACHMENT_CONTENT_TYPES[extension] || null;
 }
 
 async function invokeErrorMessage(error) {
@@ -458,15 +484,16 @@ function closeCompose() {
 async function uploadAttachments(files) {
   if (!supabase || !currentUser) throw new Error(activeMemberMessage());
   if (files.length > MAX_ATTACHMENTS) {
-    throw new Error(`You can attach at most ${MAX_ATTACHMENTS} PDFs`);
+    throw new Error(`You can attach at most ${MAX_ATTACHMENTS} files`);
   }
 
   let totalBytes = 0;
   const uploaded = [];
   for (const file of files) {
     const filename = safeFilename(file.name);
-    if (!filename.toLowerCase().endsWith(".pdf")) {
-      throw new Error("Only PDF attachments are supported");
+    const contentType = attachmentContentType(filename);
+    if (!contentType) {
+      throw new Error(`This file format is not supported: ${filename}`);
     }
     totalBytes += file.size;
     if (totalBytes > MAX_ATTACHMENT_BYTES) {
@@ -476,12 +503,12 @@ async function uploadAttachments(files) {
     const path = `outgoing/${currentUser.id}/${crypto.randomUUID()}-${filename}`;
     const { error } = await supabase.storage
       .from(ATTACHMENTS_BUCKET)
-      .upload(path, file, { contentType: "application/pdf", upsert: false });
+      .upload(path, file, { contentType, upsert: false });
     if (error) throw error;
     uploaded.push({
       path,
       filename,
-      content_type: "application/pdf",
+      content_type: contentType,
       byte_size: file.size,
     });
   }
@@ -524,7 +551,7 @@ async function sendCompose(event) {
         client_send_id: crypto.randomUUID(),
         in_reply_to: replyTarget?.internet_message_id || undefined,
         references: references || undefined,
-        attachments,
+        ...(attachments.length > 0 ? { attachments } : {}),
       },
     });
     if (error) throw new Error(await invokeErrorMessage(error));

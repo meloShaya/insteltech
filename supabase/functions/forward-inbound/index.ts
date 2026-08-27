@@ -2,6 +2,7 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { Resend } from "npm:resend";
 import {
+  attachmentContentType,
   escapeHtml,
   headerValue,
   MAIL_ATTACHMENTS_BUCKET,
@@ -62,7 +63,7 @@ type ReceivedAttachmentDetail = {
   id: string;
   filename?: string;
   size: number;
-  content_type: string;
+  content_type?: string;
   download_url: string;
 };
 
@@ -155,14 +156,16 @@ async function loadInboundAttachments(
       detail.filename ?? attachment.filename,
       "attachment.bin",
     );
+    const contentType =
+      detail.content_type ||
+      attachment.content_type ||
+      attachmentContentType(filename) ||
+      "application/octet-stream";
     const storagePath = `inbound/${emailId}/${crypto.randomUUID()}-${filename}`;
     const { error: uploadError } = await supabase.storage
       .from(MAIL_ATTACHMENTS_BUCKET)
       .upload(storagePath, bytes, {
-        contentType:
-          detail.content_type ||
-          attachment.content_type ||
-          "application/octet-stream",
+        contentType,
         upsert: false,
       });
     if (uploadError) throw new Error(`could not store ${filename}`);
@@ -171,10 +174,7 @@ async function loadInboundAttachments(
       provider_attachment_id: attachment.id,
       storage_path: storagePath,
       filename,
-      content_type:
-        detail.content_type ||
-        attachment.content_type ||
-        "application/octet-stream",
+      content_type: contentType,
       byte_size: bytes.length,
     });
   }

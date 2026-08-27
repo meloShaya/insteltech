@@ -3,10 +3,12 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import {
   assertEmailAddresses,
   assertOptionalEmailAddresses,
+  attachmentContentType,
   bytesToBase64,
+  buildResendPayload,
   MAIL_ATTACHMENTS_BUCKET,
-  MAIL_FROM,
   MAX_ATTACHMENT_BYTES,
+  MAX_ATTACHMENTS,
   normalizeSubject,
   safeFilename,
   type MailAttachmentInput,
@@ -16,7 +18,6 @@ const RESEND_API_URL = "https://api.resend.com/emails";
 const MAX_RECIPIENTS = 50;
 const MAX_SUBJECT_LENGTH = 200;
 const MAX_BODY_LENGTH = 100_000;
-const MAX_ATTACHMENTS = 5;
 const ALLOWED_ORIGINS = new Set([
   "https://insteltech.co.zw",
   "https://www.insteltech.co.zw",
@@ -83,6 +84,35 @@ function assertRecipientsLimit(addresses: string[], label: string): void {
   }
 }
 
+function startsWithBytes(bytes: Uint8Array, prefix: number[]): boolean {
+  return prefix.every((byte, index) => bytes[index] === byte);
+}
+
+function validateAttachmentBytes(filename: string, bytes: Uint8Array): void {
+  const extension = filename.slice(filename.lastIndexOf(".")).toLowerCase();
+
+  if (
+    extension === ".pdf" &&
+    new TextDecoder().decode(bytes.slice(0, 5)) !== "%PDF-"
+  ) {
+    throw new Error(`${filename} is not a valid PDF`);
+  }
+
+  if (
+    [".doc", ".xls", ".ppt"].includes(extension) &&
+    !startsWithBytes(bytes, [0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1])
+  ) {
+    throw new Error(`${filename} is not a valid legacy Office document`);
+  }
+
+  if (
+    [".docx", ".xlsx", ".pptx", ".odt", ".ods", ".odp"].includes(extension) &&
+    !startsWithBytes(bytes, [0x50, 0x4b, 0x03, 0x04])
+  ) {
+    throw new Error(`${filename} is not a valid Office document`);
+  }
+}
+
 function assertBody(request: SendRequest): {
   subject: string;
   text: string;
@@ -135,8 +165,9 @@ async function loadAttachments(
     }
 
     const filename = safeFilename(input.filename, "attachment.pdf");
-    if (!filename.toLowerCase().endsWith(".pdf")) {
-      throw new Error("only PDF attachments are supported by the mail portal");
+    const contentType = attachmentContentType(filename);
+    if (!contentType) {
+      throw new Error(`unsupported attachment format: ${filename}`);
     }
 
     const { data, error } = await supabase.storage
@@ -147,12 +178,7 @@ async function loadAttachments(
     }
 
     const bytes = new Uint8Array(await data.arrayBuffer());
-    if (
-      bytes.length < 5 ||
-      new TextDecoder().decode(bytes.slice(0, 5)) !== "%PDF-"
-    ) {
-      throw new Error(`${filename} is not a valid PDF`);
-    }
+    validateAttachmentBytes(filename, bytes);
     if (bytes.length > MAX_ATTACHMENT_BYTES) {
       throw new Error(
         `${filename} exceeds the ${MAX_ATTACHMENT_BYTES} byte attachment limit`,
@@ -169,7 +195,7 @@ async function loadAttachments(
     loaded.push({
       path: input.path,
       filename,
-      content_type: input.content_type || "application/pdf",
+      content_type: contentType,
       byte_size: bytes.length,
       content: bytesToBase64(bytes),
     });
@@ -363,24 +389,21 @@ async function main(req: Request): Promise<Response> {
       }
     }
 
-    const resendPayload: Record<string, unknown> = {
-      from: MAIL_FROM,
+    const resendPayload = buildResendPayload({
       to,
       subject,
       text,
+      html,
+      cc,
+      bcc,
+      inReplyTo,
+      references,
       attachments: loadedAttachments.map((attachment) => ({
         filename: attachment.filename,
         content: attachment.content,
         content_type: attachment.content_type,
       })),
-      headers: {
-        ...(inReplyTo ? { "In-Reply-To": inReplyTo } : {}),
-        ...(references ? { References: references } : {}),
-      },
-    };
-    if (cc.length > 0) resendPayload.cc = cc;
-    if (bcc.length > 0) resendPayload.bcc = bcc;
-    if (html) resendPayload.html = html;
+    });
 
     let resendResponse: Response;
     try {

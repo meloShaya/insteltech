@@ -1,6 +1,8 @@
 import {
   asAddressList,
+  attachmentContentType,
   assertEmailAddresses,
+  buildResendPayload,
   normalizeSubject,
   safeFilename,
   stripHtml,
@@ -62,4 +64,36 @@ Deno.test("rejects malformed email addresses", () => {
     rejected = true;
   }
   assert(rejected, "invalid address should be rejected");
+});
+
+Deno.test("omits attachments when no files are supplied", () => {
+  const payload = buildResendPayload({
+    to: ["client@example.com"],
+    subject: "No attachment",
+    text: "Hello",
+    attachments: [],
+  });
+  assert(!("attachments" in payload), "empty attachments must be omitted");
+});
+
+Deno.test("keeps supported attachments in the Resend payload", () => {
+  const payload = buildResendPayload({
+    to: ["client@example.com"],
+    subject: "Office document",
+    text: "Please review the attached document.",
+    attachments: [
+      {
+        filename: "quotation.docx",
+        content: "UEsDBA==",
+        content_type: attachmentContentType("quotation.docx") || undefined,
+      },
+    ],
+  });
+  assert(payload.attachments?.length === 1, "attachment should be preserved");
+  assert(
+    attachmentContentType("spreadsheet.xlsx") ===
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "xlsx content type",
+  );
+  assert(attachmentContentType("unknown.exe") === null, "unknown type");
 });
