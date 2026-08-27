@@ -35,6 +35,8 @@ const elements = {
   mfaCode: document.getElementById("mfa-code"),
   mfaStatus: document.getElementById("mfa-status"),
   currentUser: document.getElementById("current-user"),
+  userAvatar: document.getElementById("user-avatar"),
+  navInboxCount: document.getElementById("nav-inbox-count"),
   signOut: document.getElementById("sign-out"),
   composeButton: document.getElementById("compose-button"),
   composeDialog: document.getElementById("compose-dialog"),
@@ -48,13 +50,17 @@ const elements = {
   sendButton: document.getElementById("send-button"),
   threadSearch: document.getElementById("thread-search"),
   refreshButton: document.getElementById("refresh-button"),
+  threadCount: document.getElementById("thread-count"),
+  threadFilterCount: document.getElementById("thread-filter-count"),
   threadList: document.getElementById("thread-list"),
   threadEmpty: document.getElementById("thread-empty"),
   messagePlaceholder: document.getElementById("message-placeholder"),
   messageContent: document.getElementById("message-content"),
   activeSubject: document.getElementById("active-subject"),
   activeReply: document.getElementById("active-reply"),
+  mobileThreadBack: document.getElementById("mobile-thread-back"),
   messageList: document.getElementById("message-list"),
+  attachmentSummary: document.getElementById("attachment-summary"),
   toast: document.getElementById("toast"),
 };
 
@@ -110,6 +116,59 @@ function formatDate(value) {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(date);
+}
+
+function formatListDate(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+
+  const now = new Date();
+  const sameDay =
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth() &&
+    date.getDate() === now.getDate();
+
+  return new Intl.DateTimeFormat(undefined, {
+    ...(sameDay
+      ? { hour: "numeric", minute: "2-digit" }
+      : { month: "short", day: "numeric" }),
+  }).format(date);
+}
+
+function initials(value, fallback = "IT") {
+  const words = String(value || "")
+    .replace(/<[^>]*>/g, "")
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean);
+  if (words.length === 0) return fallback;
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return `${words[0][0]}${words[1][0]}`.toUpperCase();
+}
+
+function updateMobileThreadState() {
+  elements.mailLayout?.classList.toggle(
+    "has-active-thread",
+    Boolean(activeThreadId),
+  );
+}
+
+function updateAttachmentSummary() {
+  if (!elements.attachmentSummary) return;
+  const files = Array.from(elements.composeAttachments.files || []);
+  if (files.length === 0) {
+    elements.attachmentSummary.textContent =
+      "No files selected · 25 MB total limit.";
+    return;
+  }
+
+  const totalBytes = files.reduce((total, file) => total + file.size, 0);
+  const totalMb = totalBytes / (1024 * 1024);
+  const size =
+    totalMb < 0.1
+      ? `${Math.round(totalBytes / 1024)} KB`
+      : `${totalMb.toFixed(1)} MB`;
+  elements.attachmentSummary.textContent = `${files.length} ${files.length === 1 ? "file" : "files"} selected · ${size} total`;
 }
 
 function safeFilename(filename) {
@@ -205,6 +264,7 @@ async function applySession(nextSession) {
     activeThreadId = null;
     activeThread = null;
     activeMessages = [];
+    updateMobileThreadState();
     return;
   }
 
@@ -217,6 +277,7 @@ async function applySession(nextSession) {
 
   elements.currentUser.textContent =
     currentUser.email || "Signed-in team member";
+  elements.userAvatar.textContent = initials(currentUser.email);
   await loadThreads();
 }
 
@@ -256,12 +317,29 @@ function renderThreads() {
 
   elements.threadList.replaceChildren();
   elements.threadEmpty.hidden = filtered.length > 0;
+  elements.threadCount.textContent = `${threads.length} ${threads.length === 1 ? "conversation" : "conversations"}`;
+  elements.threadFilterCount.textContent = String(filtered.length);
+  elements.navInboxCount.textContent = String(threads.length);
 
   for (const thread of filtered) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `thread-row${thread.id === activeThreadId ? " active" : ""}`;
+    button.setAttribute(
+      "aria-label",
+      `${thread.subject || "No subject"}, ${formatDate(thread.last_message_at)}`,
+    );
     button.addEventListener("click", () => void openThread(thread.id));
+
+    const avatar = document.createElement("span");
+    avatar.className = "thread-avatar";
+    avatar.textContent = initials(thread.subject);
+
+    const copy = document.createElement("span");
+    copy.className = "thread-row-copy";
+
+    const top = document.createElement("span");
+    top.className = "thread-row-top";
 
     const subject = document.createElement("span");
     subject.className = "thread-row-title";
@@ -269,9 +347,15 @@ function renderThreads() {
 
     const date = document.createElement("span");
     date.className = "thread-row-date";
-    date.textContent = formatDate(thread.last_message_at);
+    date.textContent = formatListDate(thread.last_message_at);
 
-    button.append(subject, date);
+    const preview = document.createElement("span");
+    preview.className = "thread-row-preview";
+    preview.textContent = "Conversation thread";
+
+    top.append(subject, date);
+    copy.append(top, preview);
+    button.append(avatar, copy);
     elements.threadList.append(button);
   }
 }
@@ -283,6 +367,7 @@ function clearActiveThread() {
   elements.messagePlaceholder.hidden = false;
   elements.messageContent.hidden = true;
   elements.messageList.replaceChildren();
+  updateMobileThreadState();
   renderThreads();
 }
 
@@ -293,6 +378,7 @@ async function openThread(threadId) {
 
   activeThreadId = threadId;
   activeThread = thread;
+  updateMobileThreadState();
   renderThreads();
   elements.messagePlaceholder.hidden = true;
   elements.messageContent.hidden = false;
@@ -354,6 +440,17 @@ function renderMessages() {
     const meta = document.createElement("div");
     meta.className = "message-meta";
 
+    const senderLine = document.createElement("div");
+    senderLine.className = "message-sender-line";
+
+    const avatar = document.createElement("span");
+    avatar.className = "message-avatar";
+    avatar.textContent = initials(
+      message.direction === "inbound"
+        ? message.from_address
+        : "InstelTech Marketing",
+    );
+
     const address = document.createElement("div");
     address.className = "message-address";
     const sender = document.createElement("strong");
@@ -362,17 +459,20 @@ function renderMessages() {
         ? message.from_address
         : "InstelTech Marketing <marketing@insteltech.co.zw>";
     const recipient = document.createElement("span");
-    recipient.textContent =
-      message.direction === "inbound"
-        ? `To: ${asList(message.to_addresses).join(", ")}`
-        : `To: ${asList(message.to_addresses).join(", ")}`;
+    recipient.textContent = `To: ${asList(message.to_addresses).join(", ")}`;
+    const direction = document.createElement("span");
+    direction.className = "message-direction";
+    direction.textContent =
+      message.direction === "inbound" ? "INBOUND" : "SENT";
+    sender.append(direction);
     address.append(sender, recipient);
+    senderLine.append(avatar, address);
 
     const date = document.createElement("time");
     date.className = "message-date";
     date.dateTime = message.created_at || "";
     date.textContent = formatDate(message.created_at);
-    meta.append(address, date);
+    meta.append(senderLine, date);
 
     const body = document.createElement("pre");
     body.className = "message-body";
@@ -387,7 +487,7 @@ function renderMessages() {
       message.status !== "sent"
     ) {
       const status = document.createElement("p");
-      status.className = "form-status";
+      status.className = "message-status";
       status.textContent = `Status: ${message.status}${message.error_message ? ` — ${message.error_message}` : ""}`;
       card.append(status);
     }
@@ -399,7 +499,13 @@ function renderMessages() {
         const link = document.createElement("a");
         link.className = "attachment-link";
         link.href = "#";
-        link.textContent = `↧ ${attachment.filename}`;
+        const icon = document.createElement("span");
+        icon.className = "attachment-icon";
+        icon.textContent = "↧";
+        const label = document.createElement("span");
+        label.className = "attachment-label";
+        label.textContent = attachment.filename;
+        link.append(icon, label);
         link.addEventListener("click", (event) => {
           event.preventDefault();
           void openAttachment(
@@ -418,7 +524,8 @@ function renderMessages() {
     const reply = document.createElement("button");
     reply.type = "button";
     reply.className = "secondary-button";
-    reply.textContent = "Reply";
+    reply.innerHTML =
+      '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 6 4 10l4 4M5 10h6a5 5 0 0 1 5 5" /></svg><span>Reply</span>';
     reply.addEventListener("click", () => openCompose(message));
     actions.append(reply);
     card.append(actions);
@@ -429,16 +536,20 @@ function renderMessages() {
 
 async function openAttachment(link, storagePath, filename) {
   if (!supabase) return;
-  link.textContent = "Opening...";
+  const label = link.querySelector(".attachment-label");
+  if (label) label.textContent = "Opening...";
+  link.setAttribute("aria-busy", "true");
   const { data, error } = await supabase.storage
     .from(ATTACHMENTS_BUCKET)
     .createSignedUrl(storagePath, 600);
   if (error || !data?.signedUrl) {
-    link.textContent = "Attachment unavailable";
+    if (label) label.textContent = "Attachment unavailable";
+    link.removeAttribute("aria-busy");
     showToast(error?.message || "Could not open attachment");
     return;
   }
-  link.textContent = `↧ ${filename}`;
+  if (label) label.textContent = filename;
+  link.removeAttribute("aria-busy");
   window.open(data.signedUrl, "_blank", "noopener,noreferrer");
 }
 
@@ -451,6 +562,7 @@ function openCompose(message = null) {
   replyTarget = message;
   setStatus(elements.composeStatus, "");
   elements.composeForm.reset();
+  updateAttachmentSummary();
   elements.composeSubject.value = message
     ? replySubject(activeThread?.subject)
     : "";
@@ -638,12 +750,17 @@ async function init() {
   });
   elements.composeButton.addEventListener("click", () => openCompose());
   elements.closeCompose.addEventListener("click", closeCompose);
+  elements.composeAttachments.addEventListener(
+    "change",
+    updateAttachmentSummary,
+  );
   elements.composeForm.addEventListener(
     "submit",
     (event) => void sendCompose(event),
   );
   elements.threadSearch.addEventListener("input", renderThreads);
   elements.refreshButton.addEventListener("click", () => void loadThreads());
+  elements.mobileThreadBack.addEventListener("click", clearActiveThread);
   elements.activeReply.addEventListener("click", () => {
     const lastInbound = [...activeMessages]
       .reverse()

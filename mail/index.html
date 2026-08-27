@@ -3,9 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#08111f" />
+    <meta name="theme-color" content="#0f1d2e" />
     <title>InstelTech Mail</title>
     <link rel="icon" href="../images/instel.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./mail.css" />
     <script src="../env-config.js"></script>
   </head>
@@ -16,107 +22,246 @@
         class="auth-screen"
         aria-labelledby="auth-title"
       >
-        <div class="brand-mark" aria-hidden="true">IT</div>
-        <p class="eyebrow">PRIVATE TEAM MAIL</p>
-        <h1 id="auth-title">InstelTech Mail</h1>
-        <p class="auth-copy">
-          Sign in to read, reply, and send from the shared marketing inbox.
-        </p>
+        <div class="auth-brand-column">
+          <div class="auth-brand-head">
+            <a class="site-brand site-brand-on-dark" href="../index.html">
+              <img src="../images/instel.svg" alt="Instel Technologies" />
+              <span>Instel<span class="brand-accent">Tech</span></span>
+            </a>
+            <span class="auth-index">MAIL / 01</span>
+          </div>
 
-        <form id="login-form" class="stack-form">
-          <label for="login-email">Email address</label>
-          <input
-            id="login-email"
-            name="email"
-            type="email"
-            autocomplete="username"
-            required
-          />
+          <div class="auth-hero">
+            <p class="eyebrow eyebrow-on-dark">INSTELTECH MAIL</p>
+            <h1>Keep every<br /><span>conversation moving.</span></h1>
+            <p>
+              The focused workspace for the people turning interest into
+              momentum.
+            </p>
+          </div>
 
-          <label for="login-password">Password</label>
-          <input
-            id="login-password"
-            name="password"
-            type="password"
-            autocomplete="current-password"
-            required
-          />
+          <div class="auth-signals" aria-label="Mailbox features">
+            <div class="auth-signal">
+              <span class="signal-number">01</span>
+              <div>
+                <strong>Private by default</strong>
+                <span>Team-only access with MFA built in.</span>
+              </div>
+            </div>
+            <div class="auth-signal">
+              <span class="signal-number">02</span>
+              <div>
+                <strong>Made for momentum</strong>
+                <span>Reply, send, and find the thread in seconds.</span>
+              </div>
+            </div>
+          </div>
 
-          <button class="primary-button" type="submit">Sign in</button>
-          <p
-            id="login-status"
-            class="form-status"
-            role="status"
-            aria-live="polite"
-          ></p>
-        </form>
-
-        <form id="mfa-form" class="stack-form" hidden>
-          <p class="auth-copy">
-            Enter the six-digit code from your authenticator app to continue.
+          <p class="auth-side-footer">
+            INSTELTECH.CO.ZW <span aria-hidden="true">↗</span>
           </p>
-          <label for="mfa-code">Verification code</label>
-          <input
-            id="mfa-code"
-            name="code"
-            inputmode="numeric"
-            autocomplete="one-time-code"
-            pattern="[0-9]{6}"
-            maxlength="6"
-            required
-          />
-          <button class="primary-button" type="submit">Verify code</button>
-          <p
-            id="mfa-status"
-            class="form-status"
-            role="status"
-            aria-live="polite"
-          ></p>
-        </form>
+        </div>
+
+        <div class="auth-form-column">
+          <div class="auth-form-top">
+            <div class="brand-mark" aria-hidden="true">IT</div>
+            <span class="security-tag"><span></span> SECURE ACCESS</span>
+          </div>
+
+          <div class="auth-form-heading">
+            <p class="eyebrow">TEAM WORKSPACE</p>
+            <h2 id="auth-title">Welcome back.</h2>
+            <p>Sign in to your shared marketing inbox.</p>
+          </div>
+
+          <form id="login-form" class="stack-form">
+            <label for="login-email">Email address</label>
+            <input
+              id="login-email"
+              name="email"
+              type="email"
+              autocomplete="username"
+              placeholder="you@insteltech.co.zw"
+              required
+            />
+
+            <label for="login-password">Password</label>
+            <input
+              id="login-password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Enter your password"
+              required
+            />
+
+            <button class="primary-button" type="submit">
+              <span>Sign in</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M4 10h11m-4-4 4 4-4 4" />
+              </svg>
+            </button>
+            <p
+              id="login-status"
+              class="form-status"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+
+          <form id="mfa-form" class="stack-form" hidden>
+            <p class="auth-copy">
+              Enter the six-digit code from your authenticator app to continue.
+            </p>
+            <label for="mfa-code">Verification code</label>
+            <input
+              id="mfa-code"
+              name="code"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              pattern="[0-9]{6}"
+              maxlength="6"
+              placeholder="000000"
+              required
+            />
+            <button class="primary-button" type="submit">
+              <span>Verify code</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M4 10h11m-4-4 4 4-4 4" />
+              </svg>
+            </button>
+            <p
+              id="mfa-status"
+              class="form-status"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+
+          <div class="auth-form-foot">
+            <span class="status-dot" aria-hidden="true"></span>
+            Protected by Supabase Auth &amp; MFA
+          </div>
+        </div>
       </section>
 
       <section id="app-screen" class="app-screen" hidden>
         <header class="app-header">
           <div class="brand-lockup">
-            <div class="brand-mark small" aria-hidden="true">IT</div>
+            <a class="site-brand" href="../index.html">
+              <img src="../images/instel.svg" alt="Instel Technologies" />
+              <span>Instel<span class="brand-accent">Tech</span></span>
+            </a>
+            <span class="brand-divider" aria-hidden="true">/</span>
             <div>
-              <p class="eyebrow">INSTELTECH</p>
-              <h1>Mail</h1>
+              <p class="eyebrow">TEAM MAIL</p>
+              <h1>Inbox</h1>
             </div>
           </div>
+
+          <div class="header-context">
+            <span class="header-context-dot" aria-hidden="true"></span>
+            <span>LIVE INBOX</span>
+          </div>
+
           <div class="account-actions">
-            <span id="current-user" class="current-user"></span>
+            <div id="user-avatar" class="account-avatar" aria-hidden="true">
+              IT
+            </div>
+            <div class="user-meta">
+              <span class="account-label">SIGNED IN AS</span>
+              <span id="current-user" class="current-user"></span>
+            </div>
             <button id="sign-out" class="ghost-button" type="button">
-              Sign out
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M8 4H4v12h4M11 7l3 3-3 3m3-3H7" />
+              </svg>
+              <span class="signout-label">Sign out</span>
             </button>
           </div>
         </header>
 
-        <div class="mail-layout">
+        <div id="mail-layout" class="mail-layout">
+          <aside class="app-nav" aria-label="Workspace navigation">
+            <div class="nav-topline">
+              <span>WORKSPACE</span>
+              <span>01</span>
+            </div>
+            <div class="nav-identity">
+              <span class="nav-monogram">IT</span>
+              <div>
+                <strong>Marketing ops</strong>
+                <span>Shared workspace</span>
+              </div>
+            </div>
+
+            <nav class="mail-nav" aria-label="Mailbox">
+              <button class="nav-link active" type="button" aria-current="page">
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M3 4.5h14v11H3zM3 5l7 5 7-5" />
+                </svg>
+                <span>Inbox</span>
+                <span id="nav-inbox-count" class="nav-count">0</span>
+              </button>
+              <div class="nav-divider"></div>
+              <a class="nav-link" href="../index.html">
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M4 4h7v2H6v8h5v2H4zM10 9h6m-3-3 3 3-3 3" />
+                </svg>
+                <span>Public site</span>
+                <span class="nav-external" aria-hidden="true">↗</span>
+              </a>
+            </nav>
+
+            <div class="nav-poster">
+              <span>KEEP IT MOVING</span>
+              <strong>Every reply<br />counts.</strong>
+              <span class="nav-poster-mark" aria-hidden="true">↗</span>
+            </div>
+            <p class="nav-footer">INTERNAL TOOL <span>·</span> ZW</p>
+          </aside>
+
           <aside class="thread-panel" aria-label="Mailbox threads">
             <div class="panel-heading">
-              <div>
-                <p class="eyebrow">SHARED INBOX</p>
+              <div class="panel-title-group">
+                <div class="panel-kicker">
+                  <span class="live-dot" aria-hidden="true"></span>
+                  <span>SHARED INBOX</span>
+                </div>
                 <h2>Conversations</h2>
+                <p>
+                  <span id="thread-count">0 conversations</span>
+                  <span class="heading-divider" aria-hidden="true">/</span>
+                  most recent first
+                </p>
               </div>
               <button
                 id="compose-button"
                 class="primary-button compact"
                 type="button"
               >
-                New email
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M10 4v12M4 10h12" />
+                </svg>
+                <span>New email</span>
               </button>
             </div>
 
             <div class="thread-tools">
-              <label class="sr-only" for="thread-search"
-                >Search conversations</label
-              >
-              <input
-                id="thread-search"
-                type="search"
-                placeholder="Search subject..."
-              />
+              <div class="search-control">
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <circle cx="8.5" cy="8.5" r="4.5" />
+                  <path d="m12 12 4 4" />
+                </svg>
+                <label class="sr-only" for="thread-search"
+                  >Search conversations</label
+                >
+                <input
+                  id="thread-search"
+                  type="search"
+                  placeholder="Search conversations"
+                />
+              </div>
               <button
                 id="refresh-button"
                 class="icon-button"
@@ -124,37 +269,82 @@
                 title="Refresh inbox"
                 aria-label="Refresh inbox"
               >
-                ↻
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M16 7a6 6 0 1 0 1 5M16 3v4h-4" />
+                </svg>
               </button>
+            </div>
+
+            <div class="thread-toolbar">
+              <span class="toolbar-label">RECENT</span>
+              <span id="thread-filter-count" class="toolbar-count">0</span>
             </div>
 
             <div id="thread-list" class="thread-list" aria-live="polite"></div>
             <p id="thread-empty" class="empty-state" hidden>
-              No conversations found.
+              <span class="empty-state-mark" aria-hidden="true">—</span>
+              <strong>No conversations found</strong>
+              <span>Try another search or refresh the inbox.</span>
             </p>
           </aside>
 
           <section class="message-panel" aria-live="polite">
             <div id="message-placeholder" class="message-placeholder">
-              <div class="placeholder-icon" aria-hidden="true">✉</div>
-              <h2>Select a conversation</h2>
-              <p>Choose a thread from the inbox or start a new email.</p>
+              <div class="placeholder-icon" aria-hidden="true">
+                <svg viewBox="0 0 32 32">
+                  <path d="M5 8h22v16H5zM6 9l10 8L26 9" />
+                  <path class="placeholder-accent" d="M5 8h22v3H5z" />
+                </svg>
+              </div>
+              <p class="placeholder-kicker">SELECT A THREAD</p>
+              <h2>Your inbox, in focus.</h2>
+              <p>Choose a conversation to read the full exchange.</p>
+              <span class="placeholder-rule" aria-hidden="true"></span>
             </div>
+
             <div id="message-content" hidden>
               <div class="message-heading">
-                <div>
-                  <p class="eyebrow">CONVERSATION</p>
-                  <h2 id="active-subject"></h2>
+                <div class="message-heading-main">
+                  <button
+                    id="mobile-thread-back"
+                    class="mobile-thread-back"
+                    type="button"
+                    aria-label="Back to conversations"
+                  >
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="m12 4-6 6 6 6M7 10h9" />
+                    </svg>
+                  </button>
+                  <div class="subject-block">
+                    <div class="message-kicker">
+                      <span>CONVERSATION</span>
+                      <span class="message-live">ACTIVE</span>
+                    </div>
+                    <h2 id="active-subject"></h2>
+                    <p>Thread history · shared with the marketing team</p>
+                  </div>
                 </div>
-                <button
-                  id="active-reply"
-                  class="secondary-button"
-                  type="button"
-                >
-                  Reply
-                </button>
+                <div class="message-heading-actions">
+                  <span class="message-count-label">THREAD</span>
+                  <button
+                    id="active-reply"
+                    class="secondary-button"
+                    type="button"
+                  >
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                      <path d="M8 6 4 10l4 4M5 10h6a5 5 0 0 1 5 5" />
+                    </svg>
+                    <span>Reply</span>
+                  </button>
+                </div>
               </div>
-              <div id="message-list" class="message-list"></div>
+              <div class="message-list-wrap">
+                <div class="history-label">
+                  <span>THREAD HISTORY</span>
+                  <span aria-hidden="true"></span>
+                </div>
+                <div id="message-list" class="message-list"></div>
+              </div>
             </div>
           </section>
         </div>
@@ -168,10 +358,16 @@
         <form id="compose-form" class="compose-form">
           <div class="dialog-heading">
             <div>
-              <p class="eyebrow">FROM INSTELTECH</p>
+              <div class="dialog-kicker">
+                <span class="dialog-kicker-mark" aria-hidden="true"></span>
+                <span>OUTGOING MESSAGE</span>
+              </div>
               <h2 id="compose-title">New email</h2>
               <p class="from-line">
-                InstelTech Marketing &lt;marketing@insteltech.co.zw&gt;
+                <span class="from-avatar" aria-hidden="true">IT</span>
+                <span
+                  >InstelTech Marketing &lt;marketing@insteltech.co.zw&gt;</span
+                >
               </p>
             </div>
             <button
@@ -180,51 +376,78 @@
               type="button"
               aria-label="Close composer"
             >
-              ×
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="m5 5 10 10M15 5 5 15" />
+              </svg>
             </button>
           </div>
 
-          <label for="compose-to">To</label>
-          <input
-            id="compose-to"
-            name="to"
-            type="text"
-            placeholder="client@example.com"
-            autocomplete="email"
-            required
-          />
-          <p class="field-help">Separate multiple recipients with commas.</p>
+          <div class="compose-fields">
+            <div class="field-group">
+              <label for="compose-to">To</label>
+              <input
+                id="compose-to"
+                name="to"
+                type="text"
+                placeholder="client@example.com"
+                autocomplete="email"
+                required
+              />
+              <p class="field-help">
+                Separate multiple recipients with commas.
+              </p>
+            </div>
 
-          <label for="compose-subject">Subject</label>
-          <input
-            id="compose-subject"
-            name="subject"
-            type="text"
-            maxlength="200"
-            required
-          />
+            <div class="field-group">
+              <label for="compose-subject">Subject</label>
+              <input
+                id="compose-subject"
+                name="subject"
+                type="text"
+                maxlength="200"
+                placeholder="What is this email about?"
+                required
+              />
+            </div>
 
-          <label for="compose-body">Message</label>
-          <textarea
-            id="compose-body"
-            name="body"
-            rows="9"
-            placeholder="Write your message..."
-            required
-          ></textarea>
+            <div class="field-group">
+              <label for="compose-body">Message</label>
+              <textarea
+                id="compose-body"
+                name="body"
+                rows="9"
+                placeholder="Write your message..."
+                required
+              ></textarea>
+            </div>
 
-          <label for="compose-attachments">Attachments</label>
-          <input
-            id="compose-attachments"
-            name="attachments"
-            type="file"
-            accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.rtf,.ppt,.pptx,.odt,.ods,.odp,.jpg,.jpeg,.png"
-            multiple
-          />
-          <p class="field-help">
-            PDF, Word, Excel, CSV, text, presentation, OpenDocument, or image
-            files; up to 25 MB total.
-          </p>
+            <div class="field-group attachment-field">
+              <label for="compose-attachments">Attachments</label>
+              <label class="file-drop" for="compose-attachments">
+                <span class="file-drop-icon" aria-hidden="true">
+                  <svg viewBox="0 0 20 20">
+                    <path d="M10 13V4m0 0L7 7m3-3 3 3M4 12v3h12v-3" />
+                  </svg>
+                </span>
+                <span class="file-drop-copy">
+                  <strong>Attach files</strong>
+                  <span>PDF, Office, text, or image files</span>
+                </span>
+                <span class="file-drop-action">Browse</span>
+              </label>
+              <input
+                id="compose-attachments"
+                class="file-input"
+                name="attachments"
+                type="file"
+                accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.rtf,.ppt,.pptx,.odt,.ods,.odp,.jpg,.jpeg,.png"
+                multiple
+              />
+              <p id="attachment-summary" class="field-help">
+                No files selected · 25 MB total limit.
+              </p>
+            </div>
+          </div>
 
           <div class="compose-footer">
             <p
@@ -234,7 +457,10 @@
               aria-live="polite"
             ></p>
             <button id="send-button" class="primary-button" type="submit">
-              Send email
+              <span>Send email</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="m3 4 14 6-14 6 2-6-2-6Zm2 6h7" />
+              </svg>
             </button>
           </div>
         </form>
