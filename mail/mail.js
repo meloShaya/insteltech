@@ -1,4 +1,8 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.112.4";
+import {
+  fetchActiveThreads,
+  updateThreadDeletedAt,
+} from "./mail-data.mjs";
 
 const SUPABASE_URL = window.VITE_SUPABASE_URL || "";
 const SUPABASE_ANON_KEY = window.VITE_SUPABASE_ANON_KEY || "";
@@ -25,8 +29,6 @@ const ATTACHMENT_CONTENT_TYPES = Object.freeze({
   ".jpeg": "image/jpeg",
   ".png": "image/png",
 });
-const HIDDEN_THREADS_STORAGE_PREFIX = "insteltech-mail-hidden-threads:";
-
 const elements = {
   authScreen: document.getElementById("auth-screen"),
   appScreen: document.getElementById("app-screen"),
@@ -89,7 +91,6 @@ let replyTarget = null;
 let toastTimer = null;
 let mfaFactorId = null;
 let mfaChallengeId = null;
-let hiddenThreadIds = new Set();
 let pendingDeleteThreadId = null;
 
 function setStatus(element, message, kind = "error") {
@@ -196,39 +197,6 @@ function updateAttachmentSummary() {
   elements.attachmentSummary.textContent = `${files.length} ${files.length === 1 ? "file" : "files"} selected · ${size} total`;
 }
 
-function hiddenThreadsStorageKey() {
-  return currentUser?.id
-    ? `${HIDDEN_THREADS_STORAGE_PREFIX}${currentUser.id}`
-    : null;
-}
-
-function loadHiddenThreadIds() {
-  const key = hiddenThreadsStorageKey();
-  if (!key) return new Set();
-
-  try {
-    const value = JSON.parse(window.localStorage.getItem(key) || "[]");
-    return new Set(
-      Array.isArray(value)
-        ? value.filter((threadId) => typeof threadId === "string")
-        : [],
-    );
-  } catch {
-    return new Set();
-  }
-}
-
-function saveHiddenThreadIds() {
-  const key = hiddenThreadsStorageKey();
-  if (!key) return;
-
-  try {
-    window.localStorage.setItem(key, JSON.stringify([...hiddenThreadIds]));
-  } catch {
-    // The inbox still works for this session when storage is unavailable.
-  }
-}
-
 function safeFilename(filename) {
   const value = filename.trim().replace(/[^a-zA-Z0-9._-]/g, "_");
   return value || "attachment.pdf";
@@ -322,7 +290,6 @@ async function applySession(nextSession) {
     activeThreadId = null;
     activeThread = null;
     activeMessages = [];
-    hiddenThreadIds = new Set();
     elements.activeDelete.disabled = true;
     updateMobileThreadState();
     return;
@@ -338,7 +305,6 @@ async function applySession(nextSession) {
   elements.currentUser.textContent =
     currentUser.email || "Signed-in team member";
   elements.userAvatar.textContent = initials(currentUser.email);
-  hiddenThreadIds = loadHiddenThreadIds();
   await loadThreads();
 }
 
@@ -347,14 +313,7 @@ async function loadThreads() {
 
   elements.refreshButton.disabled = true;
   try {
-    const { data, error } = await supabase
-      .from("mail_threads")
-      .select("id, subject, normalized_subject, last_message_at, created_at")
-      .order("last_message_at", { ascending: false })
-      .limit(100);
-    if (error) throw error;
-
-    threads = (data || []).filter((thread) => !hiddenThreadIds.has(thread.id));
+    threads = await fetchActiveThreads(supabase);
     renderThreads();
     if (
       activeThreadId &&
@@ -472,9 +431,13 @@ function requestDeleteThread(threadId) {
   elements.confirmDelete.focus();
 }
 
-function restoreThread(thread, originalIndex) {
-  hiddenThreadIds.delete(thread.id);
-  saveHiddenThreadIds();
+async function restoreThread(thread, originalIndex) {
+  try {
+    await updateThreadDeletedAt(supabase, thread.id, null);
+  } catch (error) {
+    showToast(error.message || "Could not restore this conversation");
+    return;
+  }
 
   if (!threads.some((item) => item.id === thread.id)) {
     threads.splice(Math.min(originalIndex, threads.length), 0, thread);
@@ -483,13 +446,18 @@ function restoreThread(thread, originalIndex) {
   showToast("Conversation restored to your inbox.");
 }
 
-function deleteThread(threadId) {
+async function deleteThread(threadId) {
   const originalIndex = threads.findIndex((thread) => thread.id === threadId);
   if (originalIndex < 0) return;
 
   const thread = threads[originalIndex];
-  hiddenThreadIds.add(threadId);
-  saveHiddenThreadIds();
+  try {
+    await updateThreadDeletedAt(supabase, threadId, new Date().toISOString());
+  } catch (error) {
+    showToast(error.message || "Could not delete this conversation");
+    return;
+  }
+
   threads.splice(originalIndex, 1);
 
   if (activeThreadId === threadId) {
@@ -498,17 +466,17 @@ function deleteThread(threadId) {
     renderThreads();
   }
 
-  showToast("Conversation deleted from this device.", {
+  showToast("Conversation deleted from your inbox.", {
     label: "Undo",
-    onClick: () => restoreThread(thread, originalIndex),
+    onClick: () => void restoreThread(thread, originalIndex),
   });
 }
 
-function handleDeleteSubmit(event) {
+async function handleDeleteSubmit(event) {
   event.preventDefault();
   const threadId = pendingDeleteThreadId;
   closeDeleteDialog();
-  if (threadId) deleteThread(threadId);
+  if (threadId) await deleteThread(threadId);
 }
 
 function clearActiveThread() {
@@ -906,7 +874,9 @@ async function init() {
   elements.activeDelete.addEventListener("click", () => {
     if (activeThreadId) requestDeleteThread(activeThreadId);
   });
-  elements.deleteForm.addEventListener("submit", handleDeleteSubmit);
+  elements.deleteForm.addEventListener("submit", (event) => {
+    void handleDeleteSubmit(event);
+  });
   elements.cancelDelete.addEventListener("click", closeDeleteDialog);
   elements.deleteDialog.addEventListener("close", () => {
     pendingDeleteThreadId = null;
