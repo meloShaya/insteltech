@@ -3,6 +3,7 @@ import {
   attachmentContentType,
   assertEmailAddresses,
   buildResendPayload,
+  formatMailSender,
   normalizeSubject,
   safeFilename,
   stripHtml,
@@ -68,6 +69,7 @@ Deno.test("rejects malformed email addresses", () => {
 
 Deno.test("omits attachments when no files are supplied", () => {
   const payload = buildResendPayload({
+    from: "Instel Tech <alex@insteltech.co.zw>",
     to: ["client@example.com"],
     subject: "No attachment",
     text: "Hello",
@@ -78,6 +80,7 @@ Deno.test("omits attachments when no files are supplied", () => {
 
 Deno.test("keeps supported attachments in the Resend payload", () => {
   const payload = buildResendPayload({
+    from: "Instel Tech <alex@insteltech.co.zw>",
     to: ["client@example.com"],
     subject: "Office document",
     text: "Please review the attached document.",
@@ -96,4 +99,19 @@ Deno.test("keeps supported attachments in the Resend payload", () => {
     "xlsx content type",
   );
   assert(attachmentContentType("unknown.exe") === null, "unknown type");
+});
+
+Deno.test("builds a user-specific sender and reply-to header", () => {
+  const sender = formatMailSender("alex@insteltech.co.zw");
+  const payload = buildResendPayload({
+    from: sender,
+    replyTo: "alex@insteltech.co.zw",
+    to: ["client@example.com"],
+    subject: "User sender",
+    text: "Hello",
+  });
+
+  assertEqual(sender, "Instel Tech <alex@insteltech.co.zw>", "sender");
+  assertEqual(payload.from, sender, "from header");
+  assertEqual(payload.reply_to, "alex@insteltech.co.zw", "reply-to header");
 });

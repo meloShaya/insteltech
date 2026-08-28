@@ -148,10 +148,11 @@ Publish the repository’s static files using the existing hosting process. The 
 5. Optionally attach files and choose **Send email**.
 6. Confirm the sent message and delivery status in the thread.
 
-Every message is sent as:
+Every message sent from the portal uses the authenticated member's identity:
 
 ```text
-InstelTech Marketing <marketing@insteltech.co.zw>
+Instel Tech <signed-in-member@insteltech.co.zw>
+Reply-To: signed-in-member@insteltech.co.zw
 ```
 
 The portal supports PDF, Word, Excel, CSV, text, RTF, PowerPoint, OpenDocument, JPG, JPEG, and PNG attachments. Attachments are optional, with up to 10 files and 25 MB combined. The first portal release intentionally focuses on core mail: inbox threads, message reading, attachment downloads, compose, reply, subject search, and sent/error status. Drafts, folders, spam controls, bulk actions, and advanced Gmail-style search are not included.
@@ -180,7 +181,7 @@ Run `--dry-run` first. The script validates the message and attachments and prin
 | `notify-lead`           | Website contact form            | Stores/sends a new-lead notification to the configured internal inbox.               |
 | `submit-giveaway-entry` | Giveaway form                   | Stores the entry and sends an internal notification.                                 |
 | `forward-inbound`       | Resend `email.received` webhook | Stores inbound mail, stores attachments, groups threads, and forwards a backup copy. |
-| `mail-send`             | Authenticated portal request    | Sends a message from `marketing@insteltech.co.zw` and records its status.            |
+| `mail-send`             | Authenticated portal request    | Sends as the signed-in member with an `Instel Tech` display name, matching `Reply-To`, and records its status. |
 
 The browser may contain the public Supabase URL and anon key. It must never contain `RESEND_API_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, or `RESEND_WEBHOOK_SECRET`.
 
@@ -204,7 +205,7 @@ Open <http://localhost:8080>. The local portal can be previewed at <http://local
 | Attachment upload fails                     | The format is supported and the total upload is below 25 MB.                                | Do not retry with an unknown or stale file.                 |
 | Inbound mail is missing                     | Resend webhook URL/signing secret, MX records, and `forward-inbound` logs.                  | Keep the personal forwarding backup enabled during rollout. |
 | A send times out                            | Check Resend delivery/message status before retrying.                                       | Do not blindly resend; this can duplicate the email.        |
-| From address is rejected                    | The sending domain is verified and `marketing@insteltech.co.zw` is allowed.                 | Do not change the sender to an unverified domain.           |
+| From address is rejected                    | The sending domain for the signed-in member is verified in Resend.                           | Do not use an unverified sender domain.                     |
 
 ## Verification commands
 

@@ -1,5 +1,4 @@
-export const MAIL_FROM = "InstelTech Marketing <marketing@insteltech.co.zw>";
-export const MAIL_FROM_ADDRESS = "marketing@insteltech.co.zw";
+export const MAIL_DISPLAY_NAME = "Instel Tech";
 export const MAIL_ATTACHMENTS_BUCKET = "mail-attachments";
 export const MAX_ATTACHMENTS = 10;
 export const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
@@ -45,6 +44,8 @@ export type ResendAttachment = {
 };
 
 export type ResendPayloadInput = {
+  from: string;
+  replyTo?: string | null;
   to: string[];
   subject: string;
   text: string;
@@ -58,6 +59,7 @@ export type ResendPayloadInput = {
 
 export type ResendPayload = {
   from: string;
+  reply_to?: string;
   to: string[];
   subject: string;
   text: string;
@@ -76,7 +78,8 @@ export function buildResendPayload(input: ResendPayloadInput): ResendPayload {
   };
 
   return {
-    from: MAIL_FROM,
+    from: input.from,
+    ...(input.replyTo ? { reply_to: input.replyTo } : {}),
     to: input.to,
     subject: input.subject,
     text: input.text,
@@ -86,6 +89,12 @@ export function buildResendPayload(input: ResendPayloadInput): ResendPayload {
     ...(attachments.length > 0 ? { attachments } : {}),
     ...(Object.keys(headers).length > 0 ? { headers } : {}),
   };
+}
+
+export function formatMailSender(email: string): string {
+  const address = email.trim();
+  assertEmailAddresses([address], "sender");
+  return `${MAIL_DISPLAY_NAME} <${address}>`;
 }
 
 export function attachmentContentType(filename: string): string | null {

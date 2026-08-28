@@ -12,6 +12,7 @@ import {
 
 const SUPABASE_URL = window.VITE_SUPABASE_URL || "";
 const SUPABASE_ANON_KEY = window.VITE_SUPABASE_ANON_KEY || "";
+const MAIL_DISPLAY_NAME = "Instel Tech";
 const ACTIVITY_STORAGE_PREFIX = "insteltech-mail:last-activity:";
 const ACTIVITY_PERSIST_INTERVAL_MS = 5 * 1000;
 const ATTACHMENTS_BUCKET = "mail-attachments";
@@ -53,6 +54,7 @@ const elements = {
   composeButton: document.getElementById("compose-button"),
   composeDialog: document.getElementById("compose-dialog"),
   composeForm: document.getElementById("compose-form"),
+  composeFrom: document.getElementById("compose-from"),
   closeCompose: document.getElementById("close-compose"),
   composeTo: document.getElementById("compose-to"),
   composeSubject: document.getElementById("compose-subject"),
@@ -235,6 +237,11 @@ async function invokeErrorMessage(error) {
 
 function activeMemberMessage() {
   return "Your account is not enabled for the InstelTech mail portal.";
+}
+
+function mailSenderLabel(email) {
+  const address = String(email || "").trim();
+  return address ? `${MAIL_DISPLAY_NAME} <${address}>` : MAIL_DISPLAY_NAME;
 }
 
 function showLoginMode() {
@@ -502,6 +509,7 @@ async function applySession(nextSession) {
   elements.currentUser.textContent =
     currentUser.email || "Signed-in team member";
   elements.userAvatar.textContent = initials(currentUser.email);
+  elements.composeFrom.textContent = mailSenderLabel(currentUser.email);
   await loadThreads();
 }
 
@@ -766,7 +774,7 @@ function renderMessages() {
     avatar.textContent = initials(
       message.direction === "inbound"
         ? message.from_address
-        : "InstelTech Marketing",
+        : MAIL_DISPLAY_NAME,
     );
 
     const address = document.createElement("div");
@@ -775,7 +783,7 @@ function renderMessages() {
     sender.textContent =
       message.direction === "inbound"
         ? message.from_address
-        : "InstelTech Marketing <marketing@insteltech.co.zw>";
+        : mailSenderLabel(message.from_address);
     const recipient = document.createElement("span");
     recipient.textContent = `To: ${asList(message.to_addresses).join(", ")}`;
     const direction = document.createElement("span");

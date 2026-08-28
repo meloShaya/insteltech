@@ -6,6 +6,7 @@ import {
   attachmentContentType,
   bytesToBase64,
   buildResendPayload,
+  formatMailSender,
   MAIL_ATTACHMENTS_BUCKET,
   MAX_ATTACHMENT_BYTES,
   MAX_ATTACHMENTS,
@@ -277,6 +278,8 @@ async function main(req: Request): Promise<Response> {
     assertRecipientsLimit(bcc, "bcc");
 
     const { subject, text, html } = assertBody(request);
+    const senderEmail = userData.user.email?.trim() || "";
+    const sender = formatMailSender(senderEmail);
     const clientSendId = asString(request.client_send_id);
     if (!clientSendId || clientSendId.length > 100) {
       throw new Error(
@@ -347,13 +350,14 @@ async function main(req: Request): Promise<Response> {
         thread_id: threadId,
         direction: "outbound",
         client_send_id: clientSendId,
-        from_address: "marketing@insteltech.co.zw",
+        from_address: senderEmail,
         to_addresses: to,
         cc_addresses: cc,
         bcc_addresses: bcc,
         subject,
         text_body: text,
         html_body: html || null,
+        headers: { "Reply-To": senderEmail },
         in_reply_to: inReplyTo,
         references_header: references,
         status: "sending",
@@ -390,6 +394,8 @@ async function main(req: Request): Promise<Response> {
     }
 
     const resendPayload = buildResendPayload({
+      from: sender,
+      replyTo: senderEmail,
       to,
       subject,
       text,

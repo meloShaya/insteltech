@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 import { basename, resolve } from "node:path";
 
 const RESEND_API_URL = "https://api.resend.com/emails";
-const FROM = "InstelTech Marketing <marketing@insteltech.co.zw>";
+const FROM = "Instel Tech <marketing@insteltech.co.zw>";
 const MAX_ATTACHMENTS = 10;
 const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
 const ATTACHMENT_CONTENT_TYPES = Object.freeze({

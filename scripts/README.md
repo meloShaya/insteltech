@@ -7,7 +7,7 @@ This is the fallback/trusted-computer workflow. For sending from a phone, use th
 Every message is sent as:
 
 ```text
-InstelTech Marketing <marketing@insteltech.co.zw>
+Instel Tech <marketing@insteltech.co.zw>
 ```
 
 Set the key in the same terminal session without committing it:
