@@ -17,10 +17,20 @@
   </head>
   <body>
     <main class="app-frame">
+      <div
+        id="auth-loading"
+        class="auth-loading"
+        role="status"
+        aria-live="polite"
+      >
+        <span class="auth-loading-spinner" aria-hidden="true"></span>
+        <span>Checking your session</span>
+      </div>
       <section
         id="auth-screen"
         class="auth-screen"
         aria-labelledby="auth-title"
+        hidden
       >
         <div class="auth-brand-column">
           <div class="auth-brand-head">

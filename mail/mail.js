@@ -3,9 +3,17 @@ import {
   fetchActiveThreads,
   updateThreadDeletedAt,
 } from "./mail-data.mjs";
+import {
+  SESSION_IDLE_TIMEOUT_MS,
+  getIdleTimeoutDelay,
+  getSessionActivityAt,
+  isSessionIdle,
+} from "./session-timeout.mjs";
 
 const SUPABASE_URL = window.VITE_SUPABASE_URL || "";
 const SUPABASE_ANON_KEY = window.VITE_SUPABASE_ANON_KEY || "";
+const ACTIVITY_STORAGE_PREFIX = "insteltech-mail:last-activity:";
+const ACTIVITY_PERSIST_INTERVAL_MS = 5 * 1000;
 const ATTACHMENTS_BUCKET = "mail-attachments";
 const MAX_ATTACHMENT_BYTES = 25 * 1024 * 1024;
 const MAX_ATTACHMENTS = 10;
@@ -30,6 +38,7 @@ const ATTACHMENT_CONTENT_TYPES = Object.freeze({
   ".png": "image/png",
 });
 const elements = {
+  authLoading: document.getElementById("auth-loading"),
   authScreen: document.getElementById("auth-screen"),
   appScreen: document.getElementById("app-screen"),
   loginForm: document.getElementById("login-form"),
@@ -92,6 +101,10 @@ let toastTimer = null;
 let mfaFactorId = null;
 let mfaChallengeId = null;
 let pendingDeleteThreadId = null;
+let idleTimer = null;
+let lastActivityAt = 0;
+let lastPersistedActivityAt = 0;
+let idleLogoutInProgress = false;
 
 function setStatus(element, message, kind = "error") {
   element.textContent = message || "";
@@ -230,6 +243,178 @@ function showLoginMode() {
   setStatus(elements.mfaStatus, "");
 }
 
+function setAuthLoading(isLoading) {
+  elements.authLoading.hidden = !isLoading;
+}
+
+function showLoggedOutScreen() {
+  setAuthLoading(false);
+  elements.authScreen.hidden = false;
+  elements.appScreen.hidden = true;
+}
+
+function showAuthenticatedScreen() {
+  setAuthLoading(false);
+  elements.authScreen.hidden = true;
+  elements.appScreen.hidden = false;
+}
+
+function activityStorageKey(userId = currentUser?.id) {
+  return userId ? `${ACTIVITY_STORAGE_PREFIX}${userId}` : "";
+}
+
+function readActivityAt(userId) {
+  const key = activityStorageKey(userId);
+  if (!key) return 0;
+
+  try {
+    return getSessionActivityAt({
+      storedActivityAt: window.localStorage.getItem(key),
+    });
+  } catch {
+    return 0;
+  }
+}
+
+function writeActivityAt(userId, activityAt, force = false) {
+  const key = activityStorageKey(userId);
+  if (!key || !activityAt) return;
+  if (
+    !force &&
+    activityAt - lastPersistedActivityAt < ACTIVITY_PERSIST_INTERVAL_MS
+  ) {
+    return;
+  }
+
+  try {
+    window.localStorage.setItem(key, String(activityAt));
+    lastPersistedActivityAt = activityAt;
+  } catch {
+    // The in-memory timer still protects an open tab when storage is unavailable.
+  }
+}
+
+function removeActivityAt(userId) {
+  const key = activityStorageKey(userId);
+  if (!key) return;
+
+  try {
+    window.localStorage.removeItem(key);
+  } catch {
+    // Ignore storage failures while signing out.
+  }
+}
+
+function clearIdleTimer() {
+  window.clearTimeout(idleTimer);
+  idleTimer = null;
+}
+
+function scheduleIdleLogout() {
+  clearIdleTimer();
+  if (!currentUser || idleLogoutInProgress) return;
+
+  const delay = getIdleTimeoutDelay(lastActivityAt);
+  if (delay <= 0) {
+    void expireIdleSession();
+    return;
+  }
+
+  idleTimer = window.setTimeout(() => {
+    idleTimer = null;
+    void expireIdleSession();
+  }, delay);
+}
+
+function startIdleTracking(nextSession) {
+  const userId = nextSession?.user?.id;
+  if (!userId) return;
+
+  const storedActivityAt = readActivityAt(userId);
+  const sessionActivityAt = getSessionActivityAt({
+    sessionCreatedAt: nextSession.created_at,
+    lastSignInAt: nextSession.user.last_sign_in_at,
+  });
+  lastActivityAt = storedActivityAt || sessionActivityAt;
+  lastPersistedActivityAt = storedActivityAt;
+
+  if (!storedActivityAt && sessionActivityAt) {
+    writeActivityAt(userId, sessionActivityAt, true);
+  }
+}
+
+function touchActivity(userId = currentUser?.id, force = false) {
+  if (!userId || idleLogoutInProgress) return;
+
+  lastActivityAt = Date.now();
+  writeActivityAt(userId, lastActivityAt, force);
+  scheduleIdleLogout();
+}
+
+async function expireIdleSession() {
+  if (!supabase || !currentUser || idleLogoutInProgress) return;
+  if (!isSessionIdle(lastActivityAt)) {
+    scheduleIdleLogout();
+    return;
+  }
+
+  idleLogoutInProgress = true;
+  clearIdleTimer();
+  const userId = currentUser.id;
+  removeActivityAt(userId);
+  setStatus(
+    elements.loginStatus,
+    `You were signed out after ${SESSION_IDLE_TIMEOUT_MS / 60000} minutes of inactivity.`,
+  );
+
+  let signOutError = null;
+  try {
+    const { error } = await supabase.auth.signOut({ scope: "local" });
+    signOutError = error;
+  } catch (error) {
+    signOutError = error;
+  }
+
+  if (!signOutError) {
+    await applySession(null);
+    return;
+  }
+
+  idleLogoutInProgress = false;
+  lastActivityAt = Date.now() - SESSION_IDLE_TIMEOUT_MS + 1000;
+  lastPersistedActivityAt = 0;
+  writeActivityAt(userId, lastActivityAt, true);
+  setStatus(
+    elements.loginStatus,
+    signOutError.message || "Could not sign out after inactivity",
+  );
+  scheduleIdleLogout();
+}
+
+function stopIdleTracking() {
+  clearIdleTimer();
+  removeActivityAt(currentUser?.id);
+  lastActivityAt = 0;
+  lastPersistedActivityAt = 0;
+  idleLogoutInProgress = false;
+}
+
+function handleUserActivity() {
+  if (!currentUser || idleLogoutInProgress || document.hidden) return;
+  touchActivity(currentUser.id);
+}
+
+function handleStoredActivity(event) {
+  if (!currentUser || event.key !== activityStorageKey()) return;
+
+  const activityAt = getSessionActivityAt({ storedActivityAt: event.newValue });
+  if (!activityAt || activityAt <= lastActivityAt) return;
+
+  lastActivityAt = activityAt;
+  lastPersistedActivityAt = activityAt;
+  scheduleIdleLogout();
+}
+
 async function requireMfaIfNeeded() {
   if (!supabase) return false;
 
@@ -281,11 +466,12 @@ async function requireMfaIfNeeded() {
 
 async function applySession(nextSession) {
   session = nextSession;
-  currentUser = session?.user ?? null;
-  elements.authScreen.hidden = Boolean(currentUser);
-  elements.appScreen.hidden = !currentUser;
+  const nextUser = session?.user ?? null;
 
-  if (!currentUser) {
+  if (!nextUser) {
+    stopIdleTracking();
+    currentUser = null;
+    showLoggedOutScreen();
     showLoginMode();
     activeThreadId = null;
     activeThread = null;
@@ -295,13 +481,24 @@ async function applySession(nextSession) {
     return;
   }
 
+  const sameUser = currentUser?.id === nextUser.id && lastActivityAt > 0;
+  currentUser = nextUser;
+  if (!sameUser) startIdleTracking(nextSession);
+
+  if (isSessionIdle(lastActivityAt)) {
+    showLoggedOutScreen();
+    await expireIdleSession();
+    return;
+  }
+  scheduleIdleLogout();
+
   const mfaReady = await requireMfaIfNeeded();
   if (!mfaReady) {
-    elements.authScreen.hidden = false;
-    elements.appScreen.hidden = true;
+    showLoggedOutScreen();
     return;
   }
 
+  showAuthenticatedScreen();
   elements.currentUser.textContent =
     currentUser.email || "Signed-in team member";
   elements.userAvatar.textContent = initials(currentUser.email);
@@ -816,7 +1013,7 @@ async function handleLogin(event) {
 
   const form = new FormData(elements.loginForm);
   setStatus(elements.loginStatus, "Signing in...");
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email: String(form.get("email") || "").trim(),
     password: String(form.get("password") || ""),
   });
@@ -824,6 +1021,7 @@ async function handleLogin(event) {
     setStatus(elements.loginStatus, error.message || "Could not sign in");
     return;
   }
+  touchActivity(data.session?.user?.id, true);
   setStatus(elements.loginStatus, "");
 }
 
@@ -852,14 +1050,26 @@ async function handleMfa(event) {
   mfaChallengeId = null;
   elements.mfaCode.value = "";
   const { data } = await supabase.auth.getSession();
+  touchActivity(data.session?.user?.id, true);
   await applySession(data.session);
 }
 
 async function init() {
   if (!supabase) {
+    showLoggedOutScreen();
     setStatus(elements.loginStatus, "Mail portal configuration is missing.");
     return;
   }
+
+  window.addEventListener("pointerdown", handleUserActivity, {
+    passive: true,
+  });
+  window.addEventListener("keydown", handleUserActivity);
+  window.addEventListener("scroll", handleUserActivity, { passive: true });
+  window.addEventListener("storage", handleStoredActivity);
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) scheduleIdleLogout();
+  });
 
   elements.loginForm.addEventListener(
     "submit",
@@ -901,6 +1111,7 @@ async function init() {
 
   const { data, error } = await supabase.auth.getSession();
   if (error) {
+    showLoggedOutScreen();
     setStatus(
       elements.loginStatus,
       error.message || "Could not start the mail portal",
