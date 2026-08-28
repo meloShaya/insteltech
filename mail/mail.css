@@ -1280,6 +1280,7 @@ input[type="search"]::-webkit-search-cancel-button {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   width: 100%;
+  min-width: 0;
   min-height: 0;
 }
 
@@ -1287,6 +1288,7 @@ input[type="search"]::-webkit-search-cancel-button {
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
+  min-width: 0;
   padding: 25px clamp(20px, 3vw, 40px) 21px;
   background: var(--paper);
   border-bottom: 1px solid var(--line);
@@ -1361,6 +1363,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .message-list-wrap {
   display: flex;
+  min-width: 0;
   min-height: 0;
   flex-direction: column;
 }
@@ -1384,6 +1387,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .message-list {
   display: flex;
+  min-width: 0;
   min-height: 0;
   flex: 1;
   flex-direction: column;
@@ -1396,6 +1400,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .message-card {
   width: min(780px, 100%);
+  min-width: 0;
   padding: 18px 19px 16px;
   background: var(--paper);
   border: 1px solid var(--line);
