@@ -1,4 +1,20 @@
 /* Reference layout, using Instel's Inter typography, navy ink, and red accent. */
+@keyframes hero-drift {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-9px); }
+}
+.landing-hero-art { animation: hero-drift 7s ease-in-out infinite; }
+.landing-hero-art::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(ellipse at 30% 40%, rgba(220, 38, 38, 0.045), transparent 50%),
+                radial-gradient(ellipse at 75% 65%, rgba(220, 38, 38, 0.035), transparent 45%);
+}
+@media (prefers-reduced-motion: reduce) {
+    .landing-hero-art { animation: none; }
+}
 .landing-about-offer { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding-top: 32px; margin-top: 32px; border-top: 1px solid #edf0f3; }
 .landing-about-offer p { font-size: 13px; line-height: 1.8; color: #78828d; }
 .landing-about-offer .btn-brutal { flex-shrink: 0; }

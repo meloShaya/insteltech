@@ -5,6 +5,28 @@ document.addEventListener('DOMContentLoaded', function() {
     var yearEl = document.getElementById('current-year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+    var dateEl = document.getElementById('current-date');
+    if (dateEl) {
+        var dateFormatter = new Intl.DateTimeFormat('en-GB', {
+            timeZone: 'Africa/Harare', day: 'numeric', month: 'long', year: 'numeric'
+        });
+        var isoFormatter = new Intl.DateTimeFormat('en-CA', {
+            timeZone: 'Africa/Harare', year: 'numeric', month: '2-digit', day: '2-digit'
+        });
+        function updateCurrentDate() {
+            var now = new Date();
+            dateEl.textContent = dateFormatter.format(now);
+            var parts = isoFormatter.formatToParts(now);
+            function part(type) { return parts.find(function(p) { return p.type === type; }).value; }
+            dateEl.dateTime = part('year') + '-' + part('month') + '-' + part('day');
+        }
+        updateCurrentDate();
+        setInterval(updateCurrentDate, 60000);
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) updateCurrentDate();
+        });
+    }
+
     var mobileMenuBtn = document.getElementById('mobile-menu-button');
     var mobileMenu = document.getElementById('mobile-menu');
     if (mobileMenuBtn && mobileMenu) {

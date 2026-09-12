@@ -1,0 +1,11 @@
+{
+  "name": "insteltech-site",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.cjs -i tailwind.input.css -o tailwind.generated.css --minify",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}
