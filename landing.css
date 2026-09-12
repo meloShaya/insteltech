@@ -1,4 +1,75 @@
 /* Reference layout, using Instel's Inter typography, navy ink, and red accent. */
+/* Keep the lower landing page in the same quiet, light visual language. */
+#ai-solutions {
+    padding-block: 48px;
+    background: linear-gradient(180deg, #fff, #fafbfc 55%, #fff);
+}
+#ai-solutions .product-card,
+#ai-solutions aside > div,
+#ai-solutions .solution-featured {
+    border: 1px solid #e6e9ed;
+    border-radius: 0;
+    box-shadow: none;
+    background: linear-gradient(120deg, #f8fafc, #fff 65%);
+}
+#ai-solutions .product-card:hover {
+    border-color: #cbd2da;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(15, 29, 46, 0.035);
+}
+#ai-solutions .product-icon,
+#ai-solutions [class*="rounded"],
+#ai-solutions .form-input-sidebar {
+    border-radius: 0;
+}
+#ai-solutions .solution-featured { color: #0f1d2e; }
+#ai-solutions .solution-featured > .absolute,
+#lead-form > .absolute { display: none; }
+#ai-solutions .solution-featured-content { background: transparent; }
+#ai-solutions .solution-featured .bg-nerve-800 {
+    background: #f0f5fa;
+    border-color: #e2e8f0;
+    box-shadow: none;
+}
+#ai-solutions .solution-featured .text-green-400 { color: #16a34a; }
+#ai-solutions .solution-featured .text-red-400 { color: #dc2626; }
+#ai-solutions .solution-featured .bg-primary\/20 { background: #fef2f2; }
+#ai-solutions .solution-featured .bg-white\/10 { background: #f0f5fa; }
+#ai-solutions .text-slate-400,
+#ai-solutions .text-slate-300 { color: #78828d; }
+#ai-solutions #lead-form {
+    background: linear-gradient(145deg, #f0f5fa, #fff 55%);
+    color: #0f1d2e;
+}
+#lead-form .form-input-sidebar {
+    border: 1px solid #dde3ea;
+    background-color: #fff;
+    color: #0f1d2e;
+}
+#lead-form .form-input-sidebar:focus { border-color: #dc2626; }
+#lead-form .text-white { color: #0f1d2e; }
+#lead-form .animate-pulse-glow { animation: none; }
+#ai-solutions .category-pill { border-radius: 0; }
+#ai-solutions .category-pill.active {
+    background: #f0f5fa;
+    border-color: #b5c9e0;
+    color: #0f1d2e;
+    box-shadow: none;
+}
+.landing-footer {
+    border-top: 1px solid #edf0f3;
+    background: linear-gradient(180deg, #f8fafc, #fff);
+    color: #0f1d2e;
+}
+.landing-footer .text-white { color: #0f1d2e; }
+.landing-footer .text-slate-400 { color: #78828d; }
+.landing-footer .bg-nerve-800 {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0;
+}
+.landing-footer .bg-nerve-800:hover { background: #dc2626; color: #fff; }
+.landing-footer .border-nerve-800 { border-color: #e6e9ed; }
 .landing-frame {
     width: 85%;
     max-width: 1200px;
@@ -192,4 +263,21 @@
 }
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
+}
+
+/* Wide screens have room for actions in the outer gutters. */
+@media (min-width: 1650px) {
+    .landing-channel {
+        position: absolute;
+        right: calc(100% + 24px);
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .landing-nav-actions {
+        position: absolute;
+        left: calc(100% + 24px);
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .landing-nav-links { grid-column: 2; }
 }
