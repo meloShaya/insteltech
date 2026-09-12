@@ -124,8 +124,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function submitLead(formData) {
-        if (!SUPABASE_URL || !SUPABASE_KEY) return;
-        await fetch(SUPABASE_URL + '/rest/v1/leads', {
+        if (!SUPABASE_URL || !SUPABASE_KEY) throw new Error('Contact service unavailable');
+        var response = await fetch(SUPABASE_URL + '/rest/v1/leads', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -133,8 +133,33 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Authorization': 'Bearer ' + SUPABASE_KEY,
                 'Prefer': 'return=minimal'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData),
+            signal: AbortSignal.timeout(15000)
         });
+        if (!response.ok) throw new Error('Contact request was not saved');
+    }
+
+    function clearFormError(form) {
+        var error = form.querySelector('.submission-error');
+        if (error) error.remove();
+    }
+
+    function showFormError(form) {
+        clearFormError(form);
+        var error = document.createElement('div');
+        error.className = 'submission-error';
+        error.setAttribute('role', 'alert');
+        error.setAttribute('tabindex', '-1');
+        var message = document.createElement('p');
+        message.textContent = 'Your message has not been sent. Your details are still here—please try again, or contact us on WhatsApp.';
+        var link = document.createElement('a');
+        link.href = 'https://wa.me/263787938836?text=' + encodeURIComponent('Hi InstelTech, I tried your website form and would like to discuss my business.');
+        link.target = '_blank';
+        link.rel = 'noopener';
+        link.textContent = 'Chat with us on WhatsApp';
+        error.append(message, link);
+        form.appendChild(error);
+        error.focus();
     }
 
     async function sendNotification(formData) {
@@ -156,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (leadForm) {
         leadForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            clearFormError(leadForm);
             var submitBtn = leadForm.querySelector('button[type="submit"]');
             var originalText = submitBtn.innerHTML;
             submitBtn.disabled = true;
@@ -190,6 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (_) {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
+                showFormError(leadForm);
             }
         });
     }
@@ -199,6 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (contactForm) {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            clearFormError(contactForm);
             var submitBtn = contactForm.querySelector('button[type="submit"]');
             var originalText = submitBtn.innerHTML;
             submitBtn.disabled = true;
@@ -227,6 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (_) {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
+                showFormError(contactForm);
             }
         });
     }

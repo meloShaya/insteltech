@@ -1,4 +1,6 @@
 /* Reference layout, using Instel's Inter typography, navy ink, and red accent. */
+.submission-error { padding: 14px; border: 1px solid #fecaca; background: #fff7f7; color: #0f1d2e; font-size: 13px; line-height: 1.6; }
+.submission-error a { display: inline-block; margin-top: 8px; color: #b91c1c; font-weight: 600; text-decoration: underline; }
 @keyframes hero-drift {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-9px); }
