@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://insteltech.co.zw/sitemap.xml
