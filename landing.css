@@ -1,4 +1,45 @@
 /* Reference layout, using Instel's Inter typography, navy ink, and red accent. */
+.landing-marquee { background: linear-gradient(90deg, #fff, #f0f5fa 50%, #fff); color: #78828d; border-bottom: 1px solid #edf0f3; }
+.landing-page-section { padding: 76px 24px; border-top: 1px solid #edf0f3; background: #fff; }
+.landing-page-section h2 { font-size: clamp(32px, 3.4vw, 48px); line-height: 1.1; letter-spacing: -1.8px; font-weight: 600; color: #0f1d2e; }
+.landing-page-section h2 span { color: #9299a1; }
+.landing-eyebrow { font-size: 11px; color: #dc2626; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; margin-bottom: 18px; }
+.landing-section-intro { display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: end; margin-bottom: 48px; }
+.landing-section-intro > p, .landing-page-section article p, .landing-contact-details p, .landing-contact-form > p, .landing-faq details p { color: #78828d; font-size: 14px; line-height: 1.8; }
+.landing-page-section h3 { font-size: 16px; font-weight: 600; color: #0f1d2e; margin-bottom: 10px; }
+.landing-about-values, .landing-process { display: grid; grid-template-columns: repeat(3, 1fr); }
+.landing-about-values article, .landing-process article { padding: 26px; border: 1px solid #edf0f3; background: linear-gradient(130deg, #f8fafc, #fff 75%); }
+.landing-about-values article + article, .landing-process article + article { border-left: 0; }
+.landing-detail-icon { display: inline-block; color: #dc2626; margin-bottom: 24px; font-size: 20px; }
+.landing-process-heading { margin-top: 60px; margin-bottom: 24px; }
+.landing-process-heading h3 { font-size: 24px; letter-spacing: -0.6px; font-weight: 500; }
+.landing-process article > span { display: block; font-size: 36px; font-weight: 500; letter-spacing: -2px; color: #b5c9e0; margin-bottom: 20px; }
+.landing-faq { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; }
+.landing-faq details { border-bottom: 1px solid #edf0f3; padding: 20px 0; }
+.landing-faq details:first-child { padding-top: 0; }
+.landing-faq summary { cursor: pointer; font-size: 14px; font-weight: 500; color: #0f1d2e; }
+.landing-faq details p { margin-top: 14px; }
+.landing-contact-grid { display: grid; grid-template-columns: 1fr 1.65fr; gap: 56px; }
+.landing-contact-details > div { padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid #edf0f3; }
+.landing-contact-details a { display: inline-block; color: #dc2626; font-size: 14px; margin-top: 6px; overflow-wrap: anywhere; }
+.landing-contact-details a i { font-size: 10px; margin-left: 8px; }
+.landing-contact-details .landing-availability { color: #16a34a; font-size: 12px; margin-top: 12px; }
+.landing-contact-form { padding: 28px; background: linear-gradient(135deg, #f0f5fa, #fff 60%); border: 1px solid #e6e9ed; min-width: 0; }
+.landing-contact-form > p { margin-bottom: 24px; }
+.landing-contact-form .form-input-sidebar { background-color: white; border: 1px solid #dde3ea; border-radius: 0; padding: 12px; }
+.landing-contact-form .form-input-sidebar:focus { border-color: #dc2626; }
+.landing-contact-form textarea { resize: vertical; }
+#contact-form-success > i { color: #16a34a; font-size: 32px; margin-bottom: 18px; }
+#contact-form-success p { color: #78828d; margin-bottom: 24px; }
+#about, #contact, #faq { scroll-margin-top: 24px; }
+@media (max-width: 900px) {
+    .landing-page-section { padding: 44px 18px; }
+    .landing-section-intro, .landing-faq, .landing-contact-grid { grid-template-columns: 1fr; gap: 28px; }
+    .landing-about-values, .landing-process { grid-template-columns: 1fr; }
+    .landing-about-values article + article, .landing-process article + article { border-left: 1px solid #edf0f3; border-top: 0; }
+    .landing-contact-form { padding: 20px; }
+    .landing-contact-form .grid { grid-template-columns: 1fr; }
+}
 /* Keep the lower landing page in the same quiet, light visual language. */
 #ai-solutions {
     padding-block: 48px;
