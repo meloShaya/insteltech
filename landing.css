@@ -1,0 +1,204 @@
+/* Reference layout, using Instel's Inter typography, navy ink, and red accent. */
+.landing-frame {
+    width: 85%;
+    max-width: 1200px;
+    margin-inline: auto;
+    border-inline: 1px solid #edf0f3;
+    position: relative;
+}
+.landing-header {
+    background: #fff;
+    border-bottom: 1px solid #edf0f3;
+    position: relative;
+    z-index: 50;
+}
+.landing-nav {
+    height: 72px;
+    padding-inline: 22px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+}
+.landing-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-self: start;
+    color: #0f1d2e;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+}
+.landing-brand-icon { width: 27px; height: 27px; overflow: hidden; flex-shrink: 0; }
+.landing-brand img { width: 92px; height: 92px; max-width: none; transform: translate(-31px, -29px); }
+.landing-brand > span > span { color: #dc2626; }
+.landing-nav-links, .landing-nav-actions { display: flex; align-items: center; gap: 24px; }
+.landing-nav-actions { justify-self: end; gap: 14px; }
+.landing-nav-links a, .landing-contact { font-size: 12px; color: #737d89; white-space: nowrap; }
+.landing-nav-links a:hover, .landing-contact:hover { color: #dc2626; }
+.landing-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 11px 21px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+    white-space: nowrap;
+}
+.landing-button-primary { background: #dc2626; color: #fff; border-color: #dc2626; }
+.landing-button-primary:hover { background: #b91c1c; border-color: #b91c1c; }
+.landing-button-secondary { background: #fff; border-color: #e6e9ed; color: #737d89; }
+.landing-button-secondary:hover { border-color: #0f1d2e; color: #0f1d2e; }
+.landing-nav .landing-button { padding: 8px 18px; font-size: 12px; }
+.landing-menu-button { display: none; }
+.landing-mobile-menu { display: none; }
+.landing-crosses::before, .landing-crosses::after {
+    content: "+";
+    position: absolute;
+    z-index: 2;
+    top: -10px;
+    color: #7b838b;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 18px;
+}
+.landing-crosses::before { left: -6px; }
+.landing-crosses::after { right: -6px; }
+.landing-hero { padding-top: 64px; padding-bottom: 36px; }
+.landing-hero-copy { text-align: center; padding-inline: 20px; position: relative; z-index: 1; }
+.landing-hero h1 {
+    color: #0f1d2e;
+    font-size: clamp(38px, 4.14vw, 58px);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -2.4px;
+    margin: 0;
+}
+.landing-hero h1 span, .landing-engine h2 span { color: #9299a1; }
+.landing-hero-copy > p {
+    margin-top: 20px;
+    color: #78828d;
+    font-size: 14px;
+    line-height: 22px;
+}
+.landing-hero-actions { display: flex; justify-content: center; gap: 14px; margin-top: 34px; }
+.landing-hero-art {
+    width: 88%;
+    aspect-ratio: 900 / 540;
+    margin: 44px auto 0;
+    overflow: hidden;
+    position: relative;
+}
+.landing-hero-art img {
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Remove the supplied image's empty upper margin without changing the asset. */
+    transform: translateY(-24%);
+}
+.landing-trusted { padding: 49px 20px 51px; }
+.landing-trusted::before, .landing-trusted::after, .landing-engine::before, .landing-engine::after { top: -10px; }
+.landing-trusted, .landing-engine { border-top: 1px solid #edf0f3; }
+.landing-intro {
+    background: #fff;
+    overflow: hidden;
+    border-bottom: 1px solid #edf0f3;
+}
+.landing-trusted > p { text-align: center; font-size: 13px; color: #737d89; letter-spacing: 0.1px; }
+.landing-logo-window {
+    margin-top: 29px;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+}
+.landing-logos {
+    display: flex;
+    justify-content: center;
+    gap: 38px;
+    align-items: center;
+    width: max-content;
+    min-width: 100%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #59616a;
+}
+.landing-wordmark { display: inline-flex; align-items: center; gap: 6px; font-size: 20px; font-weight: 600; white-space: nowrap; letter-spacing: -0.7px; }
+.landing-wordmark svg { height: 24px; width: 24px; fill: currentColor; flex-shrink: 0; }
+.wordmark-condensed { font-family: 'Arial Narrow', 'Inter', sans-serif; font-stretch: condensed; letter-spacing: -1px; }
+.landing-engine {
+    padding: 70px 24px 48px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 50px;
+    align-items: center;
+}
+.landing-engine h2 {
+    font-size: clamp(34px, 3.65vw, 50px);
+    color: #0f1d2e;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin: 0;
+}
+.landing-engine-description { margin-top: 34px; font-size: 13px; line-height: 22px; color: #78828d; }
+.landing-features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 8px; margin-top: 56px; }
+.landing-feature { padding: 12px 14px; }
+.landing-feature-highlight { background: #f8f9fb; }
+.landing-feature h3 { font-size: 16px; line-height: 24px; font-weight: 500; color: #0f1d2e; margin: 0; letter-spacing: -0.4px; }
+.landing-feature p { color: #78828d; font-size: 13px; line-height: 20px; margin-top: 14px; }
+.landing-engine-art { overflow: hidden; }
+.landing-engine-art img { display: block; width: 110%; max-width: none; height: auto; transform: translateX(-2%); }
+#ai-solutions, #features, #lead-form { scroll-margin-top: 24px; }
+.landing-header a:focus-visible, .landing-intro a:focus-visible, .landing-menu-button:focus-visible { outline: 2px solid #dc2626; outline-offset: 5px; }
+
+@media (min-width: 1500px) {
+    .landing-hero-art { width: 900px; }
+}
+@media (max-width: 1050px) {
+    .landing-nav { gap: 16px; padding-inline: 18px; }
+    .landing-nav-links { gap: 16px; }
+    .landing-contact { display: none; }
+    .landing-engine { gap: 20px; }
+    .landing-feature h3 { font-size: 14px; }
+    .landing-desktop-break { display: none; }
+}
+@media (max-width: 767px) {
+    .landing-frame { width: calc(100% - 40px); }
+    .landing-nav { height: 68px; grid-template-columns: 1fr auto; padding-inline: 14px; }
+    .landing-brand { font-size: 19px; }
+    .landing-nav-links, .landing-nav-actions { display: none; }
+    .landing-menu-button { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: none; border: 0; color: #0f1d2e; font-size: 20px; }
+    .landing-mobile-menu:not(.hidden) { display: grid; padding: 12px 34px 20px; border-top: 1px solid #edf0f3; }
+    .landing-mobile-menu a { padding: 10px 0; font-size: 14px; color: #0f1d2e; }
+    .landing-hero { padding-top: 52px; padding-bottom: 35px; }
+    .landing-hero-copy { padding-inline: 12px; }
+    .landing-hero h1 { font-size: clamp(27px, 6.6vw, 48px); line-height: 1.08; letter-spacing: -1.2px; }
+    .landing-hero-copy > p { font-size: 13px; line-height: 21px; margin-top: 20px; }
+    .landing-hero-actions { gap: 10px; margin-top: 26px; }
+    .landing-button { padding: 10px 14px; font-size: 12px; }
+    .landing-hero-art { width: 100%; margin-top: 38px; }
+    .landing-trusted { padding: 30px 10px 34px; }
+    .landing-logo-window { margin-top: 24px; }
+    .landing-logos { gap: 28px; }
+    .landing-wordmark { font-size: 18px; }
+    .landing-engine { padding: 42px 18px 36px; grid-template-columns: 1fr; gap: 20px; }
+    .landing-engine h2 { font-size: 35px; letter-spacing: -1.5px; }
+    .landing-engine-description { margin-top: 25px; }
+    .landing-features { margin-top: 28px; gap: 12px 6px; }
+    .landing-feature { padding: 12px 10px; }
+    .landing-feature p { margin-top: 10px; }
+    .landing-engine-art { max-width: 380px; width: 100%; margin-inline: auto; }
+    .landing-engine-art img { width: 100%; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+}

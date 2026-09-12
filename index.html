@@ -64,6 +64,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="landing.css" />
     <script>
         tailwind.config = {
             theme: {
@@ -98,82 +99,99 @@
 </head>
 <body class="bg-white font-sans text-nerve-900">
 
-    <!-- ==================== TOP NAV ==================== -->
-    <nav class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 top-0">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
-                <a href="index.html" class="flex items-center gap-2">
-                    <img src="images/instel.svg" alt="Instel Technologies" class="h-8 w-auto" />
-                    <span class="text-xl font-bold text-nerve-900">Instel<span class="text-primary">Tech</span></span>
-                </a>
-                <div class="hidden md:flex items-center gap-6">
-                    <a href="index.html" class="text-nerve-900 font-semibold text-sm hover:text-primary transition-colors">Home</a>
-                    <a href="about.html" class="text-slate-500 font-medium text-sm hover:text-primary transition-colors">About</a>
-                    <a href="contact.html" class="text-slate-500 font-medium text-sm hover:text-primary transition-colors">Contact</a>
-                    <a href="#lead-form" class="btn-brutal btn-primary btn-md">
-                        GET FREE CHATBOT
-                    </a>
-                </div>
-                <button id="mobile-menu-button" class="md:hidden text-nerve-900 p-2">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-        </div>
-        <div class="md:hidden hidden bg-white border-t border-slate-100" id="mobile-menu">
-            <a href="index.html" class="block px-4 py-3 text-nerve-900 font-semibold hover:bg-slate-50">Home</a>
-            <a href="about.html" class="block px-4 py-3 text-slate-600 hover:bg-slate-50">About</a>
-            <a href="contact.html" class="block px-4 py-3 text-slate-600 hover:bg-slate-50">Contact</a>
-            <a href="#lead-form" class="block px-4 py-3 bg-primary text-white font-bold text-center">GET FREE CHATBOT</a>
-        </div>
-    </nav>
-
-    <!-- ==================== MARQUEE ==================== -->
-    <div class="bg-nerve-900 text-white py-2.5 overflow-hidden whitespace-nowrap mt-16">
-        <div class="marquee-track">
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">AI CHATBOTS</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">MOBILE APPS</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">WEB DEVELOPMENT</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">N8N AUTOMATION</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">AI AGENTS</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">LEAD GENERATION</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">AI CHATBOTS</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">MOBILE APPS</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">WEB DEVELOPMENT</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">N8N AUTOMATION</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">AI AGENTS</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">LEAD GENERATION</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">AI CHATBOTS</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">MOBILE APPS</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">WEB DEVELOPMENT</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">N8N AUTOMATION</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">AI AGENTS</span><span class="text-primary mx-2">&#9733;</span>
-            <span class="mx-4 text-xs font-mono font-bold uppercase tracking-widest">LEAD GENERATION</span><span class="text-primary mx-2">&#9733;</span>
-        </div>
-    </div>
-
-    <!-- ==================== SUB-HEADER ==================== -->
-    <div class="sticky top-16 z-40 bg-white/95 backdrop-blur-sm border-b border-slate-100">
-        <div class="max-w-[1700px] mx-auto px-4 h-14 flex items-center justify-between">
-            <a href="https://www.whatsapp.com/channel/0029VbCFBFT9WtBzFDMACY26" target="_blank" rel="noopener" class="flex items-center gap-2 group hover:scale-105 transition-transform">
-                <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center text-white group-hover:bg-green-600 transition-colors">
-                    <i class="fab fa-whatsapp text-base"></i>
-                </div>
-                <div class="hidden sm:block">
-                    <p class="font-bold text-xs text-nerve-900 leading-tight group-hover:text-green-600 transition-colors">Join Our Channel</p>
-                    <p class="text-[10px] text-slate-500">Get business automation tips, updates & free offers</p>
-                </div>
+    <!-- ==================== LANDING INTRO ==================== -->
+    <header class="landing-header">
+        <nav class="landing-nav landing-frame" aria-label="Main navigation">
+            <a href="index.html" class="landing-brand" aria-label="InstelTech home">
+                <span class="landing-brand-icon"><img src="images/instel.svg" alt="" width="92" height="92" /></span>
+                <span>Instel<span>Tech</span></span>
             </a>
-            <div class="hidden md:flex items-center gap-6 text-sm text-slate-500">
-                <span class="flex items-center gap-2"><i class="fas fa-bolt text-amber-500"></i> 100+ AI Agents</span>
-                <span class="flex items-center gap-2"><i class="fas fa-clock text-green-500"></i> 24/7 Support</span>
-                <span class="flex items-center gap-2"><i class="fas fa-zap text-primary"></i> 3 Sec Response</span>
+            <div class="landing-nav-links">
+                <a href="about.html">About</a>
+                <a href="#features">Features</a>
+                <a href="#ai-solutions">AI Solutions</a>
+                <a href="contact.html">Contact</a>
             </div>
-            <a href="contact.html" class="btn-brutal btn-secondary btn-sm">Get in Touch</a>
+            <div class="landing-nav-actions">
+                <a href="contact.html" class="landing-contact">Let's talk</a>
+                <a href="#lead-form" class="landing-button landing-button-primary">Get Started</a>
+            </div>
+            <button id="mobile-menu-button" class="landing-menu-button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-menu">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
+        </nav>
+        <div class="landing-mobile-menu hidden" id="mobile-menu">
+            <a href="about.html">About</a>
+            <a href="#features">Features</a>
+            <a href="#ai-solutions">AI Solutions</a>
+            <a href="contact.html">Contact</a>
+            <a href="#lead-form">Get Started</a>
         </div>
+    </header>
+
+    <div class="landing-intro">
+        <section class="landing-hero landing-frame landing-crosses" aria-labelledby="hero-heading">
+            <div class="landing-hero-copy">
+                <h1 id="hero-heading">Build AI workflows that<br /><span>run your business</span></h1>
+                <p>Connect your tools, deploy autonomous AI agents, and automate complex workflows<br class="landing-desktop-break" /> all from a single visual platform.</p>
+                <div class="landing-hero-actions">
+                    <a href="#lead-form" class="landing-button landing-button-primary">Start Building</a>
+                    <a href="#ai-solutions" class="landing-button landing-button-secondary"><i class="fas fa-arrow-right" aria-hidden="true"></i> Our Solutions</a>
+                </div>
+            </div>
+            <div class="landing-hero-art">
+                <img src="images/hero.jpeg" alt="Connected business tools passing through an AI automation engine to produce completed workflows." width="1053" height="1008" fetchpriority="high" />
+            </div>
+        </section>
+
+        <section class="landing-trusted landing-frame landing-crosses" aria-label="Trusted by leading teams">
+            <p>Trusted by Leading Team</p>
+            <!-- Reference wordmarks are placeholders until client logos are supplied. -->
+            <div class="landing-logo-window">
+                <div class="landing-logos">
+                    <span class="landing-wordmark wordmark-condensed" aria-hidden="true">Nexora</span>
+                    <span class="landing-wordmark"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M8 4h15l-7 20H1L8 4Zm3 4L5 20h8l6-12h-8Zm4-6h12l-7 20h-4l6-16h-8Z" /></svg>Nexivo</span>
+                    <span class="landing-wordmark wordmark-condensed"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="2" y="2" width="24" height="24" rx="7"/><path d="M8 14a6 6 0 1 0 6-6m-5 6a3 3 0 1 0 5-3" fill="none" stroke="white" stroke-width="2"/></svg>Nexora</span>
+                    <span class="landing-wordmark"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="m10 4 14 0-9 11H1L10 4Zm3 10h14l-9 11H4l9-11Z"/></svg>Braina</span>
+                    <span class="landing-wordmark"><svg viewBox="0 0 28 28" aria-hidden="true"><rect x="2" y="2" width="24" height="24" rx="7"/><circle cx="14" cy="14" r="8" fill="none" stroke="white" stroke-width="2"/><path d="M18 7a8 8 0 0 0 0 14" fill="none" stroke="white" stroke-width="3"/></svg>Fluxenta</span>
+                    <span class="landing-wordmark wordmark-condensed"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M3 16h6l5-6V3m11 9h-6l-5 6v7" fill="none" stroke="currentColor" stroke-width="4"/></svg>Synthora</span>
+                    <span class="landing-wordmark" aria-hidden="true"><svg viewBox="0 0 28 28"><rect x="2" y="2" width="24" height="24" rx="7"/><circle cx="14" cy="14" r="8" fill="none" stroke="white" stroke-width="2"/></svg>Fluxenta</span>
+                    <span class="landing-wordmark" aria-hidden="true">∞ Instel</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="landing-engine landing-frame landing-crosses" aria-labelledby="engine-heading">
+            <div class="landing-engine-copy">
+                <h2 id="engine-heading">One AI engine<br /><span>infinite workflows</span></h2>
+                <p class="landing-engine-description">InstelTech runs every automation through a centralized intelligence engine.<br class="landing-desktop-break" /> It connects your tools, processes data, and executes actions automatically so your workflows run faster and smarter.</p>
+                <div class="landing-features">
+                    <div class="landing-feature landing-feature-highlight">
+                        <h3>Workflow Automation</h3>
+                        <p>Automate tasks and run workflows across your tools.</p>
+                    </div>
+                    <div class="landing-feature">
+                        <h3>Integrations</h3>
+                        <p>Connect CRMs, APIs, and internal tools seamlessly.</p>
+                    </div>
+                    <div class="landing-feature">
+                        <h3>Data Processing</h3>
+                        <p>Collect and organize data across your systems.</p>
+                    </div>
+                    <div class="landing-feature">
+                        <h3>AI Decision Engine</h3>
+                        <p>Analyze conditions and trigger the next action automatically.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="landing-engine-art">
+                <img src="images/sec-hero.jpeg" alt="Layered workflow windows connecting email and business tools through InstelTech's AI engine." width="1053" height="1008" loading="lazy" />
+            </div>
+        </section>
     </div>
 
     <!-- ==================== MAIN 3-COLUMN GRID ==================== -->
-    <div class="max-w-[1700px] mx-auto px-4 py-6 md:py-8">
+    <div id="ai-solutions" class="max-w-[1700px] mx-auto px-4 py-6 md:py-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
 
             <!-- ========== LEFT SIDEBAR (col 1-3) ========== -->
