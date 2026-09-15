@@ -511,6 +511,14 @@ async function applySession(nextSession) {
   elements.userAvatar.textContent = initials(currentUser.email);
   elements.composeFrom.textContent = mailSenderLabel(currentUser.email);
   await loadThreads();
+  const crmRecipient = new URLSearchParams(window.location.search).get("to");
+  if (crmRecipient && /^[^\s@,;]+@[^\s@,;]+\.[^\s@,;]+$/.test(crmRecipient)) {
+    openCompose();
+    elements.composeTo.value = crmRecipient;
+    const cleanUrl = new URL(window.location.href);
+    cleanUrl.searchParams.delete("to");
+    window.history.replaceState(null, "", cleanUrl);
+  }
 }
 
 async function loadThreads() {

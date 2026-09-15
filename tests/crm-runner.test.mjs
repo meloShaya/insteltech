@@ -1,0 +1,64 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { mkdtemp, writeFile, readFile, rm, chmod } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { buildPrompt, runCodex } from "../scripts/crm-runner.mjs";
+
+test("adapter passes subscription authentication without importing user tool configuration", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "instel-runner-test-"));
+  try {
+    await writeFile(join(dir, "auth.json"), '{"auth_mode":"chatgpt"}');
+    const binary = join(dir, "fake-codex");
+    await writeFile(
+      binary,
+      `#!/usr/bin/env node
+const fs=require('node:fs');
+const args=process.argv.slice(2);
+if(!args.includes('read-only')||!args.includes('shell_tool')||!args.includes('apps')||!args.includes('--ephemeral'))process.exit(2);
+if(fs.existsSync(process.env.CODEX_HOME+'/config.toml'))process.exit(3);
+let prompt='';process.stdin.on('data',d=>prompt+=d);process.stdin.on('end',()=>fs.writeFileSync(args[args.indexOf('--output-last-message')+1],'# Result\\n'+prompt));
+`,
+    );
+    await chmod(binary, 0o700);
+    const output = await runCodex("A focused brief", {
+      binary,
+      authHome: dir,
+      timeoutMs: 5000,
+    });
+    assert.equal(output, "# Result\nA focused brief");
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+test("adapter distinguishes provider dependencies and untrusted contact context", () => {
+  const prompt = buildPrompt({ id: "campaign-strategy" }, "Source reference", {
+    brief: "A useful plan",
+    contacts: [{ company: "Example" }],
+  });
+  assert.match(prompt, /Provider credentials remain in Supabase/);
+  assert.match(prompt, /Live internet research is enabled/);
+  assert.match(prompt, /not cold outreach/);
+  assert.match(prompt, /Provider changes are disabled/);
+  assert.match(prompt, /Use instel-crm provider_operation/);
+  assert.match(prompt, /"company": "Example"/);
+});
+
+test("runner installs only the scoped CRM MCP configuration for a connected job", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "instel-runner-mcp-test-"));
+  try {
+    await writeFile(join(dir, "auth.json"), '{"auth_mode":"chatgpt"}');
+    await writeFile(join(dir, "config.toml"), '[mcp_servers.unrelated]\ncommand="never-run-this"');
+    const binary = join(dir, "fake-codex");
+    await writeFile(binary, `#!/usr/bin/env node
+const fs=require('node:fs');const args=process.argv.slice(2);const config=fs.readFileSync(process.env.CODEX_HOME+'/config.toml','utf8');
+if(!config.includes('[mcp_servers.instel]')||config.includes('unrelated'))process.exit(2);
+if(!args.includes('web_search="live"')||!args.includes('--enable'))process.exit(3);
+process.stdin.resume();process.stdin.on('end',()=>fs.writeFileSync(args[args.indexOf('--output-last-message')+1],'Scoped tools ready'));
+`);
+    await chmod(binary, 0o700);
+    const output = await runCodex("Research", { binary, authHome: dir, timeoutMs: 5000, config: { subagents: true }, crmContext: { url: "https://fixture.supabase.co", token: "fixture-worker", anonKey: "fixture-anon", job_id: "fixture-job" } });
+    assert.equal(output, "Scoped tools ready");
+    assert.match(await readFile(join(dir, "config.toml"), "utf8"), /unrelated/);
+  } finally { await rm(dir, { recursive: true, force: true }); }
+});

@@ -1,5 +1,4 @@
-import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "npm:@supabase/supabase-js@2";
+import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2";
 import {
   assertEmailAddresses,
   assertOptionalEmailAddresses,
@@ -139,7 +138,7 @@ function assertBody(request: SendRequest): {
 }
 
 async function loadAttachments(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient,
   userId: string,
   inputs: MailAttachmentInput[] | undefined,
 ) {
@@ -229,8 +228,16 @@ async function main(req: Request): Promise<Response> {
   const supabase = createClient(supabaseUrl, serviceRoleKey, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
+  // The CRM scheduler uses a server-held service credential and an active team actor.
+  // Browser requests continue to require the user's own session token.
+  const schedulerActor =
+    token === serviceRoleKey && !req.headers.get("origin")
+      ? req.headers.get("x-crm-actor")
+      : null;
   const { data: userData, error: userError } =
-    await supabase.auth.getUser(token);
+    schedulerActor && /^[0-9a-f-]{36}$/i.test(schedulerActor)
+      ? await supabase.auth.admin.getUserById(schedulerActor)
+      : await supabase.auth.getUser(token);
   if (userError || !userData.user) {
     return jsonResponse(req, { error: "Invalid authentication" }, 401);
   }
@@ -458,19 +465,43 @@ async function main(req: Request): Promise<Response> {
       await supabase
         .from("mail_messages")
         .update({
-          status: "failed",
+          status: resendResponse.status >= 500 ? "unknown" : "failed",
           error_message: errorMessage.slice(0, 500),
         })
         .eq("id", message.id);
       return jsonResponse(
         req,
-        { error: errorMessage, message_id: message.id },
+        {
+          error: errorMessage,
+          message_id: message.id,
+          provider_status: resendResponse.status,
+          status: resendResponse.status >= 500 ? "unknown" : "failed",
+        },
         502,
       );
     }
 
     const providerId =
       typeof responseBody.id === "string" ? responseBody.id : null;
+    if (!providerId) {
+      await supabase
+        .from("mail_messages")
+        .update({
+          status: "unknown",
+          error_message:
+            "Resend accepted the request without a message identifier; reconcile before retrying",
+        })
+        .eq("id", message.id);
+      return jsonResponse(
+        req,
+        {
+          error: "Provider outcome requires reconciliation",
+          status: "unknown",
+          message_id: message.id,
+        },
+        504,
+      );
+    }
     await supabase
       .from("mail_messages")
       .update({

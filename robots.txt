@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /crm/
+Disallow: /mail/
 
 Sitemap: https://insteltech.co.zw/sitemap.xml

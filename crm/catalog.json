@@ -1,0 +1,402 @@
+[
+  {
+    "id": "auto-research-public",
+    "title": "Auto Research",
+    "description": "Autonomous cold email campaign launcher. Takes one target company domain, scrapes their website, generates an ICP with Codex, pulls matching leads via Prospeo, enriches emails + company descriptions, personalizes each lead with parallel Codex sub-agents (A/B/C variants), and uploads as a live Smartlead camp",
+    "group": "Operations",
+    "path": "library/skills/auto-research-public/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "blitz-list-builder",
+    "title": "Blitz List Builder",
+    "description": "Use the Blitz API to find decision-makers at specific companies when you already have a list of company domains. Best for SMB owner-finding, domain-to-people lookup, or supplementing Prospeo results. Outputs a CSV you can feed to the email-waterfall or directly to /cold-email-starter-kit for Smartlead upload. Use when ",
+    "group": "Prospecting",
+    "path": "library/skills/blitz-list-builder/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "campaign-copywriting",
+    "title": "Campaign Copywriting",
+    "description": "Creates cold email copy through a stepwise confirmation process. Use when writing email campaigns, given a campaign strategy document, website, or client context. Confirms direction at each step before outputting final copy.",
+    "group": "Strategy",
+    "path": "library/skills/campaign-copywriting/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "campaign-strategy",
+    "title": "Campaign Strategy",
+    "description": "Generates 15-25+ cold outbound campaign ideas with targeting strategies, AI personalization approaches, and value propositions. Use when planning campaign experiments for a client, given their website or business context.",
+    "group": "Strategy",
+    "path": "library/skills/campaign-strategy/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "cold-email-kickoff",
+    "title": "Cold Email Kickoff",
+    "description": "Single \"start here\" orchestrator for new cold email operators. Asks infrastructure-status questions first, then runs /icp-onboarding \u2192 /lead-magnet-brainstorm \u2192 /campaign-strategy in sequence, producing a consolidated campaign-plan.md. Ends with an interactive menu of next skills branched on whether the user already ha",
+    "group": "Strategy",
+    "path": "library/skills/cold-email-kickoff/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "cold-email-starter-kit",
+    "title": "Cold Email Starter Kit",
+    "description": "Complete beginner-friendly cold email toolkit. Walks from zero to launched campaign \u2014 domain purchase, inbox setup, list building, copywriting, enrichment, and sending via Smartlead or Instantly. Use when setting up cold email for the first time, launching a new campaign, teaching someone cold email, or when you need a",
+    "group": "Strategy",
+    "path": "library/skills/cold-email-starter-kit/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "cold-email-weekly-rhythm",
+    "title": "Cold Email Weekly Rhythm",
+    "description": "Operational playbook for running cold email continuously. Prescribes what to do on Monday / Wednesday / Friday / biweekly / monthly / quarterly. Use this as your ongoing cadence once your first campaign is live. What separates hobbyist from top 1% operators isn't tooling \u2014 it's consistency. This skill is the schedule.",
+    "group": "Operations",
+    "path": "library/skills/cold-email-weekly-rhythm/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "competitor-engagers",
+    "title": "Competitor Engagers",
+    "description": "Find people actively engaging with competitor LinkedIn posts. Given a website URL, discovers competitors, fetches their company and employee posts, collects all commenters and reactors, and outputs a deduplicated CSV of engaged prospects. Use when someone wants to find leads from competitor engagement, build outreach l",
+    "group": "Prospecting",
+    "path": "library/skills/competitor-engagers/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "deliverability-incident-response",
+    "title": "Deliverability Incident Response",
+    "description": "Triage playbook for when cold email deliverability breaks. Decision-tree guidance for \"I landed in spam\", \"bounce rate spiked\", \"domain blacklisted\", \"inbox blocked in warmup\", \"reply rate dropped\". Tells you what to check first, what to fix, and how long the fix takes. Pair with /email-deliverability-audit for diagnos",
+    "group": "Infrastructure",
+    "path": "library/skills/deliverability-incident-response/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "deliverability-test-public",
+    "title": "Deliverability Test",
+    "description": "Compare reply rates, bounce rates, and positive reply rates broken down by inbox type (SMTP / Gmail / Outlook) for a Smartlead account. Use when you want to know \"which inbox type delivers best\" or when debugging unexplained deliverability differences across a mixed fleet. Operates via Smartlead API only (no database r",
+    "group": "Operations",
+    "path": "library/skills/deliverability-test-public/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "disco-like",
+    "title": "Disco Like",
+    "description": "Find lookalike companies via DiscoLike's 65M+ business domain database. Search by seed domains (\"find companies like clay.com and apollo.io\") or natural-language ICP text (\"B2B cold email outreach\"). Supports negation domains (exclude competitors/existing customers) and country filtering. Use when you already know 3-10",
+    "group": "Prospecting",
+    "path": "library/skills/disco-like/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "email-deliverability-audit",
+    "title": "Email Deliverability Audit",
+    "description": "Diagnostic audit for a running cold email program. Checks domain authentication (SPF/DKIM/DMARC), inbox health/reputation from Smartlead, bounce rate by inbox type, and optionally runs a spam placement test via Smartlead's Smart Delivery API. Outputs markdown report + CSV with per-domain/per-inbox scores and concrete a",
+    "group": "Infrastructure",
+    "path": "library/skills/email-deliverability-audit/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "experiment-design",
+    "title": "Experiment Design",
+    "description": "Framework for running single-variable cold email experiments. Defines experiment types (list-only, copy-only, combined), confidence weighting, minimum sample sizes, and success criteria. Use when the user wants to improve a campaign, test a new list vs old one, or compare copy variants. Prevents the #1 learning-loop mi",
+    "group": "Operations",
+    "path": "library/skills/experiment-design/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "google-maps-list-builder",
+    "title": "Google Maps List Builder",
+    "description": "Scrape Google Maps for local businesses by category and location, output CSV ready for cold email enrichment. Best for SMB campaigns targeting restaurants, clinics, gyms, salons, contractors, etc. Uses RapidAPI Maps Data API. Output feeds directly into /blitz-list-builder (to find owner contacts) or /email-waterfall (i",
+    "group": "Prospecting",
+    "path": "library/skills/google-maps-list-builder/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "icp-onboarding",
+    "title": "ICP Onboarding",
+    "description": "Conversational intake for cold email campaigns. Interviews the user about their business, ICP (Ideal Customer Profile), offer, lead magnets, and hard vs soft filters. Outputs a structured `client-profile.yaml` that every other skill in the repo reads from. Use at the very start of a new campaign or when onboarding a ne",
+    "group": "Strategy",
+    "path": "library/skills/icp-onboarding/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "icp-prompt-builder",
+    "title": "ICP Prompt Builder",
+    "description": "Interactive loop that builds and tunes an AI prompt for evaluating whether a company fits a client's ICP. Run after any list-building skill (disco-like, blitz-list-builder, google-maps-list-builder, prospeo-full-export) to qualify companies before scaling. Iterates batches of 10 companies with user feedback, stops when",
+    "group": "Prospecting",
+    "path": "library/skills/icp-prompt-builder/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "lead-magnet-brainstorm",
+    "title": "Lead Magnet Brainstorm",
+    "description": "Helps the user come up with free lead magnets or hooks to offer in cold emails. Asks about their business, what they can legally give away, and what would be genuinely valuable to their ICP. Returns 5-10 concrete offer ideas with example CTA phrasings. Use when the user says their campaign \"needs a hook\", \"needs an off",
+    "group": "Strategy",
+    "path": "library/skills/lead-magnet-brainstorm/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "list-builder",
+    "title": "List Builder",
+    "description": "META skill \u2014 build the largest possible qualified lead list for any request, end to end. Orchestrates discovery (Prospeo + GetLeads + Blitz + Google Maps + lookalike snowball from /list-expander), AI qualification with live-website verify, uncapped contact pull (GetLeads \u2192 Blitz \u2192 Prospeo), and provider emails (GetLead",
+    "group": "Prospecting",
+    "path": "library/skills/list-builder/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "list-expander",
+    "title": "List Expander",
+    "description": "Expand a hard-to-build niche list from ~10 known-good seed companies into a full qualified TAM. Seed fingerprinting (how do good-fit companies ACTUALLY show up in the company database's filters) \u2192 lookalike generation (Prospeo company_lookalike, Exa findSimilar, Parallel.ai entity search) \u2192 filter mining with a precisi",
+    "group": "Prospecting",
+    "path": "library/skills/list-expander/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "list-quality-scorecard",
+    "title": "List Quality Scorecard",
+    "description": "Pre-send quality scorecard for any lead list. Grades duplicate rate, title diversity, bad-title patterns, catch-all domain density, ICP fit, email verification coverage. Outputs a letter grade + action items BEFORE you send. Catches bad lists before they burn inboxes. Run after email enrichment, before Smartlead upload",
+    "group": "Prospecting",
+    "path": "library/skills/list-quality-scorecard/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "personalization-subagent-pattern",
+    "title": "Personalization Subagent Pattern",
+    "description": "Reusable approval-loop pattern for fanning out lead personalization across parallel Codex sub-agents. Shows the user 1 sample personalization, collects feedback, runs 10 more, approves, runs 10 more \u2014 stops when 2 consecutive rounds have zero edits, then scales to the full list. ALWAYS uses Codex Code Task ",
+    "group": "Operations",
+    "path": "library/skills/personalization-subagent-pattern/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "clay-playbooks",
+    "title": "Clay Playbooks",
+    "description": "Index and shared harness for the 19 signal playbooks. Each playbook turns one buying signal (new in role, raised a round, hiring surge, pricing page, tech on website, ...) into one copy-ready sentence you can drop into a cold email. Every playbook ships three ways to run it: as a Codex skill, as a Clay table built thr",
+    "group": "Signals",
+    "path": "library/skills/playbooks/clay-playbooks/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-ad-library",
+    "title": "Playbook Ad Library",
+    "description": "Produces a line about what a company is currently advertising on Facebook and Instagram, from the Meta Ad Library. Triggers on \"are they running ads\", \"what are they advertising\", \"meta ad library\", \"facebook ads\", \"pull their ad copy\", \"who is spending on paid social\". Outputs ad_library_line, a lowercase clause that ",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-ad-library/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-ai-specificity",
+    "title": "Playbook Ai Specificity",
+    "description": "Writes the one sentence that makes a generic offer feel written for this one company. Produces the tail of \"I think we can help you ___\". Triggers on \"specificity line\", \"make it feel specific to them\", \"the specifically sentence\", \"why would they think this is for them\", \"personalize the offer not the intro\". Outputs ",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-ai-specificity/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-case-study-page",
+    "title": "Playbook Case Study Page",
+    "description": "Finds a prospect company's own case-study or customer-stories page and pulls one named customer off it, so email 1 can open with \"saw your work with Intercom\". Triggers on \"case study\", \"customer stories\", \"who are their clients\", \"saw your work with X\", \"name-drop one of their customers\", \"logos on their site\". Output",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-case-study-page/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-company-name-cleaning",
+    "title": "Playbook Company Name Cleaning",
+    "description": "Turns the raw company-name string on a lead row into the short human form a person would say out loud, so it can be dropped into email copy. Triggers on \"clean these company names\", \"company name variable\", \"strip the LLC and Inc\", \"the company names look robotic\", \"normalize company names for the campaign\". Outputs co",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-company-name-cleaning/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-creative-ideas",
+    "title": "Playbook Creative Ideas",
+    "description": "The 3-bullet creative ideas email. Produces three per-company bullets that each sit in a slot the operator defined up front, so the model fills in the company detail and never invents a new idea. Triggers on \"creative ideas campaign\", \"three ideas email\", \"I had a few ideas for you\", \"3 bullets\", \"use cases for their b",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-creative-ideas/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-first-name-cleaning",
+    "title": "Playbook First Name Cleaning",
+    "description": "Turns the raw first-name field on a lead row into the name a person would actually be greeted by, so it can open an email. Triggers on \"clean these first names\", \"first name variable\", \"the greeting says Hi DR MATTHEW\", \"strip the titles off the names\", \"some rows have the whole name in the first-name column\", \"normali",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-first-name-cleaning/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-fundraising",
+    "title": "Playbook Fundraising",
+    "description": "Produces a copy-ready sentence about a company's funding round, and the list-building filters that select companies which have ever raised or raised recently. Triggers on \"raised a round\", \"recently funded\", \"companies that raised\", \"Series A list\", \"VC backed\", \"post funding outreach\", \"who just raised\". Outputs fundi",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-fundraising/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-google-site-search",
+    "title": "Playbook Google Site Search",
+    "description": "Checks whether a company's own website mentions a specific keyword, using one simple Google site: query per keyword through a SERP API, and turns the hit into a copy-ready line. Triggers on \"does their site mention X\", \"site: search\", \"find companies whose website says X\", \"filter this list by a keyword on their site\",",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-google-site-search/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-hiring-surge",
+    "title": "Playbook Hiring Surge",
+    "description": "Produces a copy-ready clause about a company adding people to one specific department in the last 6 months, plus the department-level headcount counts that drive the segment gate. Triggers on \"they're hiring\", \"hiring surge\", \"growing their sales team\", \"scaling the team\", \"headcount growth\", \"who added SDRs\", \"compani",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-hiring-surge/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-job-posting-language",
+    "title": "Playbook Job Posting Language",
+    "description": "Produces a copy-ready clause about a role a company is currently hiring for, filtered by language the client cares about (for example \"cold call\", \"outbound prospecting\", \"Salesforce\"). Triggers on \"they're hiring\", \"job posting language\", \"who is hiring SDRs\", \"companies hiring for X\", \"find the hiring signal\", \"what ",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-job-posting-language/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-linkedin-engagement",
+    "title": "Playbook Linkedin Engagement",
+    "description": "Turn the people who like and comment on a source account's LinkedIn posts (a competitor, or one of the client's own customers) into ICP-filtered prospect rows, with an optional copy-ready personalization line when the campaign asks for one. Triggers on \"who engages with our competitors\", \"likers and commenters\", \"Linke",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-linkedin-engagement/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-lookalikes",
+    "title": "Playbook Lookalikes",
+    "description": "Turns one customer case study into the tightest list of companies that would read that case study and see themselves. Decomposes WHY the case-study company resonates into concrete attributes, translates those attributes into database filters, intersects them with a lookalike anchor, then widens with a model judge. Trig",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-lookalikes/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-name-to-other-prospects",
+    "title": "Playbook Name To Other Prospects",
+    "description": "Names 2 other right-fit people at the prospect's own company so an email can ask \"is this you or them?\" without ever naming the person being emailed. Triggers on \"name two other people at the company\", \"who else works there\", \"should I be talking to someone else\", \"colleague name variable\", \"other prospects line\", \"wro",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-name-to-other-prospects/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-new-in-role",
+    "title": "Playbook New In Role",
+    "description": "Produces a copy-ready clause about someone who recently started or changed into their current job title. Triggers on \"who just started\", \"new in role\", \"recently promoted\", \"new VP of X\", \"job change signal\", \"people who just took the seat\". Outputs new_in_role_line, a lowercase clause that completes \"Saw <line>.",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-new-in-role/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-pricing-page",
+    "title": "Playbook Pricing Page",
+    "description": "Decides whether a company publishes public self-serve pricing and extracts its plan tiers, price points and feature axis. Triggers on \"do they have a pricing page\", \"is their pricing public\", \"filter out enterprise quote-only companies\", \"what do they charge\", \"find their plans\", \"self-serve vs sales-led\". Outputs a st",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-pricing-page/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-social-link-finding",
+    "title": "Playbook Social Link Finding",
+    "description": "Resolve a company domain to its verified official social profile URLs (LinkedIn, X, Facebook, Instagram, YouTube, TikTok). Triggers on \"find their LinkedIn\", \"get the company LinkedIn URL\", \"find their Instagram\", \"we need social handles for this list\", \"which companies have a TikTok\", \"social links for the TAM\". Outpu",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-social-link-finding/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-social-posts",
+    "title": "Playbook Social Posts",
+    "description": "Fetches the most recent usable LinkedIn post from a company page OR a person's profile and stores the post content itself, with an optional AI personalization line on top. Triggers on \"what did they post about\", \"recent LinkedIn post\", \"social signal\", \"reference their content\", \"they posted about X\", \"what is this per",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-social-posts/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-tech-on-website",
+    "title": "Playbook Tech On Website",
+    "description": "Decides which named technologies a company actually runs on its website, verified against the live site. Triggers on \"find companies using Shopify\", \"they're on HubSpot\", \"tech stack targeting\", \"technographics\", \"who uses Klaviyo\", \"companies running WordPress\". Outputs a per-domain verdict (tech_confirmed plus the ve",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-tech-on-website/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "playbook-warm-intros",
+    "title": "Playbook Warm Intros",
+    "description": "Build prospect lists where the prospect is already one hop from the client, and write the line that says so. Seven members, each with its own source. Current-customer alumni is the priority member - everyone who ever worked at one of the client's customers or case-study companies and has since moved on. Triggers on \"wa",
+    "group": "Signals",
+    "path": "library/skills/playbooks/playbook-warm-intros/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "positive-reply-scoring",
+    "title": "Positive Reply Scoring",
+    "description": "Pulls replies from a Smartlead campaign, classifies each as positive/neutral/negative/OOO/bounce/unsubscribe using Codex, and reports the positive reply rate \u2014 the north-star metric for cold email. Use when the user wants to know if a campaign is actually working (not just getting replies, but getting the RIGHT replie",
+    "group": "Operations",
+    "path": "library/skills/positive-reply-scoring/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "prospeo-full-export",
+    "title": "Prospeo Full Export",
+    "description": "Export your entire Prospeo people search to CSV. Build filters in Prospeo's UI, then use this skill to extract every result via the API \u2014 even searches over 25K. Handles pagination, rate limiting, deduplication, and state-by-state splitting automatically. Pair with /icp-prompt-builder on a 50-person sample to tune a qu",
+    "group": "Prospecting",
+    "path": "library/skills/prospeo-full-export/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "prospeo-search-api",
+    "title": "Prospeo Search Api",
+    "description": "This skill should be used when searching for people/leads using the Prospeo Search Person API. It provides the correct API format, filter types, rate limiting patterns, and state-by-state crawling techniques to overcome the 25K result limit. Use when building lead lists, searching by job title/industry/location, or int",
+    "group": "Prospecting",
+    "path": "library/skills/prospeo-search-api/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "smartlead-api",
+    "title": "Smartlead Api",
+    "description": "Smartlead API endpoint reference and patterns. Use for any Smartlead campaign, lead, email account, analytics, or inbox operation. Covers auth, rate limiting, and all commonly used endpoints.",
+    "group": "Copy & send",
+    "path": "library/skills/smartlead-api/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "smartlead-campaign-upload-public",
+    "title": "Smartlead Campaign Upload",
+    "description": "Upload a CSV of leads + a variants YAML (produced by /campaign-copywriting) to Smartlead as a DRAFT campaign. Handles tag-scoped inbox selection, A/B/C variant assembly, custom field mapping, schedule config, and batch lead upload. ALWAYS creates in DRAFT \u2014 you review in Smartlead UI and hit Start manually. Use after /",
+    "group": "Copy & send",
+    "path": "library/skills/smartlead-campaign-upload-public/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "smartlead-inbox-manager",
+    "title": "Smartlead Inbox Manager",
+    "description": "Programmatic inbox management for Smartlead. Enable/disable warmup with correct ramp settings, set signatures in bulk, tag inboxes (active vs insurance), and pull inbox health dashboards. Use after creating a new batch of inboxes via /zapmail-domain-setup-public, or when managing an existing Smartlead account at scale.",
+    "group": "Infrastructure",
+    "path": "library/skills/smartlead-inbox-manager/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "smartlead-spintax",
+    "title": "Smartlead Spintax",
+    "description": "Adds Smartlead-compatible spintax to cold email sequences for deliverability. Use this skill whenever the user asks to add spintax, spin text, add variations, or improve deliverability of email copy \u2014 especially when they mention Smartlead, cold email sequences, or paste HTML email content. Also trigger when the user s",
+    "group": "Copy & send",
+    "path": "library/skills/smartlead-spintax/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "spam-word-checker",
+    "title": "Spam Word Checker",
+    "description": "Always-on spam and deliverability guardrails for cold email copy. Apply these rules whenever",
+    "group": "Copy & send",
+    "path": "library/skills/spam-word-checker/SKILL.md",
+    "mode": "codex"
+  },
+  {
+    "id": "zapmail-domain-setup-public",
+    "title": "Zapmail Domain Setup",
+    "description": "Public guide: Generate short domain names, check availability, purchase on Dynadot, switch nameservers, set up on Zapmail, create inboxes, and export to your email sending platform. Requires your own Dynadot and Zapmail API keys. Use when someone wants to set up cold email domains end-to-end.",
+    "group": "Infrastructure",
+    "path": "library/skills/zapmail-domain-setup-public/SKILL.md",
+    "mode": "codex"
+  }
+]

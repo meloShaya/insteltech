@@ -3,3 +3,10 @@ verify_jwt = false
 
 [functions.mail-send]
 verify_jwt = true
+
+# crm-action validates user sessions or hashed, revocable runner credentials itself.
+[functions.crm-action]
+verify_jwt = false
+
+[functions.crm-automation]
+verify_jwt = false

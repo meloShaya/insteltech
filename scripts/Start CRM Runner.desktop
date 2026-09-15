@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Start CRM Runner
+Comment=Connect your Codex subscription to the InstelTech CRM
+Exec="/home/j-a-r-v-i-s/Documents/instel/scripts/Start CRM Runner.command"
+Terminal=true
+Categories=Office;

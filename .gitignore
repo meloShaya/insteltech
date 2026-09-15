@@ -1,2 +1,23 @@
 node_modules/
 .env
+instel-crm-runner*.json
+.instel-crm-pending-*.json
+test-results/
+playwright-report/
+
+# Local credentials, tool state, and generated output
+.env.*
+!.env.example
+**/.env.*
+!**/.env.example
+.tokensave/
+supabase/.temp/
+supabase/.branches/
+__pycache__/
+*.pyc
+.DS_Store
+artifacts/*.png
+
+# Optional upstream prospect datasets; keep executable workflow references.
+/crm/library/Common Outbound Lists/
+/crm/library/Common Lists/
