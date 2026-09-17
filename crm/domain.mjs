@@ -93,6 +93,24 @@ export function prepareContacts(rows, existing = []) {
       duplicates++;
       return;
     }
+    let raw_json;
+    try {
+      raw_json = typeof row.raw_json === "string"
+        ? JSON.parse(row.raw_json || "{}")
+        : row.raw_json ?? {};
+      if (!raw_json || typeof raw_json !== "object" || JSON.stringify(raw_json).length > 100000)
+        throw new Error();
+      // Keep an independent JSON value, including when importing parsed CSV.
+      raw_json = JSON.parse(JSON.stringify(raw_json));
+    } catch {
+      errors.push(`Row ${i + 2}: raw_json must be a JSON object or array within 100000 characters`);
+      return;
+    }
+    const notes = String(row.notes || "");
+    if (notes.length > 10000) {
+      errors.push(`Row ${i + 2}: notes exceed 10000 characters`);
+      return;
+    }
     seen.add(email);
     // Imports never grant permission to send, even if the CSV claims consent.
     contacts.push({
@@ -103,6 +121,8 @@ export function prepareContacts(rows, existing = []) {
       title: (row.title || "").slice(0, 200),
       website: (row.website || "").slice(0, 500),
       source: (row.source || "CSV import").slice(0, 200),
+      notes,
+      raw_json,
       stage: "new",
       consent: false,
       consent_note: "",

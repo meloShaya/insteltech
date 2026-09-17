@@ -238,16 +238,27 @@ export function providerRequest(operationId, input, secrets) {
         throw new ProviderError(
           "Provide seed domains or a company description.",
         );
-      if (input.domains)
-        url.searchParams.set("domains", list(input.domains).join(","));
-      if (input.query)
+      // https://docs.discolike.com/api/endpoints/discover/
+      if (input.domains) {
+        const domains = list(input.domains);
+        if (!domains.length || domains.length > 10)
+          throw new ProviderError("Provide 1 to 10 DiscoLike seed domains.");
+        for (const domain of domains) url.searchParams.append("domain", domain);
+      }
+      if (input.query) {
+        const query = text(input.query, "company description", 4000);
+        if (query.length < 3) throw new ProviderError("Use at least 3 characters for the company description.");
         url.searchParams.set(
-          "text",
-          text(input.query, "company description", 2000),
+          "icp_text",
+          query,
         );
-      if (input.country)
-        url.searchParams.set("country", text(input.country, "country", 2));
-      url.searchParams.set("limit", String(integer(input.limit, 100, 1, 100)));
+      }
+      if (input.country) {
+        const country = text(input.country, "country", 2).toUpperCase();
+        if (!/^[A-Z]{2}$/.test(country)) throw new ProviderError("Use a two-letter country code.");
+        url.searchParams.set("country", country);
+      }
+      url.searchParams.set("max_records", String(integer(input.limit, 100, 5, 100)));
       url.searchParams.set(
         "offset",
         String(integer(input.offset, 0, 0, 10000)),
@@ -622,8 +633,21 @@ export async function executeProvider(
       Number(retryHeader) ||
       Math.max(0, (Date.parse(retryHeader || "") - Date.now()) / 1000) ||
       0;
+    let guidance = response.status === 401 || response.status === 403
+      ? "Check the API key and provider subscription."
+      : uncertain ? "Reconcile this write in the provider before retrying."
+      : "Review the operation inputs and connection.";
+    // Classify known provider errors; never echo arbitrary upstream bodies,
+    // which can contain credentials or submitted contact data.
+    if (response.status === 403 && request.operation.provider === "maps") {
+      try {
+        const body = await response.json();
+        if (typeof body?.message === "string" && /not subscribed/i.test(body.message))
+          guidance = "The RapidAPI application for RAPIDAPI_KEY needs an active Maps Data subscription (maps-data.p.rapidapi.com). A subscription to another RapidAPI API does not enable Maps Data.";
+      } catch { /* Keep the generic guidance for non-JSON errors. */ }
+    }
     throw new ProviderError(
-      `${request.operation.provider} returned HTTP ${response.status}. ${response.status === 401 || response.status === 403 ? "Check the API key and provider subscription." : uncertain ? "Reconcile this write in the provider before retrying." : "Review the operation inputs and connection."}`,
+      `${request.operation.provider} returned HTTP ${response.status}. ${guidance}`,
       {
         status: response.status,
         retryable: transient && !uncertain,

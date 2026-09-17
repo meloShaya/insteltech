@@ -214,7 +214,7 @@ export function toolDefinitions(allowWrites) {
       description: `Run an actual CRM provider operation. Operations: ${AUTOMATIONS.filter(
         (o) => allowWrites || !o.write,
       )
-        .map((o) => `${o.id} (${o.fields.map((f) => f.key).join(", ")})`)
+        .map((o) => `${o.id} (${o.fields.map((f) => `${f.key}: ${f.label}${f.required ? " [required]" : " [optional]"}`).join(", ")})`)
         .join(
           "; ",
         )}. Calls are saved in CRM history. Use a unique call_id per operation, and the same ID and inputs when polling/retrying. Do not create a new ID to replay a held write.`,

@@ -16,6 +16,29 @@ import { campaignPlan, sequenceConfig } from "../crm/campaign-sequences.mjs";
 import { advanceMarket } from "../supabase/functions/_shared/crm-market.mjs";
 const secrets = key => key === "LINKEDIN_RAPIDAPI_HOST" ? undefined : "fixture-key-only";
 
+test("DiscoLike discovery maps CRM inputs to documented query parameters", () => {
+  const request = providerRequest("disco.discover", { domains: "example.com,example.org", query: "Zimbabwe accounting firms", country: "zw", limit: 25, offset: 25 }, secrets);
+  assert.deepEqual(request.url.searchParams.getAll("domain"), ["example.com", "example.org"]);
+  assert.equal(request.url.searchParams.get("icp_text"), "Zimbabwe accounting firms");
+  assert.equal(request.url.searchParams.get("max_records"), "25");
+  assert.equal(request.url.searchParams.get("country"), "ZW");
+  assert.equal(request.url.searchParams.get("offset"), "25");
+  for (const key of ["domains", "text", "limit"]) assert.equal(request.url.searchParams.has(key), false);
+  assert.throws(() => providerRequest("disco.discover", { query: "firms", limit: 1 }, secrets));
+});
+
+test("Maps 403 distinguishes missing API subscription without exposing provider response secrets", async () => {
+  await assert.rejects(executeProvider("maps.search", { query: "Harare dentists" }, {
+    secrets,
+    fetcher: async () => Response.json({ message: "You are not subscribed to this API. fixture-key-only" }, { status: 403 }),
+  }), error => {
+    assert.match(error.message, /Maps Data subscription/);
+    assert.ok(!error.message.includes("fixture-key-only"));
+    assert.equal(error.retryable, false);
+    return true;
+  });
+});
+
 test("Maps search uses the upstream RapidAPI contract and bounded query parameters", () => {
   const request = providerRequest(
     "maps.search",

@@ -129,7 +129,7 @@ export const AUTOMATIONS = [
     "crm.import_contacts",
     "Import researched contacts into CRM",
     "crm",
-    [field("contacts", "Contact records (JSON)", "json", true, "[]")],
+    [field("contacts", "Contact records (JSON; email, first_name, last_name, company, title, website, source, notes, raw_json)", "json", true, "[]")],
     true,
   ),
   operation(
@@ -147,7 +147,7 @@ export const AUTOMATIONS = [
     "crm.add_task",
     "Create a CRM follow-up task",
     "crm",
-    [field("title", "Task"), field("due_at", "Due date", "date")],
+    [field("title", "Task (maximum 500 characters)"), field("due_at", "Due date (YYYY-MM-DD; defaults to today)", "date", false)],
     true,
   ),
   operation("dns.lookup", "Check domain authentication records", "dns", [
@@ -205,7 +205,7 @@ export const AUTOMATIONS = [
     field("domains", "Seed domains (comma separated)", "text", false),
     field("query", "Describe your target companies", "text", false),
     field("country", "Country code", "text", false),
-    field("limit", "Results per page", "number", true, 100),
+    field("limit", "Results per page (5–100)", "number", true, 100),
     field("offset", "Offset", "number", true, 0),
   ]),
   operation("blitz.company", "Find contacts at a company", "blitz", [

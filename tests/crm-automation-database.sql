@@ -9,6 +9,14 @@
 \i /tmp/crm-migrations/20260915170000_crm_reconciliation.sql
 \i /tmp/crm-migrations/20260915180000_crm_cancel_jobs.sql
 \i /tmp/crm-migrations/20260915190000_crm_provider_metrics.sql
+\i /tmp/crm-migrations/20260917100000_crm_contact_provenance.sql
+DO $$ DECLARE saved jsonb;
+BEGIN
+  INSERT INTO crm_contacts(email,notes,raw_json)
+    VALUES('provenance-test@example.com','Size unconfirmed','{"qualification":{"size":"unknown"},"source_url":"https://example.com"}')
+    RETURNING raw_json INTO saved;
+  IF saved->'qualification'->>'size' <> 'unknown' THEN RAISE EXCEPTION 'Contact provenance lost'; END IF;
+END $$;
 DO $$ DECLARE run uuid; again uuid; job uuid:='55555555-5555-4555-8555-555555555555'; worker uuid:='77777777-7777-4777-8777-777777777777';
 BEGIN
   run:=crm_queue_tool(job,worker,'research-company','web.search','{"query":"fixture"}',false);

@@ -58,6 +58,18 @@ test("CSV export neutralizes spreadsheet formulas and quotes embedded punctuatio
   );
   assert.match(csv, /"'=HYPERLINK\(""x""\)"/);
 });
+test("contact imports retain research notes and structured provenance without granting consent", () => {
+  const raw_json = { source_url: "https://example.com/team", qualification: { size: "unknown" } };
+  const result = prepareContacts([{ email: "research@example.com", notes: "Size unconfirmed", raw_json, consent: true }]);
+  assert.equal(result.contacts[0].notes, "Size unconfirmed");
+  assert.deepEqual(result.contacts[0].raw_json, raw_json);
+  assert.equal(result.contacts[0].consent, false);
+  const csv = prepareContacts([{ email: "csv@example.com", raw_json: JSON.stringify(raw_json) }]);
+  assert.deepEqual(csv.contacts[0].raw_json, raw_json);
+  const invalid = prepareContacts([{ email: "bad@example.com", raw_json: "not JSON" }]);
+  assert.equal(invalid.contacts.length, 0);
+  assert.match(invalid.errors[0], /raw_json/);
+});
 test("personalization refuses missing or unknown fields instead of sending broken copy", () => {
   assert.equal(
     renderTemplate("Hi {{ first_name }}, {{company}}", {

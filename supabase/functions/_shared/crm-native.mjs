@@ -172,14 +172,24 @@ export async function executeCRMOperation(
     if (
       typeof input.title !== "string" ||
       !input.title.trim() ||
-      input.title.length > 500 ||
-      !/^\d{4}-\d{2}-\d{2}$/.test(input.due_at)
+      input.title.length > 500
     )
-      throw new Error("Provide a task title and due date.");
+      throw new Error("Provide a nonempty task title of at most 500 characters.");
+    let due_at;
+    if (input.due_at !== undefined && input.due_at !== null && input.due_at !== "") {
+      const value = input.due_at;
+      const invalid = () => new Error("Provide due_at as a real calendar date (YYYY-MM-DD) or an ISO timestamp; omit it for today.");
+      if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?(?:Z|[+-]\d{2}:\d{2}))?$/.test(value))
+        throw invalid();
+      due_at = value.slice(0, 10);
+      const date = new Date(`${due_at}T00:00:00Z`);
+      if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== due_at || !Number.isFinite(Date.parse(value)))
+        throw invalid();
+    }
     data = check(
       await db
         .from("crm_tasks")
-        .insert({ title: input.title, due_at: input.due_at, completed: false })
+        .insert({ title: input.title.trim(), ...(due_at ? { due_at } : {}), completed: false })
         .select("*")
         .single(),
     );

@@ -52,6 +52,14 @@ The unattended runner explicitly approves only `workflow_reference`, `provider_o
 
 Clay builds additionally require the authenticated Clay CLI on the paired computer. The tool discovers schemas, creates/updates nodes, publishes workflows, creates routines and starts runs. Specialized actors use their own provider account entitlements.
 
+When sub-agents are enabled, the runner retains session files inside the temporary job directory so children can find their parent. That directory is still removed after the job. `--ephemeral` is used only for jobs without sub-agents.
+
+### Workflow execution fixes (17 September 2026)
+
+Deploy migration `20260917100000_crm_contact_provenance.sql` before deploying the updated `crm-action` and `crm-automation` functions and static CRM files. Contact imports preserve `notes` and `raw_json`; they still set consent to false. Existing imports are not automatically repaired: recover their original evidence from execution history before updating them. Task creation accepts YYYY-MM-DD dates or ISO timestamps (retaining their written calendar date); omitted dates use the database's current day.
+
+DiscoLike discovery maps the CRM inputs to the documented `domain`, `icp_text`, and `max_records` parameters. A provider HTTP 403 remains an access failure until a live request succeeds. Maps responses explicitly reporting a missing subscription now identify the Maps Data API and the RapidAPI application whose key needs that subscription. No credentials are included in these diagnostics.
+
 ## Sending behavior
 
 Resend remains the mailbox and permission-based sequence provider. Its [acceptable-use policy](https://resend.com/legal/acceptable-use) excludes unsolicited cold outreach; Smartlead and Instantly provide the integrated outbound paths. Imports and verification never invent opt-in permission.

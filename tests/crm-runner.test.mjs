@@ -5,6 +5,23 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { buildPrompt, runCodex } from "../scripts/crm-runner.mjs";
 
+test("live Codex subagents can find the parent and use its scoped CRM tool", {
+  skip: process.env.INSTEL_TEST_LIVE_CODEX !== "1",
+  timeout: 100000,
+}, async () => {
+  const output = await runCodex(
+    'This is a runtime health check. Spawn one subagent to call instel workflow_reference with path "README.md" and report its first heading. Wait for that child to finish. Return CHILD_OK and the heading only if the child actually succeeded; otherwise return the exact error. Do not read the reference in the parent or use other tools.',
+    {
+      timeoutMs: 90000,
+      config: { web_search: false, subagents: true, reasoning_effort: "low" },
+      crmContext: { url: "https://fixture.supabase.co", token: "fixture", anonKey: "fixture", job_id: "fixture", allow_provider_writes: false },
+    },
+  );
+  assert.doesNotMatch(output, /no thread with id|requires approval/i);
+  assert.match(output, /CHILD_OK/);
+  assert.match(output, /Cold Outbound Skills/);
+});
+
 test("live Codex can read a workflow reference without an interactive approval", {
   skip: process.env.INSTEL_TEST_LIVE_CODEX !== "1",
   timeout: 100000,
@@ -86,6 +103,7 @@ for(const tool of ['workflow_reference','provider_operation','clay']) {
 if(!config.includes('enabled_tools = ["workflow_reference", "provider_operation", "clay"]'))process.exit(5);
 if(!args.includes('approval_policy="never"')||!args.includes('read-only')||!args.includes('shell_tool'))process.exit(6);
 if(!args.includes('web_search="live"')||!args.includes('--enable'))process.exit(3);
+if(args.includes('--ephemeral')){process.stderr.write('Subagents need a persisted parent session');process.exit(7);}
 process.stdin.resume();process.stdin.on('end',()=>fs.writeFileSync(args[args.indexOf('--output-last-message')+1],'Scoped tools ready'));
 `);
     await chmod(binary, 0o700);

@@ -30,6 +30,7 @@ EXECUTION CONTRACT:
 - Sub-agents are ${config.subagents ? `enabled. Delegate independent research when useful, with at most ${config.max_agents} concurrent agents. ${config.agent_model ? `Use model ${config.agent_model}.` : "Use the configured default sub-agent model."} Use ${config.agent_reasoning_effort} reasoning effort. Consolidate their findings and check supporting evidence` : "disabled by the workspace setting"}.
 - Provider credentials remain in Supabase. Use instel-crm provider_operation to run Maps, LinkedIn, web research, Prospeo, DiscoLike, Blitz, MillionVerifier, Smartlead, Instantly and Apify scraping actors. Apify actors cover specialized engagement, job, ad-library and directory sources; inspect the actor's documented input schema before starting it, poll run_status, then fetch its dataset. Use the Clay tool for real Clay workflow builds. Use workflow_reference to read supporting node graphs and instructions. Native crm.import_contacts, crm.draft_campaign and crm.add_task save reviewed results into the actual CRM when provider changes are authorized. Never invent an API result or claim that verification, upload or delivery happened without a successful tool result.
 - Every provider_operation requires a unique descriptive call_id. If a call returns queued/running, poll with the SAME call_id and identical inputs. A held write may have succeeded: do not replay it with a new call_id. Report the run_id and the required reconciliation. Missing keys must be reported as a connection failure, never disguised as successful execution.
+- A failure in one discovery provider does not block independent working sources. Continue the authorized work through working providers. Follow returned pagination within the user's scope and budget; if you must stop, report the exact stopping reason and next page/checkpoint. Do not treat a provider's total match count as qualified leads or claim full coverage from one page. If delegation is unavailable, continue that research in the parent session.
 - Do not invent companies, people, email addresses, buying signals, source URLs, or research findings. Distinguish supplied facts, assumptions, proposed steps, and unverified claims.
 - Include the workflow's requested output structure when feasible. Include explicit limitations and concrete next actions. For copywriting, produce subject/body variants. For list workflows, produce filters and qualification criteria unless actual records are supplied. For signals, require evidence before claiming a signal exists.
 - Native CRM email merge fields are {{first_name}}, {{last_name}}, {{company}}, {{title}}, and {{email}}. Use those exact names in draft copy. Spintax such as {Hi|Hello} is supported.
@@ -93,7 +94,9 @@ export async function runCodex(
         "exec",
         "--strict-config",
         "--skip-git-repo-check",
-        "--ephemeral",
+        // Child agents locate their parent through its session file. Keep it
+        // only in this job's temporary CODEX_HOME, removed in the finally block.
+        ...(executionConfig.subagents ? [] : ["--ephemeral"]),
         "--sandbox",
         "read-only",
         "--disable",

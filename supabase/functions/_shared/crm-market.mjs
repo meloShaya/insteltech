@@ -50,7 +50,7 @@ export async function advanceMarket(input, previous, execute) {
             query: input.query,
             domains: input.domains,
             country: input.country,
-            limit,
+            limit: Math.max(5, limit),
           },
     );
     for (const row of result.records) {
