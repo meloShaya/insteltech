@@ -79,7 +79,13 @@ export async function runCodex(
     if (crmContext) {
       const contextPath = join(dir, "crm-context.json");
       await writeFile(contextPath, JSON.stringify(crmContext), { mode: 0o600 });
-      const mcp = `[mcp_servers.instel]\ncommand = ${JSON.stringify(process.execPath)}\nargs = [${JSON.stringify(join(root, "scripts/crm-mcp.mjs"))}]\nrequired = true\nstartup_timeout_sec = 20\ntool_timeout_sec = 60\n[mcp_servers.instel.env]\nINSTEL_CRM_CONTEXT = ${JSON.stringify(contextPath)}\n`;
+      // `never` cannot answer MCP approval prompts. Preapprove only our named
+      // tools; the MCP server and backend still enforce the job's write scope.
+      const toolNames = ["workflow_reference", "provider_operation", "clay"];
+      const approvals = toolNames
+        .map((name) => `[mcp_servers.instel.tools.${name}]\napproval_mode = "approve"\n`)
+        .join("\n");
+      const mcp = `[mcp_servers.instel]\ncommand = ${JSON.stringify(process.execPath)}\nargs = [${JSON.stringify(join(root, "scripts/crm-mcp.mjs"))}]\nrequired = true\nstartup_timeout_sec = 20\ntool_timeout_sec = 60\nenabled_tools = [${toolNames.map((name) => JSON.stringify(name)).join(", ")}]\n[mcp_servers.instel.env]\nINSTEL_CRM_CONTEXT = ${JSON.stringify(contextPath)}\n\n${approvals}`;
       await writeFile(join(isolatedHome, "config.toml"), mcp, { mode: 0o600 });
     }
     await new Promise((resolveRun, reject) => {

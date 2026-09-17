@@ -5,6 +5,29 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { buildPrompt, runCodex } from "../scripts/crm-runner.mjs";
 
+test("live Codex can read a workflow reference without an interactive approval", {
+  skip: process.env.INSTEL_TEST_LIVE_CODEX !== "1",
+  timeout: 100000,
+}, async () => {
+  const output = await runCodex(
+    'Call instel workflow_reference exactly once with path "README.md". Do not use other tools. On success return REFERENCE_OK and the first heading from the file. On failure return the exact error.',
+    {
+      timeoutMs: 90000,
+      config: { web_search: false, subagents: false, reasoning_effort: "low" },
+      crmContext: {
+        url: "https://fixture.supabase.co",
+        token: "fixture",
+        anonKey: "fixture",
+        job_id: "fixture",
+        allow_provider_writes: false,
+      },
+    },
+  );
+  assert.doesNotMatch(output, /requires approval/i);
+  assert.match(output, /REFERENCE_OK/);
+  assert.match(output, /Cold Outbound Skills/);
+});
+
 test("adapter passes subscription authentication without importing user tool configuration", async () => {
   const dir = await mkdtemp(join(tmpdir(), "instel-runner-test-"));
   try {
@@ -53,6 +76,15 @@ test("runner installs only the scoped CRM MCP configuration for a connected job"
     await writeFile(binary, `#!/usr/bin/env node
 const fs=require('node:fs');const args=process.argv.slice(2);const config=fs.readFileSync(process.env.CODEX_HOME+'/config.toml','utf8');
 if(!config.includes('[mcp_servers.instel]')||config.includes('unrelated'))process.exit(2);
+// Noninteractive Codex must be able to invoke these job-scoped tools.
+for(const tool of ['workflow_reference','provider_operation','clay']) {
+  if(!config.includes('[mcp_servers.instel.tools.'+tool+']\\napproval_mode = "approve"')) {
+    process.stderr.write('MCP tool call requires approval, but approval policy is never');
+    process.exit(4);
+  }
+}
+if(!config.includes('enabled_tools = ["workflow_reference", "provider_operation", "clay"]'))process.exit(5);
+if(!args.includes('approval_policy="never"')||!args.includes('read-only')||!args.includes('shell_tool'))process.exit(6);
 if(!args.includes('web_search="live"')||!args.includes('--enable'))process.exit(3);
 process.stdin.resume();process.stdin.on('end',()=>fs.writeFileSync(args[args.indexOf('--output-last-message')+1],'Scoped tools ready'));
 `);

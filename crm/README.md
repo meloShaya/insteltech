@@ -48,6 +48,8 @@ The runner uses file-based ChatGPT authentication from `CODEX_HOME/auth.json` (n
 
 Each job gets an isolated temporary Codex configuration with only the CRM's scoped MCP server. Unrelated user hooks, skills and MCP servers are not copied. Provider keys remain in Supabase. The revocable runner token is scoped to assigned jobs and authorized tools, not general database access. Heartbeats preserve long jobs; cancellation stops the local process and queued child operations. An in-flight provider request may finish.
 
+The unattended runner explicitly approves only `workflow_reference`, `provider_operation`, and `clay` in its temporary MCP configuration. The MCP server and Supabase still enforce each job's write authorization. Without these per-tool settings, Codex can reject even reference reads with “MCP tool call requires approval, but approval policy is never.” After updating the runner code, restart the local runner; changing Supabase secrets does not fix this error. To test the real subscription-backed reference call without using provider credentials or sending messages, run `INSTEL_TEST_LIVE_CODEX=1 node --test tests/crm-runner.test.mjs` (uses Codex subscription quota).
+
 Clay builds additionally require the authenticated Clay CLI on the paired computer. The tool discovers schemas, creates/updates nodes, publishes workflows, creates routines and starts runs. Specialized actors use their own provider account entitlements.
 
 ## Sending behavior
