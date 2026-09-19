@@ -161,13 +161,13 @@ export function providerRequest(operationId, input, secrets) {
       headers.Authorization = `Bearer ${need("RESEND_API_KEY")}`;
       break;
     case "maps": {
-      const host = "maps-data.p.rapidapi.com";
+      const host = "google-map-scraper1.p.rapidapi.com";
       headers = {
         "X-RapidAPI-Key": need("RAPIDAPI_KEY"),
         "X-RapidAPI-Host": host,
       };
       url = new URL(
-        `https://${host}/${operationId === "maps.search" ? "searchmaps.php" : "place.php"}`,
+        `https://${host}/${operationId === "maps.search" ? "api/places/search" : "api/place/detail"}`,
       );
       if (operationId === "maps.search") {
         url.searchParams.set("query", text(input.query, "search query"));
@@ -178,11 +178,14 @@ export function providerRequest(operationId, input, secrets) {
         ).toLowerCase();
         if (!/^[a-z]{2}$/.test(country))
           throw new ProviderError("Use a two-letter country code.");
-        url.searchParams.set("country", country);
-        url.searchParams.set("limit", String(integer(input.limit, 20, 1, 100)));
+        // This product supports query/lat/long, not country or limit parameters.
+        integer(input.limit, 20, 1, 100);
+        const region = new Intl.DisplayNames(["en"], { type: "region" }).of(country.toUpperCase());
+        const query = text(input.query, "search query");
+        url.searchParams.set("query", query.toLowerCase().includes(region.toLowerCase()) ? query : `${query} ${region}`);
       } else
         url.searchParams.set(
-          "business_id",
+          "place",
           text(input.business_id, "business ID"),
         );
       break;
@@ -643,7 +646,7 @@ export async function executeProvider(
       try {
         const body = await response.json();
         if (typeof body?.message === "string" && /not subscribed/i.test(body.message))
-          guidance = "The RapidAPI application for RAPIDAPI_KEY needs an active Maps Data subscription (maps-data.p.rapidapi.com). A subscription to another RapidAPI API does not enable Maps Data.";
+          guidance = "The RapidAPI application for RAPIDAPI_KEY needs an active Google Map Scraper subscription (google-map-scraper1.p.rapidapi.com).";
       } catch { /* Keep the generic guidance for non-JSON errors. */ }
     }
     throw new ProviderError(
@@ -682,7 +685,7 @@ export async function executeProvider(
     );
   let records = Array.isArray(data)
     ? data
-    : data.results || data.data || data.items || [data];
+    : data.results || data.data?.results || data.data || data.items || [data];
   if (!Array.isArray(records)) records = [records];
   if (["prospeo.search", "prospeo.advanced_search"].includes(operationId))
     records = records.map(prospeoPerson);
@@ -697,6 +700,11 @@ export async function executeProvider(
       website: `https://${input.domain}`,
       linkedin_url: person.linkedin_url || "",
     }));
+  if (operationId === "maps.search") {
+    const country = String(input.country || "us").toUpperCase();
+    records = records.filter(row => !row.country_code || row.country_code.toUpperCase() === country)
+      .slice(0, integer(input.limit, 20, 1, 100));
+  }
   if (operationId === "dns.lookup") records = data.Answer || [];
   return {
     operation: operationId,
