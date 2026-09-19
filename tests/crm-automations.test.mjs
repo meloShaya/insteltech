@@ -32,7 +32,7 @@ test("Maps 403 distinguishes missing API subscription without exposing provider 
     secrets,
     fetcher: async () => Response.json({ message: "You are not subscribed to this API. fixture-key-only" }, { status: 403 }),
   }), error => {
-    assert.match(error.message, /Maps Data subscription/);
+    assert.match(error.message, /Google Map Scraper subscription/);
     assert.ok(!error.message.includes("fixture-key-only"));
     assert.equal(error.retryable, false);
     return true;
@@ -45,9 +45,11 @@ test("Maps search uses the upstream RapidAPI contract and bounded query paramete
     { query: "dentists Harare", country: "ZW", limit: 20 },
     secrets,
   );
-  assert.equal(request.url.hostname, "maps-data.p.rapidapi.com");
-  assert.equal(request.url.pathname, "/searchmaps.php");
-  assert.equal(request.url.searchParams.get("country"), "zw");
+  assert.equal(request.url.hostname, "google-map-scraper1.p.rapidapi.com");
+  assert.equal(request.url.pathname, "/api/places/search");
+  assert.equal(request.url.searchParams.get("query"), "dentists Harare Zimbabwe");
+  assert.equal(request.url.searchParams.has("country"), false);
+  assert.equal(request.url.searchParams.has("limit"), false);
   assert.equal(request.init.headers["X-RapidAPI-Host"], request.url.hostname);
   assert.throws(() =>
     providerRequest("maps.search", { query: "x", limit: 9999 }, secrets),
@@ -421,4 +423,21 @@ test("Scraping actors use asynchronous run IDs and paginated datasets", async ()
   );
   assert.equal(dataset.url.searchParams.get("offset"), "100");
   assert.equal(dataset.url.searchParams.get("clean"), "true");
+});
+
+
+test("Maps unwraps the subscribed product results, filters country and caps records", async () => {
+  const result = await executeProvider("maps.search", {query: "accountants Harare Zimbabwe", country: "ZW", limit: 1}, {
+    secrets,
+    fetcher: async url => {
+      assert.equal(new URL(url).searchParams.get("query"), "accountants Harare Zimbabwe");
+      return Response.json({status: "ok", data: {results: [
+        {id: "wrong-region", country_code: "US"},
+        {id: "place-1", name: "Fixture accountants", country_code: "ZW", website: "https://example.com"},
+        {id: "place-2", country_code: "ZW"}
+      ]}});
+    }
+  });
+  assert.equal(result.records.length, 1);
+  assert.equal(result.records[0].id, "place-1");
 });
