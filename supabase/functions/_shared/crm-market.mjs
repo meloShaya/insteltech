@@ -63,7 +63,7 @@ export async function advanceMarket(input, previous, execute) {
         company: row.name || row.company_name || row.title || domain,
         website: `https://${domain}`,
         source,
-        source_id: row.business_id || row.place_id || domain,
+        source_id: row.business_id || row.place_id || row.id || domain,
       });
     }
     state.source_index++;
